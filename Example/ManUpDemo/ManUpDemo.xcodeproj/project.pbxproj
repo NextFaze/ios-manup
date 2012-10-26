@@ -1,0 +1,340 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E70E837D163A0240005842FD /* test_Link_UpgradeAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = E70E8378163A0240005842FD /* test_Link_UpgradeAvailable.json */; };
+		E70E837E163A0240005842FD /* test_noLink_UpgradeAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = E70E8379163A0240005842FD /* test_noLink_UpgradeAvailable.json */; };
+		E70E837F163A0240005842FD /* test_minGreaterCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = E70E837A163A0240005842FD /* test_minGreaterCurrent.json */; };
+		E70E8380163A0240005842FD /* test_minLessCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = E70E837B163A0240005842FD /* test_minLessCurrent.json */; };
+		E70E8381163A0240005842FD /* test_minEqualsCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = E70E837C163A0240005842FD /* test_minEqualsCurrent.json */; };
+		E74D214B163628D900891426 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E74D214A163628D900891426 /* UIKit.framework */; };
+		E74D214D163628D900891426 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E74D214C163628D900891426 /* Foundation.framework */; };
+		E74D214F163628D900891426 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E74D214E163628D900891426 /* CoreGraphics.framework */; };
+		E74D2155163628D900891426 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E74D2153163628D900891426 /* InfoPlist.strings */; };
+		E74D2157163628D900891426 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E74D2156163628D900891426 /* main.m */; };
+		E74D215B163628D900891426 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E74D215A163628D900891426 /* AppDelegate.m */; };
+		E74D215D163628D900891426 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = E74D215C163628D900891426 /* Default.png */; };
+		E74D215F163628D900891426 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E74D215E163628D900891426 /* Default@2x.png */; };
+		E74D2161163628D900891426 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E74D2160163628D900891426 /* Default-568h@2x.png */; };
+		E74D216F16364EBF00891426 /* ManUp.m in Sources */ = {isa = PBXBuildFile; fileRef = E74D216D16364EBE00891426 /* ManUp.m */; };
+		E74D2175163658DA00891426 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = E74D2171163658DA00891426 /* CHANGELOG.md */; };
+		E74D2176163658DA00891426 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E74D2173163658DA00891426 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E74D2177163658DA00891426 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E74D2174163658DA00891426 /* README.md */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E70E8378163A0240005842FD /* test_Link_UpgradeAvailable.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_Link_UpgradeAvailable.json; path = TestFiles/test_Link_UpgradeAvailable.json; sourceTree = "<group>"; };
+		E70E8379163A0240005842FD /* test_noLink_UpgradeAvailable.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_noLink_UpgradeAvailable.json; path = TestFiles/test_noLink_UpgradeAvailable.json; sourceTree = "<group>"; };
+		E70E837A163A0240005842FD /* test_minGreaterCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_minGreaterCurrent.json; path = TestFiles/test_minGreaterCurrent.json; sourceTree = "<group>"; };
+		E70E837B163A0240005842FD /* test_minLessCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_minLessCurrent.json; path = TestFiles/test_minLessCurrent.json; sourceTree = "<group>"; };
+		E70E837C163A0240005842FD /* test_minEqualsCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_minEqualsCurrent.json; path = TestFiles/test_minEqualsCurrent.json; sourceTree = "<group>"; };
+		E74D2146163628D900891426 /* ManUpDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ManUpDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E74D214A163628D900891426 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E74D214C163628D900891426 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E74D214E163628D900891426 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E74D2152163628D900891426 /* ManUpDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ManUpDemo-Info.plist"; sourceTree = "<group>"; };
+		E74D2154163628D900891426 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E74D2156163628D900891426 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E74D2158163628D900891426 /* ManUpDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ManUpDemo-Prefix.pch"; sourceTree = "<group>"; };
+		E74D2159163628D900891426 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E74D215A163628D900891426 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E74D215C163628D900891426 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		E74D215E163628D900891426 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		E74D2160163628D900891426 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		E74D216D16364EBE00891426 /* ManUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ManUp.m; path = ../../../ManUp.m; sourceTree = "<group>"; };
+		E74D216E16364EBE00891426 /* ManUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ManUp.h; path = ../../../ManUp.h; sourceTree = "<group>"; };
+		E74D2171163658DA00891426 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
+		E74D2172163658DA00891426 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		E74D2173163658DA00891426 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		E74D2174163658DA00891426 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E74D2143163628D900891426 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E74D214B163628D900891426 /* UIKit.framework in Frameworks */,
+				E74D214D163628D900891426 /* Foundation.framework in Frameworks */,
+				E74D214F163628D900891426 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E74D213B163628D900891426 = {
+			isa = PBXGroup;
+			children = (
+				E74D2170163658DA00891426 /* JSONKit */,
+				E74D2150163628D900891426 /* ManUpDemo */,
+				E74D2149163628D900891426 /* Frameworks */,
+				E74D2147163628D900891426 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E74D2147163628D900891426 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E74D2146163628D900891426 /* ManUpDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E74D2149163628D900891426 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E74D214A163628D900891426 /* UIKit.framework */,
+				E74D214C163628D900891426 /* Foundation.framework */,
+				E74D214E163628D900891426 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E74D2150163628D900891426 /* ManUpDemo */ = {
+			isa = PBXGroup;
+			children = (
+				E74D217A163659F900891426 /* TestDefaults */,
+				E74D216E16364EBE00891426 /* ManUp.h */,
+				E74D216D16364EBE00891426 /* ManUp.m */,
+				E74D2159163628D900891426 /* AppDelegate.h */,
+				E74D215A163628D900891426 /* AppDelegate.m */,
+				E74D2151163628D900891426 /* Supporting Files */,
+			);
+			path = ManUpDemo;
+			sourceTree = "<group>";
+		};
+		E74D2151163628D900891426 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E74D2152163628D900891426 /* ManUpDemo-Info.plist */,
+				E74D2153163628D900891426 /* InfoPlist.strings */,
+				E74D2156163628D900891426 /* main.m */,
+				E74D2158163628D900891426 /* ManUpDemo-Prefix.pch */,
+				E74D215C163628D900891426 /* Default.png */,
+				E74D215E163628D900891426 /* Default@2x.png */,
+				E74D2160163628D900891426 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E74D2170163658DA00891426 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				E74D2171163658DA00891426 /* CHANGELOG.md */,
+				E74D2172163658DA00891426 /* JSONKit.h */,
+				E74D2173163658DA00891426 /* JSONKit.m */,
+				E74D2174163658DA00891426 /* README.md */,
+			);
+			name = JSONKit;
+			path = ../../JSONKit;
+			sourceTree = "<group>";
+		};
+		E74D217A163659F900891426 /* TestDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				E70E8378163A0240005842FD /* test_Link_UpgradeAvailable.json */,
+				E70E8379163A0240005842FD /* test_noLink_UpgradeAvailable.json */,
+				E70E837A163A0240005842FD /* test_minGreaterCurrent.json */,
+				E70E837B163A0240005842FD /* test_minLessCurrent.json */,
+				E70E837C163A0240005842FD /* test_minEqualsCurrent.json */,
+			);
+			name = TestDefaults;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E74D2145163628D900891426 /* ManUpDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E74D2164163628D900891426 /* Build configuration list for PBXNativeTarget "ManUpDemo" */;
+			buildPhases = (
+				E74D2142163628D900891426 /* Sources */,
+				E74D2143163628D900891426 /* Frameworks */,
+				E74D2144163628D900891426 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ManUpDemo;
+			productName = ManUpDemo;
+			productReference = E74D2146163628D900891426 /* ManUpDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E74D213D163628D900891426 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Burleigh Labs";
+			};
+			buildConfigurationList = E74D2140163628D900891426 /* Build configuration list for PBXProject "ManUpDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E74D213B163628D900891426;
+			productRefGroup = E74D2147163628D900891426 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E74D2145163628D900891426 /* ManUpDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E74D2144163628D900891426 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E74D2155163628D900891426 /* InfoPlist.strings in Resources */,
+				E74D215D163628D900891426 /* Default.png in Resources */,
+				E74D215F163628D900891426 /* Default@2x.png in Resources */,
+				E74D2161163628D900891426 /* Default-568h@2x.png in Resources */,
+				E74D2175163658DA00891426 /* CHANGELOG.md in Resources */,
+				E74D2177163658DA00891426 /* README.md in Resources */,
+				E70E837D163A0240005842FD /* test_Link_UpgradeAvailable.json in Resources */,
+				E70E837E163A0240005842FD /* test_noLink_UpgradeAvailable.json in Resources */,
+				E70E837F163A0240005842FD /* test_minGreaterCurrent.json in Resources */,
+				E70E8380163A0240005842FD /* test_minLessCurrent.json in Resources */,
+				E70E8381163A0240005842FD /* test_minEqualsCurrent.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E74D2142163628D900891426 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E74D2157163628D900891426 /* main.m in Sources */,
+				E74D215B163628D900891426 /* AppDelegate.m in Sources */,
+				E74D216F16364EBF00891426 /* ManUp.m in Sources */,
+				E74D2176163658DA00891426 /* JSONKit.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E74D2153163628D900891426 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E74D2154163628D900891426 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E74D2162163628D900891426 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		E74D2163163628D900891426 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E74D2165163628D900891426 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ManUpDemo/ManUpDemo-Prefix.pch";
+				INFOPLIST_FILE = "ManUpDemo/ManUpDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		E74D2166163628D900891426 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ManUpDemo/ManUpDemo-Prefix.pch";
+				INFOPLIST_FILE = "ManUpDemo/ManUpDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E74D2140163628D900891426 /* Build configuration list for PBXProject "ManUpDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E74D2162163628D900891426 /* Debug */,
+				E74D2163163628D900891426 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E74D2164163628D900891426 /* Build configuration list for PBXNativeTarget "ManUpDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E74D2165163628D900891426 /* Debug */,
+				E74D2166163628D900891426 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E74D213D163628D900891426 /* Project object */;
+}
