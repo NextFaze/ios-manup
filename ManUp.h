@@ -19,6 +19,7 @@
     id<ManUpDelegate> _delegate;
     NSURL* _lastServerConfigURL;
     UIViewController *_rootViewController;
+    UIViewController *_modalViewController;
     UIView *_bgView;
 }
 
@@ -28,6 +29,7 @@
 @property(nonatomic,strong) id<ManUpDelegate> delegate;
 @property(nonatomic,strong) NSURL* lastServerConfigURL;
 @property(nonatomic,strong) UIViewController* rootViewController;
+@property(nonatomic,strong) UIViewController* modalViewController;
 @property(nonatomic,strong) UIView* bgView;
 
 @end

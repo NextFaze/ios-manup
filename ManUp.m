@@ -245,8 +245,9 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     } else {
         self.bgView  = [[UIImageView alloc] initWithImage:backgroundImage];
     }
-    [self.rootViewController.view addSubview:self.bgView];
-
+    self.modalViewController = [[UIViewController alloc] init];
+    [self.modalViewController.view addSubview:self.bgView];
+    [self.rootViewController presentModalViewController:self.modalViewController animated:NO];
 
 }
 
@@ -259,11 +260,11 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     
         if(![alertView.title isEqualToString:@"Update Required"]) {
             // Alert closes and BG goes away: case of optional update.
-            [self.bgView removeFromSuperview];
+            [self.modalViewController dismissModalViewControllerAnimated:NO];
         }
     } else {
         // Close
-        [self.bgView removeFromSuperview];
+        [self.modalViewController dismissModalViewControllerAnimated:NO];
     }
 }
 
