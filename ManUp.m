@@ -3,19 +3,62 @@
 #import "ManUp.h"
 #import "JSONKit.h"
 
+/* Image locations */
+
+// Load up an image with this name (and @2x / -568h@2x) and they will
+// display when a mandatory update is required.
+static NSString *const ManUpUpdateRequiredBgImgName = @"manup-required";
+
+/* User bundle key names */
 static NSString *const kManUpSettings               = @"kManUpSettings";
 static NSString *const kManUpServerConfigURL        = @"kManUpServerConfigURL";
 static NSString *const kManUpLastUpdated            = @"kManUpLastUpdated";
 
-
+/* Server side key names */
 // required: the current version of the application
 static NSString *const kManUpAppVersionCurrent      = @"kManUpAppVersionCurrent";
 // required: the min version of the application
 static NSString *const kManUpAppVersionMin          = @"kManUpAppVersionMin";
-// optional: if not present, splash screen displayed behind dialog.
-static NSString *const kManUpAppVersionImage        = @"kManUpAppVersionImage";
 // optional: if not present there's no pathway to upgrade but the app is blocked (provided user_version < min)
 static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
+
+# pragma mark -
+# pragma mark UIImage helper
+@interface UIImage (ManUp)
+
++ (UIImage *)imageConsidering586hNamed:(NSString *)imageName;
+
+@end
+
+@implementation UIImage (ManUp)
+
++ (UIImage *)imageConsidering586hNamed:(NSString *)imageName {
+    //NSLog(@"Loading image named => %@", imageName);
+    NSMutableString *imageNameMutable = [imageName mutableCopy];
+    NSRange retinaAtSymbol = [imageName rangeOfString:@"@"];
+    if (retinaAtSymbol.location != NSNotFound) {
+        [imageNameMutable insertString:@"-568h" atIndex:retinaAtSymbol.location];
+    } else {
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+        if ([UIScreen mainScreen].scale == 2.f && screenHeight == 568.0f) {
+            NSRange dot = [imageName rangeOfString:@"."];
+            if (dot.location != NSNotFound) {
+                [imageNameMutable insertString:@"-568h@2x" atIndex:dot.location];
+            } else {
+                [imageNameMutable appendString:@"-568h@2x"];
+            }
+        }
+    }
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageNameMutable ofType:@"png"];
+    if (imagePath) {
+        return [UIImage imageNamed:imageNameMutable];
+    } else {
+        return [UIImage imageNamed:imageName];
+    }
+    return nil;
+}
+
+@end
 
 @interface ManUp()
 
@@ -28,19 +71,25 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 
 +(void) manUpWithDefaultDictionary:(NSDictionary*)defaultSettingsDict
                  serverConfigURL:(NSURL*)serverConfigURL
-                        delegate:(id<ManUpDelegate>)delegate {
+                        delegate:(id<ManUpDelegate>)delegate
+                rootViewController:(UIViewController*)rootViewController {
+
     ManUp* instance = [ManUp instance];
     instance.delegate = delegate;
-
+    instance.rootViewController = rootViewController;
     [instance setManUpSettingsIfNone:defaultSettingsDict];
 }
 
 +(void) manUpWithDefaultJSONFile:(NSString*)defaultSettingsPath
                  serverConfigURL:(NSURL*)serverConfigURL
-                        delegate:(id<ManUpDelegate>)delegate {
+                        delegate:(id<ManUpDelegate>)delegate
+              rootViewController:(UIViewController*)rootViewController {
+
     ManUp* instance = [ManUp instance];
     instance.delegate = delegate;
+    instance.rootViewController = rootViewController;
     instance.lastServerConfigURL = serverConfigURL;
+    
     
     // Only apply defaults if they do not exist already.
     if(![instance hasPersistedSettings]) {
@@ -111,7 +160,9 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     [[NSUserDefaults standardUserDefaults] setObject:settings forKey:kManUpSettings];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self setLastUpdated];
-    [_delegate manUpConfigUpdated:settings];
+    if(_delegate != nil) {
+        [_delegate manUpConfigUpdated:settings];
+    }
 }
 
 -(void) setManUpSettingsIfNone:(NSDictionary*)settings {
@@ -153,15 +204,67 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     }
     
     _updateInProgress = YES;
-    [_delegate manUpConfigUpdateStarting];
+    if(_delegate != nil) {
+        [_delegate manUpConfigUpdateStarting];
+    }
     
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:_lastServerConfigURL cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:15];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [connection start];
 }
 
--(void) showBackgroundView:(NSString*)backgroundURLString {
+-(void) showBackgroundView {
     NSLog(@"Show background view");
+    
+    UIImage *backgroundImage = [UIImage imageConsidering586hNamed:ManUpUpdateRequiredBgImgName];
+    
+    // Check for Default first if not provided.
+    if(backgroundImage == nil) {
+        NSLog(@"ManUp: Did not include image named %@", ManUpUpdateRequiredBgImgName);
+        backgroundImage = [UIImage imageConsidering586hNamed:@"Default"];
+    }
+    
+    // Failing that, look at the plist.
+    if(backgroundImage == nil) {
+        NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
+        NSString *launchImgName = [infoDict objectForKey:@"UILaunchImageFile"];
+        if(launchImgName == nil) {
+            if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+                launchImgName = [infoDict objectForKey:@"UILaunchImageFile~ipad"];
+            }
+        }
+        if(launchImgName != nil) {
+            backgroundImage = [UIImage imageConsidering586hNamed:launchImgName];
+        }
+    }
+        
+    // Okay, I give up. Black background.
+    if(backgroundImage == nil) {
+        self.bgView = [[UIView alloc] initWithFrame:self.rootViewController.view.frame];
+        self.bgView.backgroundColor = [UIColor blackColor];
+    } else {
+        self.bgView  = [[UIImageView alloc] initWithImage:backgroundImage];
+    }
+    [self.rootViewController.view addSubview:self.bgView];
+
+
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex == 0) {
+        // Update
+        NSDictionary *settings = [self getPersistedSettings];
+        NSString *updateURLString = [settings objectForKey:kManUpAppUpdateLink];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:updateURLString]];
+    
+        if(![alertView.title isEqualToString:@"Update Required"]) {
+            // Alert closes and BG goes away: case of optional update.
+            [self.bgView removeFromSuperview];
+        }
+    } else {
+        // Close
+        [self.bgView removeFromSuperview];
+    }
 }
 
 /* On Lauch, we look at the most recently retrieved settings and if they are less than 1 hour old, use them
@@ -179,29 +282,59 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     }
     
     NSDictionary *settings = [self getPersistedSettings];
-    NSString *updateURLString       = [settings objectForKey:kManUpAppUpdateLink];
-    NSString *backgroundURLString   = [settings objectForKey:kManUpAppVersionImage];
-    NSString *currentVersiuon       = [settings objectForKey:kManUpAppVersionCurrent];
-    NSString *minVersion            = [settings objectForKey:kManUpAppVersionMin];
-    NSString *userVersion           = [[[NSBundle mainBundle] infoDictionary]
-                                       objectForKey:@"CFBundleVersion"];
+    NSString *updateURLStr      = [settings objectForKey:kManUpAppUpdateLink];
+    NSString *currentVersionStr = [settings objectForKey:kManUpAppVersionCurrent];
+    NSString *minVersionStr     = [settings objectForKey:kManUpAppVersionMin];
+    NSString *userVersionStr    = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    
+    double currentVersion   = 0;
+    double minVersion       = 0;
+    double userVersion      = 0;
+    
+    if(currentVersionStr != nil && ![currentVersionStr isEqualToString:@""]) {
+        currentVersion = [currentVersionStr doubleValue];
+    }
+    
+    if(minVersionStr != nil && ![minVersionStr isEqualToString:@""]) {
+        minVersion = -1;//[minVersionStr doubleValue];
+    }
+    
+    if(userVersionStr != nil && ![userVersionStr isEqualToString:@""]) {
+        userVersion = 0;//[userVersionStr doubleValue];
+    }
     
     // Check if mandatory update is required.
     if(userVersion < minVersion ) {
         NSLog(@"ManUp: Mandatory update required.");
         
-        if(updateURLString != nil && ![updateURLString isEqualToString:@""]) {
+        if(updateURLStr == nil || [updateURLStr isEqualToString:@""]) {
             NSLog(@"ManUp: No update URL provided, blocking app access");
-            [self showBackgroundView:backgroundURLString];
+            [self showBackgroundView];
+        } else {
+            NSLog(@"ManUp: Blocking access and displaying update alert.");
+            [self showBackgroundView];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Update Required"
+                                  message: @"An update is required. To continue, please update the application."
+                                  delegate: self
+                                  cancelButtonTitle:@"Upgrade"
+                                  otherButtonTitles:nil];
+            [alert show];
         }
     }
-    
-    
-    // if kManUpAppUpdateLink is not provided, then only mandatory updates will
-    // do anything. Specifically, they will block inevitably. This is for
-    // end-of-life apps.
-    
-    
+    // Optional update
+    else if(userVersion < currentVersion) {
+        NSLog(@"ManUp: User doesn't have latest version.");
+        if(updateURLStr != nil && ![updateURLStr isEqualToString:@""]) {
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Update Required"
+                                  message: @"An update is available. Would you like to update to the latest version?"
+                                  delegate: self
+                                  cancelButtonTitle:@"Upgrade"
+                                  otherButtonTitles:@"No Thanks",nil];
+            [alert show];
+        }
+    }
 }
 
 #pragma mark -
@@ -210,7 +343,9 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     @synchronized(self) {
 
-        [_delegate manUpConfigUpdateFailed:error];
+        if(_delegate != nil) {
+            [_delegate manUpConfigUpdateFailed:error];
+        }
         _updateInProgress = NO;
         if(_callDidLaunchWhenFinished) {
             [self didLaunch];

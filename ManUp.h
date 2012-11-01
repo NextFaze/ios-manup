@@ -10,7 +10,7 @@
 -(void) manUpConfigUpdated:(NSDictionary*)newSettings;
 @end
 
-@interface ManUp : NSObject <NSURLConnectionDelegate>
+@interface ManUp : NSObject <NSURLConnectionDelegate, UIAlertViewDelegate>
 {
     ManUp *_instance;
     BOOL _updateInProgress;
@@ -18,13 +18,16 @@
     NSMutableData *_data; // used by NSURLConnectionDelegate
     id<ManUpDelegate> _delegate;
     NSURL* _lastServerConfigURL;
-    
+    UIViewController *_rootViewController;
+    UIView *_bgView;
 }
 
-+(void) manUpWithDefaultDictionary:(NSDictionary*)defaultSettingsDict serverConfigURL:(NSURL*)serverConfigURL delegate:(id<ManUpDelegate>)delegate;
-+(void) manUpWithDefaultJSONFile:(NSString*)defaultSettingsPath serverConfigURL:(NSURL*)serverConfigURL delegate:(id<ManUpDelegate>)delegate;
++(void) manUpWithDefaultDictionary:(NSDictionary*)defaultSettingsDict serverConfigURL:(NSURL*)serverConfigURL delegate:(id<ManUpDelegate>)delegate rootViewController:(UIViewController*)rootViewController;
++(void) manUpWithDefaultJSONFile:(NSString*)defaultSettingsPath serverConfigURL:(NSURL*)serverConfigURL delegate:(id<ManUpDelegate>)delegate rootViewController:(UIViewController*)rootViewController;
 
 @property(nonatomic,strong) id<ManUpDelegate> delegate;
 @property(nonatomic,strong) NSURL* lastServerConfigURL;
+@property(nonatomic,strong) UIViewController* rootViewController;
+@property(nonatomic,strong) UIView* bgView;
 
 @end

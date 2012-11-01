@@ -7,16 +7,17 @@
 //
 
 #import "AppDelegate.h"
+#import "DemoViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = [[DemoViewController alloc] initWithNibName:@"DemoViewController" bundle:nil];
     [self.window makeKeyAndVisible];
-    [ManUp manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"test_minLessCurrent" ofType:@"json"] serverConfigURL:[NSURL URLWithString:@"http://mobile.guvera.com/app/test_minLessCurrent.json"] delegate:self];
+    
+    [ManUp manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"test_minEqualsCurrent" ofType:@"json"] serverConfigURL:[NSURL URLWithString:@"http://mobile.guvera.com/app/test_minEqualsCurrent.json"] delegate:self rootViewController:self.window.rootViewController];
     return YES;
 }
 
