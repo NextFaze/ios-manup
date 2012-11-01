@@ -17,7 +17,7 @@
     self.window.rootViewController = [[DemoViewController alloc] initWithNibName:@"DemoViewController" bundle:nil];
     [self.window makeKeyAndVisible];
     
-    [ManUp manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"test_minEqualsCurrent" ofType:@"json"] serverConfigURL:[NSURL URLWithString:@"http://mobile.guvera.com/app/test_minEqualsCurrent.json"] delegate:self rootViewController:self.window.rootViewController];
+    [ManUp manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"test_minEqualsCurrent" ofType:@"json"] serverConfigURL:[NSURL URLWithString:@"https://github.com/dayjer/ManUp/raw/master/Example/ManUpDemo/ManUpDemo/TestFiles/test_minLessCurrent.json"] delegate:self rootViewController:self.window.rootViewController];
     return YES;
 }
 
