@@ -1,4 +1,10 @@
-// TODO header
+//
+//  ManUp.m
+//  ManUpDemo
+//
+//  Created by Jeremy Day on 23/10/12.
+//  Copyright (c) 2012 Burleigh Labs. All rights reserved.
+//
 
 #import "ManUp.h"
 #import "JSONKit.h"
