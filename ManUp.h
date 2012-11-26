@@ -10,31 +10,55 @@
 
 @protocol ManUpDelegate
 @optional
--(void) manUpConfigUpdateStarting;
--(void) manUpConfigUpdateFailed:(NSError*)error;
--(void) manUpConfigUpdated:(NSDictionary*)newSettings;
+- (void)manUpConfigUpdateStarting;
+- (void)manUpConfigUpdateFailed:(NSError*)error;
+- (void)manUpConfigUpdated:(NSDictionary*)newSettings;
 @end
 
 @interface ManUp : NSObject <NSURLConnectionDelegate, UIAlertViewDelegate>
 {
-    ManUp *_instance;
     BOOL _updateInProgress;
     BOOL _callDidLaunchWhenFinished;
     NSMutableData *_data; // used by NSURLConnectionDelegate
     id<ManUpDelegate> _delegate;
     NSURL* _lastServerConfigURL;
-    UIViewController *_rootViewController;
-    UIViewController *_modalViewController;
     UIView *_bgView;
 }
 
-+(void) manUpWithDefaultDictionary:(NSDictionary*)defaultSettingsDict serverConfigURL:(NSURL*)serverConfigURL delegate:(id<ManUpDelegate>)delegate rootViewController:(UIViewController*)rootViewController;
-+(void) manUpWithDefaultJSONFile:(NSString*)defaultSettingsPath serverConfigURL:(NSURL*)serverConfigURL delegate:(id<ManUpDelegate>)delegate rootViewController:(UIViewController*)rootViewController;
++ (id)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
+                 serverConfigURL:(NSURL *)serverConfigURL
+                        delegate:(id<ManUpDelegate>)delegate;
 
++ (id)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
+               serverConfigURL:(NSURL *)serverConfigURL
+                      delegate:(id<ManUpDelegate>)delegate;
+
++ (id)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
+                 serverConfigURL:(NSURL *)serverConfigURL
+                        delegate:(id<ManUpDelegate>)delegate
+   minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates;
+
++ (id)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
+               serverConfigURL:(NSURL *)serverConfigURL
+                      delegate:(id<ManUpDelegate>)delegate
+ minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates;
+
+// Man Up Delegate, notifies the delegate on state changes
 @property(nonatomic,strong) id<ManUpDelegate> delegate;
-@property(nonatomic,strong) NSURL* lastServerConfigURL;
-@property(nonatomic,strong) UIViewController* rootViewController;
-@property(nonatomic,strong) UIViewController* modalViewController;
-@property(nonatomic,strong) UIView* bgView;
+
+// URL to server config data
+@property(nonatomic,strong) NSURL *lastServerConfigURL;
+
+// The view that covers the app, shown behind the alert view
+@property(nonatomic,strong) UIView *coverView;
+
+// Last time configuration was successfully updated from the server
+@property(nonatomic,readonly) NSDate *lastUpdated;
+
+// Default minimum interval is 10mins;
+@property(nonatomic,assign) NSTimeInterval minimumIntervalBetweenUpdates;
+
+// Fetch a stored settings
++ (id)settingForKey:(NSString *)key;
 
 @end
