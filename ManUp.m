@@ -230,7 +230,7 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     }
     
     _updateInProgress = YES;
-    if(_delegate != nil) {
+    if([_delegate respondsToSelector:@selector(manUpConfigUpdateStarting)]) {
         [_delegate manUpConfigUpdateStarting];
     }
     
