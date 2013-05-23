@@ -84,7 +84,7 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 {
     return [ManUp manUpWithDefaultDictionary:defaultSettingsDict
                              serverConfigURL:serverConfigURL
-                                    delegate:delegate
+                                    delegate:(NSObject<ManUpDelegate> *)delegate
                minimumIntervalBetweenUpdates:10*60];
 }
 
@@ -95,14 +95,14 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 {
     return [ManUp manUpWithDefaultJSONFile:defaultSettingsPath
                            serverConfigURL:serverConfigURL
-                                  delegate:delegate
+                                  delegate:(NSObject<ManUpDelegate> *)delegate
              minimumIntervalBetweenUpdates:10*60];
 }
 
 
 + (id)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
                  serverConfigURL:(NSURL *)serverConfigURL
-                        delegate:(id<ManUpDelegate>)delegate
+                        delegate:(NSObject<ManUpDelegate> *)delegate
    minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates
 {
     
@@ -116,7 +116,7 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 
 + (id)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
                serverConfigURL:(NSURL *)serverConfigURL
-                      delegate:(id<ManUpDelegate>)delegate
+                      delegate:(NSObject<ManUpDelegate> *)delegate
  minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates
 {
     ManUp *instance = [ManUp instance];
@@ -349,8 +349,6 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
                                   cancelButtonTitle:nil
                                   otherButtonTitles:nil];
             [self.alertView show];
-            self.alertView.height = self.alertView.height-50;
-
         }
     }
     // Optional update (only show if an 2 hours later, don't want to keep pestering the user)

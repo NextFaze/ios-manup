@@ -19,27 +19,27 @@
 {
     BOOL _updateInProgress;
     NSMutableData *_data; // used by NSURLConnectionDelegate
-    id<ManUpDelegate> _delegate;
+    NSObject<ManUpDelegate> *_delegate;
     NSURL* _lastServerConfigURL;
     UIView *_bgView;
 }
 
 + (id)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
                  serverConfigURL:(NSURL *)serverConfigURL
-                        delegate:(id<ManUpDelegate>)delegate;
+                        delegate:(NSObject<ManUpDelegate> *)delegate;
 
 + (id)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
                serverConfigURL:(NSURL *)serverConfigURL
-                      delegate:(id<ManUpDelegate>)delegate;
+                      delegate:(NSObject<ManUpDelegate> *)delegate;
 
 + (id)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
                  serverConfigURL:(NSURL *)serverConfigURL
-                        delegate:(id<ManUpDelegate>)delegate
+                        delegate:(NSObject<ManUpDelegate> *)delegate
    minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates;
 
 + (id)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
                serverConfigURL:(NSURL *)serverConfigURL
-                      delegate:(id<ManUpDelegate>)delegate
+                      delegate:(NSObject<ManUpDelegate> *)delegate
  minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates;
 
 // Man Up Delegate, notifies the delegate on state changes
