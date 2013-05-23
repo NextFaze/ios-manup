@@ -186,7 +186,7 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     [[NSUserDefaults standardUserDefaults] setObject:settings forKey:kManUpSettings];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
-    if(_delegate != nil) {
+    if([_delegate respondsToSelector:@selector(manUpConfigUpdated:)]) {
         [_delegate manUpConfigUpdated:settings];
     }
 }
