@@ -162,13 +162,9 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 - (id)init {
 	if(self = [super init]) {
 		_updateInProgress = NO;
-        _callDidLaunchWhenFinished = NO;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(updateFromServer)
                                                      name:UIApplicationDidBecomeActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didLaunch)
-                                                     name:UIApplicationDidFinishLaunchingNotification object:nil];
         
 	}
 	return self;

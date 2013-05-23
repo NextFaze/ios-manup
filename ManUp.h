@@ -18,7 +18,6 @@
 @interface ManUp : NSObject <NSURLConnectionDelegate, UIAlertViewDelegate>
 {
     BOOL _updateInProgress;
-    BOOL _callDidLaunchWhenFinished;
     NSMutableData *_data; // used by NSURLConnectionDelegate
     id<ManUpDelegate> _delegate;
     NSURL* _lastServerConfigURL;
