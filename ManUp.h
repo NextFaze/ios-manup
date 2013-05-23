@@ -43,7 +43,7 @@
  minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates;
 
 // Man Up Delegate, notifies the delegate on state changes
-@property(nonatomic,strong) id<ManUpDelegate> delegate;
+@property(nonatomic,strong) NSObject<ManUpDelegate> *delegate;
 
 // URL to server config data
 @property(nonatomic,strong) NSURL *lastServerConfigURL;

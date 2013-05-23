@@ -376,6 +376,9 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 #pragma mark NSURLConnectionDelegate methods
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
+        [self.delegate manUpConfigUpdateFailed:error];
+    }
     [self refreshView];
 }
 
