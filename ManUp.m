@@ -307,7 +307,7 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     NSString *currentVersion = [settings objectForKey:kManUpAppVersionCurrent];
     NSString *minVersion     = [settings objectForKey:kManUpAppVersionMin];
     BOOL maintenanceMode     = [[settings objectForKey:kManUpMaintenanceMode] boolValue];
-    NSString *userVersion    = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    NSString *userVersion    = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
     // Just in case, they come through as numbers
     if (![currentVersion isKindOfClass:[NSString class]]) currentVersion = [currentVersion description];
