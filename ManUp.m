@@ -222,8 +222,9 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     }
     
     NSDate *lastUpdated = [self getLastUpdated];
-    
-    if(lastUpdated != nil && [self.lastUpdated timeIntervalSinceNow]<self.minimumIntervalBetweenUpdates) {
+    BOOL maintenanceMode = [[[self getPersistedSettings] objectForKey:kManUpMaintenanceMode] boolValue];
+
+    if(lastUpdated != nil && [self.lastUpdated timeIntervalSinceNow] < self.minimumIntervalBetweenUpdates && !maintenanceMode) {
         NSLog(@"ManUp: Will not update. An update occurred recently.");
         NSLog(@"time interval since now: %f", [self.lastUpdated timeIntervalSinceNow]);
         return;
