@@ -153,7 +153,7 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     if (_instance == nil)
     {
         _instance = [[ManUp alloc] init];
-        _instance.minimumIntervalBetweenUpdates = 10*60; /*10mins*/
+        _instance.minimumIntervalBetweenUpdates = 1*60; /*1min*/
 
     }
     return _instance;
@@ -223,10 +223,11 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     
     NSDate *lastUpdated = [self getLastUpdated];
     BOOL maintenanceMode = [[[self getPersistedSettings] objectForKey:kManUpMaintenanceMode] boolValue];
+    NSTimeInterval elapsed = -[lastUpdated timeIntervalSinceNow];
 
-    if(lastUpdated != nil && [self.lastUpdated timeIntervalSinceNow] < self.minimumIntervalBetweenUpdates && !maintenanceMode) {
+    if(lastUpdated != nil && elapsed < self.minimumIntervalBetweenUpdates && !maintenanceMode) {
         NSLog(@"ManUp: Will not update. An update occurred recently.");
-        NSLog(@"time interval since now: %f", [self.lastUpdated timeIntervalSinceNow]);
+        NSLog(@"time interval since now: %f", elapsed);
         return;
     }
     
