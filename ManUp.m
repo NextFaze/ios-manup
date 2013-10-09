@@ -16,18 +16,18 @@ static NSString *const ManUpUpdateRequiredBgImgName = @"manup-required";
 static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 
 /* User bundle key names */
-static NSString *const kManUpMaintenanceMode        = @"kManUpMaintenanceMode";
-static NSString *const kManUpSettings               = @"kManUpSettings";
-static NSString *const kManUpServerConfigURL        = @"kManUpServerConfigURL";
-static NSString *const kManUpLastUpdated            = @"kManUpLastUpdated";
+static NSString *const kManUpMaintenanceMode        = @"ManUpMaintenanceMode";
+static NSString *const kManUpSettings               = @"ManUpSettings";
+static NSString *const kManUpServerConfigURL        = @"ManUpServerConfigURL";
+static NSString *const kManUpLastUpdated            = @"ManUpLastUpdated";
 
 /* Server side key names */
 // required: the current version of the application
-static NSString *const kManUpAppVersionCurrent      = @"kManUpAppVersionCurrent";
+static NSString *const kManUpAppVersionCurrent      = @"ManUpAppVersionCurrent";
 // required: the min version of the application
-static NSString *const kManUpAppVersionMin          = @"kManUpAppVersionMin";
+static NSString *const kManUpAppVersionMin          = @"ManUpAppVersionMin";
 // optional: if not present there's no pathway to upgrade but the app is blocked (provided user_version < min)
-static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
+static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 
 # pragma mark -
 # pragma mark UIImage helper

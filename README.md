@@ -16,8 +16,8 @@ Sample config file:
 
 	{
 		"version": "1",
-		"kManUpMaintenanceMode": false,
-		"kManUpAppUpdateLink": "https://itunes.apple.com/app/id0000000?mt=8",
-		"kManUpAppVersionCurrent": "1",
-		"kManUpAppVersionMin": "1"
+		"ManUpMaintenanceMode": false,
+		"ManUpAppUpdateLink": "https://itunes.apple.com/app/id0000000?mt=8",
+		"ManUpAppVersionCurrent": "1",
+		"ManUpAppVersionMin": "1"
 	}
