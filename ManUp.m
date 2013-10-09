@@ -236,7 +236,7 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
         [_delegate manUpConfigUpdateStarting];
     }
     
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:_lastServerConfigURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:_lastServerConfigURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:15];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [connection start];
 }
