@@ -16,18 +16,18 @@ static NSString *const ManUpUpdateRequiredBgImgName = @"manup-required";
 static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 
 /* User bundle key names */
-static NSString *const kManUpMaintenanceMode        = @"kManUpMaintenanceMode";
-static NSString *const kManUpSettings               = @"kManUpSettings";
-static NSString *const kManUpServerConfigURL        = @"kManUpServerConfigURL";
-static NSString *const kManUpLastUpdated            = @"kManUpLastUpdated";
+static NSString *const kManUpMaintenanceMode        = @"ManUpMaintenanceMode";
+static NSString *const kManUpSettings               = @"ManUpSettings";
+static NSString *const kManUpServerConfigURL        = @"ManUpServerConfigURL";
+static NSString *const kManUpLastUpdated            = @"ManUpLastUpdated";
 
 /* Server side key names */
 // required: the current version of the application
-static NSString *const kManUpAppVersionCurrent      = @"kManUpAppVersionCurrent";
+static NSString *const kManUpAppVersionCurrent      = @"ManUpAppVersionCurrent";
 // required: the min version of the application
-static NSString *const kManUpAppVersionMin          = @"kManUpAppVersionMin";
+static NSString *const kManUpAppVersionMin          = @"ManUpAppVersionMin";
 // optional: if not present there's no pathway to upgrade but the app is blocked (provided user_version < min)
-static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
+static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 
 # pragma mark -
 # pragma mark UIImage helper
@@ -84,7 +84,7 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 {
     return [ManUp manUpWithDefaultDictionary:defaultSettingsDict
                              serverConfigURL:serverConfigURL
-                                    delegate:delegate
+                                    delegate:(NSObject<ManUpDelegate> *)delegate
                minimumIntervalBetweenUpdates:10*60];
 }
 
@@ -95,14 +95,14 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 {
     return [ManUp manUpWithDefaultJSONFile:defaultSettingsPath
                            serverConfigURL:serverConfigURL
-                                  delegate:delegate
+                                  delegate:(NSObject<ManUpDelegate> *)delegate
              minimumIntervalBetweenUpdates:10*60];
 }
 
 
 + (id)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
                  serverConfigURL:(NSURL *)serverConfigURL
-                        delegate:(id<ManUpDelegate>)delegate
+                        delegate:(NSObject<ManUpDelegate> *)delegate
    minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates
 {
     
@@ -116,7 +116,7 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 
 + (id)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
                serverConfigURL:(NSURL *)serverConfigURL
-                      delegate:(id<ManUpDelegate>)delegate
+                      delegate:(NSObject<ManUpDelegate> *)delegate
  minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates
 {
     ManUp *instance = [ManUp instance];
@@ -153,7 +153,7 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     if (_instance == nil)
     {
         _instance = [[ManUp alloc] init];
-        _instance.minimumIntervalBetweenUpdates = 10*60; /*10mins*/
+        _instance.minimumIntervalBetweenUpdates = 1*60; /*1min*/
 
     }
     return _instance;
@@ -162,13 +162,9 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 - (id)init {
 	if(self = [super init]) {
 		_updateInProgress = NO;
-        _callDidLaunchWhenFinished = NO;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(updateFromServer)
                                                      name:UIApplicationDidBecomeActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didLaunch)
-                                                     name:UIApplicationDidFinishLaunchingNotification object:nil];
         
 	}
 	return self;
@@ -190,7 +186,7 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     [[NSUserDefaults standardUserDefaults] setObject:settings forKey:kManUpSettings];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
-    if(_delegate != nil) {
+    if([_delegate respondsToSelector:@selector(manUpConfigUpdated:)]) {
         [_delegate manUpConfigUpdated:settings];
     }
 }
@@ -226,19 +222,21 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     }
     
     NSDate *lastUpdated = [self getLastUpdated];
-    
-    if(lastUpdated != nil && [self.lastUpdated timeIntervalSinceNow]<self.minimumIntervalBetweenUpdates) {
+    BOOL maintenanceMode = [[[self getPersistedSettings] objectForKey:kManUpMaintenanceMode] boolValue];
+    NSTimeInterval elapsed = -[lastUpdated timeIntervalSinceNow];
+
+    if(lastUpdated != nil && elapsed < self.minimumIntervalBetweenUpdates && !maintenanceMode) {
         NSLog(@"ManUp: Will not update. An update occurred recently.");
-        NSLog(@"time interval since now: %f", [self.lastUpdated timeIntervalSinceNow]);
+        NSLog(@"time interval since now: %f", elapsed);
         return;
     }
     
     _updateInProgress = YES;
-    if(_delegate != nil) {
+    if([_delegate respondsToSelector:@selector(manUpConfigUpdateStarting)]) {
         [_delegate manUpConfigUpdateStarting];
     }
     
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:_lastServerConfigURL cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:15];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:_lastServerConfigURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:15];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [connection start];
 }
@@ -311,7 +309,7 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
     NSString *currentVersion = [settings objectForKey:kManUpAppVersionCurrent];
     NSString *minVersion     = [settings objectForKey:kManUpAppVersionMin];
     BOOL maintenanceMode     = [[settings objectForKey:kManUpMaintenanceMode] boolValue];
-    NSString *userVersion    = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    NSString *userVersion    = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
     // Just in case, they come through as numbers
     if (![currentVersion isKindOfClass:[NSString class]]) currentVersion = [currentVersion description];
@@ -353,8 +351,6 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
                                   cancelButtonTitle:nil
                                   otherButtonTitles:nil];
             [self.alertView show];
-            self.alertView.height = self.alertView.height-50;
-
         }
     }
     // Optional update (only show if an 2 hours later, don't want to keep pestering the user)
@@ -382,6 +378,9 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 #pragma mark NSURLConnectionDelegate methods
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
+        [self.delegate manUpConfigUpdateFailed:error];
+    }
     [self refreshView];
 }
 

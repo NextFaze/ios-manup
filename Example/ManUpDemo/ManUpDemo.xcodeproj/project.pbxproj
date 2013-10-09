@@ -24,9 +24,6 @@
 		E74D215F163628D900891426 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E74D215E163628D900891426 /* Default@2x.png */; };
 		E74D2161163628D900891426 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E74D2160163628D900891426 /* Default-568h@2x.png */; };
 		E74D216F16364EBF00891426 /* ManUp.m in Sources */ = {isa = PBXBuildFile; fileRef = E74D216D16364EBE00891426 /* ManUp.m */; };
-		E74D2175163658DA00891426 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = E74D2171163658DA00891426 /* CHANGELOG.md */; };
-		E74D2176163658DA00891426 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = E74D2173163658DA00891426 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		E74D2177163658DA00891426 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E74D2174163658DA00891426 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,10 +50,6 @@
 		E74D2160163628D900891426 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E74D216D16364EBE00891426 /* ManUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ManUp.m; path = ../../../ManUp.m; sourceTree = "<group>"; };
 		E74D216E16364EBE00891426 /* ManUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ManUp.h; path = ../../../ManUp.h; sourceTree = "<group>"; };
-		E74D2171163658DA00891426 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
-		E74D2172163658DA00891426 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
-		E74D2173163658DA00891426 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
-		E74D2174163658DA00891426 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +69,6 @@
 		E74D213B163628D900891426 = {
 			isa = PBXGroup;
 			children = (
-				E74D2170163658DA00891426 /* JSONKit */,
 				E74D2150163628D900891426 /* ManUpDemo */,
 				E74D2149163628D900891426 /* Frameworks */,
 				E74D2147163628D900891426 /* Products */,
@@ -129,18 +121,6 @@
 				E74D2160163628D900891426 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		E74D2170163658DA00891426 /* JSONKit */ = {
-			isa = PBXGroup;
-			children = (
-				E74D2171163658DA00891426 /* CHANGELOG.md */,
-				E74D2172163658DA00891426 /* JSONKit.h */,
-				E74D2173163658DA00891426 /* JSONKit.m */,
-				E74D2174163658DA00891426 /* README.md */,
-			);
-			name = JSONKit;
-			path = ../../JSONKit;
 			sourceTree = "<group>";
 		};
 		E74D217A163659F900891426 /* TestDefaults */ = {
@@ -210,8 +190,6 @@
 				E74D215D163628D900891426 /* Default.png in Resources */,
 				E74D215F163628D900891426 /* Default@2x.png in Resources */,
 				E74D2161163628D900891426 /* Default-568h@2x.png in Resources */,
-				E74D2175163658DA00891426 /* CHANGELOG.md in Resources */,
-				E74D2177163658DA00891426 /* README.md in Resources */,
 				E70E837D163A0240005842FD /* test_Link_UpgradeAvailable.json in Resources */,
 				E70E837E163A0240005842FD /* test_noLink_UpgradeAvailable.json in Resources */,
 				E70E837F163A0240005842FD /* test_minGreaterCurrent.json in Resources */,
@@ -231,7 +209,6 @@
 				E74D2157163628D900891426 /* main.m in Sources */,
 				E74D215B163628D900891426 /* AppDelegate.m in Sources */,
 				E74D216F16364EBF00891426 /* ManUp.m in Sources */,
-				E74D2176163658DA00891426 /* JSONKit.m in Sources */,
 				E7180BFC16425F4C0058969A /* DemoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
