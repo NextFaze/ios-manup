@@ -333,7 +333,7 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
                                   initWithTitle:@"Update Required"
                                   message: @"An update is required. To continue, please update the application."
                                   delegate: self
-                                  cancelButtonTitle:@"Upgrade"
+                                  cancelButtonTitle:@"Update"
                                   otherButtonTitles:nil];
             [self.alertView show];
         }
@@ -361,7 +361,7 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
                                   initWithTitle:@"Update Required"
                                   message: @"An update is available. Would you like to update to the latest version?"
                                   delegate: self
-                                  cancelButtonTitle:@"Upgrade"
+                                  cancelButtonTitle:@"Update"
                                   otherButtonTitles:@"No Thanks",nil];
             [self.alertView show];
             self.optionalUpdateShown = [NSDate date];
