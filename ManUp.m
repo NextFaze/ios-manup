@@ -434,6 +434,13 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
             NSDictionary* settings = [NSJSONSerialization JSONObjectWithData:_data options:0 error:&error];
 
             NSDictionary* nonNullSettings = [self replaceNullsWithEmptyStringInDictionary:settings];
+            
+            if (error) {
+                if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
+                    [self.delegate manUpConfigUpdateFailed:error];
+                }
+            }
+            
             [self setManUpSettings:nonNullSettings];
         }
         _updateInProgress = NO;
