@@ -36,7 +36,6 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
     BOOL _updateInProgress;
     BOOL _callDidLaunchWhenFinished;
     NSMutableData *_data; // used by NSURLConnectionDelegate
-    id<ManUpDelegate> _delegate;
     NSURL* _lastServerConfigURL;
     UIView *_bgView;
 }
@@ -60,7 +59,7 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
  minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates;
 
 // Man Up Delegate, notifies the delegate on state changes
-@property(nonatomic,strong) id<ManUpDelegate> delegate;
+@property(nonatomic,assign) id<ManUpDelegate> delegate;
 
 // URL to server config data
 @property(nonatomic,strong) NSURL *lastServerConfigURL;
