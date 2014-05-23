@@ -422,7 +422,7 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 
         if ([response respondsToSelector:@selector(statusCode)])
         {
-            int statusCode = [((NSHTTPURLResponse *)response) statusCode];
+            NSInteger statusCode = [((NSHTTPURLResponse *)response) statusCode];
             if (statusCode >= 400)
             {
                 [connection cancel];
