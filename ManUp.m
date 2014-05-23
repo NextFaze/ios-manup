@@ -15,19 +15,7 @@
 static NSString *const ManUpUpdateRequiredBgImgName = @"manup-required";
 static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 
-/* User bundle key names */
-static NSString *const kManUpMaintenanceMode        = @"ManUpMaintenanceMode";
-static NSString *const kManUpSettings               = @"ManUpSettings";
-static NSString *const kManUpServerConfigURL        = @"ManUpServerConfigURL";
-static NSString *const kManUpLastUpdated            = @"ManUpLastUpdated";
 
-/* Server side key names */
-// required: the current version of the application
-static NSString *const kManUpAppVersionCurrent      = @"ManUpAppVersionCurrent";
-// required: the min version of the application
-static NSString *const kManUpAppVersionMin          = @"ManUpAppVersionMin";
-// optional: if not present there's no pathway to upgrade but the app is blocked (provided user_version < min)
-static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 
 # pragma mark -
 # pragma mark UIImage helper
@@ -39,7 +27,8 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 
 @implementation UIImage (ManUp)
 
-+ (UIImage *)imageConsidering586hNamed:(NSString *)imageName {
++ (UIImage *)imageConsidering586hNamed:(NSString *)imageName
+{
     //NSLog(@"Loading image named => %@", imageName);
     NSMutableString *imageNameMutable = [imageName mutableCopy];
     NSRange retinaAtSymbol = [imageName rangeOfString:@"@"];
@@ -69,7 +58,8 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 
 @interface ManUp ()
 @property (nonatomic,strong) UIAlertView *alertView;
-@property (nonatomic,strong) NSDate *optionalUpdateShown;
+//@property (nonatomic,strong) NSDate *optionalUpdateShown;
+@property (nonatomic,assign) BOOL optionalUpdateShown;
 
 // private methods
 + (ManUp*)instance;
@@ -84,7 +74,7 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 {
     return [ManUp manUpWithDefaultDictionary:defaultSettingsDict
                              serverConfigURL:serverConfigURL
-                                    delegate:(NSObject<ManUpDelegate> *)delegate
+                                    delegate:delegate
                minimumIntervalBetweenUpdates:10*60];
 }
 
@@ -95,28 +85,36 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 {
     return [ManUp manUpWithDefaultJSONFile:defaultSettingsPath
                            serverConfigURL:serverConfigURL
-                                  delegate:(NSObject<ManUpDelegate> *)delegate
+                                  delegate:delegate
              minimumIntervalBetweenUpdates:10*60];
 }
 
 
 + (id)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
                  serverConfigURL:(NSURL *)serverConfigURL
-                        delegate:(NSObject<ManUpDelegate> *)delegate
+                        delegate:(id<ManUpDelegate>)delegate
    minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates
 {
-    
     ManUp *instance = [ManUp instance];
     instance.delegate = delegate;
-    [instance setManUpSettingsIfNone:defaultSettingsDict];
+    instance.lastServerConfigURL = serverConfigURL;
     instance.minimumIntervalBetweenUpdates = minimumIntervalBetweenUpdates;
+    
+    // Only apply defaults if they do not exist already.
+    if(![instance hasPersistedSettings]) {
+        NSDictionary* nonNullDefaultSettings = [instance replaceNullsWithEmptyStringInDictionary:defaultSettingsDict];
+        [instance setManUpSettings:nonNullDefaultSettings];
+    }
+    
+    [instance refreshView];
+    [instance updateFromServer];
     return instance;
 }
 
 
 + (id)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
                serverConfigURL:(NSURL *)serverConfigURL
-                      delegate:(NSObject<ManUpDelegate> *)delegate
+                      delegate:(id<ManUpDelegate>)delegate
  minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates
 {
     ManUp *instance = [ManUp instance];
@@ -141,6 +139,7 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
         [instance setManUpSettings:nonNullDefaultSettings];
     }
     
+    [instance refreshView];
     [instance updateFromServer];
     return instance;
 }
@@ -148,29 +147,31 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 #pragma mark -
 #pragma mark Instance and unexposed methods
 
-+ (ManUp*)instance {
++ (ManUp*)instance
+{
     static ManUp *_instance = nil;
-    if (_instance == nil)
-    {
+    if (_instance == nil) {
         _instance = [[ManUp alloc] init];
-        _instance.minimumIntervalBetweenUpdates = 1*60; /*1min*/
-
+        _instance.minimumIntervalBetweenUpdates = 10*60; /*10mins*/
     }
     return _instance;
 }
 
-- (id)init {
+- (id)init
+{
 	if(self = [super init]) {
 		_updateInProgress = NO;
+        _callDidLaunchWhenFinished = NO;
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(updateFromServer)
                                                      name:UIApplicationDidBecomeActiveNotification object:nil];
-        
+        self.optionalUpdateShown = NO;
 	}
 	return self;
 }
 
-- (NSDictionary*)replaceNullsWithEmptyStringInDictionary:(NSDictionary*)dict {
+- (NSDictionary*)replaceNullsWithEmptyStringInDictionary:(NSDictionary*)dict
+{
     NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
     for(NSString *key in dict) {
         NSString *value = [dict objectForKey:key];
@@ -182,7 +183,8 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
     return newDict;
 }
 
-- (void)setManUpSettings:(NSDictionary*)settings {
+- (void)setManUpSettings:(NSDictionary*)settings
+{
     [[NSUserDefaults standardUserDefaults] setObject:settings forKey:kManUpSettings];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
@@ -191,7 +193,8 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
     }
 }
 
-- (void)setManUpSettingsIfNone:(NSDictionary*)settings {
+- (void)setManUpSettingsIfNone:(NSDictionary*)settings
+{
     NSDictionary *persistedSettings = [self getPersistedSettings];
     if(persistedSettings == nil) {
         [self setManUpSettings:settings];
@@ -203,31 +206,30 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (NSDate *)getLastUpdated {
+- (NSDate *)lastUpdated {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kManUpLastUpdated];
 }
 
-- (NSDictionary *)getPersistedSettings {
+- (NSDictionary *)getPersistedSettings
+{
     return [[NSUserDefaults standardUserDefaults] objectForKey:kManUpSettings];
 }
 
-- (BOOL)hasPersistedSettings {
+- (BOOL)hasPersistedSettings
+{
     return [self getPersistedSettings] != nil;
 }
 
-- (void)updateFromServer {
+- (void)updateFromServer
+{
     if(_updateInProgress) {
         NSLog(@"ManUp: An update is currently in progress.");
         return;
     }
     
-    NSDate *lastUpdated = [self getLastUpdated];
-    BOOL maintenanceMode = [[[self getPersistedSettings] objectForKey:kManUpMaintenanceMode] boolValue];
-    NSTimeInterval elapsed = -[lastUpdated timeIntervalSinceNow];
-
-    if(lastUpdated != nil && elapsed < self.minimumIntervalBetweenUpdates && !maintenanceMode) {
+    if(self.lastUpdated != nil && (-[self.lastUpdated timeIntervalSinceNow])<self.minimumIntervalBetweenUpdates) {
         NSLog(@"ManUp: Will not update. An update occurred recently.");
-        NSLog(@"time interval since now: %f", elapsed);
+        NSLog(@"time interval since now: %f", (-[self.lastUpdated timeIntervalSinceNow]));
         return;
     }
     
@@ -241,7 +243,8 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
     [connection start];
 }
 
-- (void)showBackgroundView:(NSString *)imageNamed {
+- (void)showBackgroundView:(NSString *)imageNamed
+{
     UIImage *backgroundImage = [UIImage imageConsidering586hNamed:imageNamed];
     
     // Check for Default first if not provided.
@@ -284,7 +287,8 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
     if(buttonIndex == 0) {
         // Update
         NSDictionary *settings = [self getPersistedSettings];
@@ -299,73 +303,100 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
         // Close
         [self.coverView removeFromSuperview];
     }
+    self.alertView = nil;
 }
 
 /* On Lauch, we look at the most recently retrieved settings and if they are less than 1 hour old, use them
    to check if we need to display update or mandatory update dialogs. */
-- (void)refreshView {
-    NSDictionary *settings = [self getPersistedSettings];
-    NSString *updateURL      = [settings objectForKey:kManUpAppUpdateLink];
-    NSString *currentVersion = [settings objectForKey:kManUpAppVersionCurrent];
-    NSString *minVersion     = [settings objectForKey:kManUpAppVersionMin];
-    BOOL maintenanceMode     = [[settings objectForKey:kManUpMaintenanceMode] boolValue];
-    NSString *userVersion    = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    
-    // Just in case, they come through as numbers
-    if (![currentVersion isKindOfClass:[NSString class]]) currentVersion = [currentVersion description];
-    if (![minVersion isKindOfClass:[NSString class]]) minVersion = [minVersion description];  
-    
-    // Hide any existing, refresh
-    [self.alertView dismissWithClickedButtonIndex:-1 animated:NO];
-    [self.coverView removeFromSuperview];
-    
-    // Check if mandatory update is required.
-    if([userVersion compare:minVersion] < 0) {
-        NSLog(@"ManUp: Mandatory update required.");
+- (void)refreshView
+{
+    @try {
+        NSDictionary *settings = [self getPersistedSettings];
+        NSString *updateURL      = [settings objectForKey:kManUpAppUpdateLink];
+        id currentVersion = [settings objectForKey:kManUpAppVersionCurrent];
+        id minVersion     = [settings objectForKey:kManUpAppVersionMin];
+        BOOL maintenanceMode     = [[settings objectForKey:kManUpMaintenanceMode] boolValue];
+        id userVersion    = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
         
-        if(updateURL == nil || [updateURL isEqualToString:@""]) {
-            NSLog(@"ManUp: No update URL provided, blocking app access");
-            [self showBackgroundView:ManUpUpdateRequiredBgImgName];
-        } else {
-            NSLog(@"ManUp: Blocking access and displaying update alert.");
-            [self showBackgroundView:ManUpUpdateRequiredBgImgName];
-            self.alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Update Required"
-                                  message: @"An update is required. To continue, please update the application."
-                                  delegate: self
-                                  cancelButtonTitle:@"Update"
-                                  otherButtonTitles:nil];
-            [self.alertView show];
-        }
-    }
-    // Maintenance Mode
-    else if(maintenanceMode) {
-        NSLog(@"ManUp: Maintenance Mode.");
-        if(updateURL != nil && ![updateURL isEqualToString:@""]) {
-            [self showBackgroundView:ManUpMaintenanceBgImgName];
+        // If number version
+        if ([currentVersion isKindOfClass:[NSNumber class]] && [minVersion isKindOfClass:[NSNumber class]]) {
+            userVersion = @([[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] integerValue]);
             
-            self.alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Down for Maintenance"
-                                  message:@"Please check back again later."
-                                  delegate:self
-                                  cancelButtonTitle:nil
-                                  otherButtonTitles:nil];
-            [self.alertView show];
+        } else {
+            // Just in case, they come through as strings, convert to numbers
+            if ([currentVersion isKindOfClass:[NSString class]]) currentVersion = @([currentVersion integerValue]);
+            if ([minVersion isKindOfClass:[NSString class]]) minVersion = @([minVersion integerValue]);
+            if ([userVersion isKindOfClass:[NSString class]]) userVersion = @([userVersion integerValue]);
+            
+        }
+        
+        
+        // Hide any existing, refresh
+        //    [self.alertView dismissWithClickedButtonIndex:-1 animated:NO];
+        [self.coverView removeFromSuperview];
+        if (!self.alertView) {
+            // Check if mandatory update is required.
+            if(minVersion && [userVersion compare:minVersion] < 0) {
+                NSLog(@"ManUp: Mandatory update required.");
+                
+                if(updateURL == nil || [updateURL isEqualToString:@""]) {
+                    NSLog(@"ManUp: No update URL provided, blocking app access");
+                    [self showBackgroundView:ManUpUpdateRequiredBgImgName];
+                } else {
+                    NSLog(@"ManUp: Blocking access and displaying update alert.");
+                    [self showBackgroundView:ManUpUpdateRequiredBgImgName];
+                    self.alertView = [[UIAlertView alloc]
+                                      initWithTitle:@"Update Required"
+                                      message: @"An update is required. To continue, please update the application."
+                                      delegate: self
+                                      cancelButtonTitle:@"Upgrade"
+                                      otherButtonTitles:nil];
+                    [self.alertView show];
+                }
+            }
+            // Maintenance Mode
+            else if(maintenanceMode) {
+                NSLog(@"ManUp: Maintenance Mode.");
+                if(updateURL != nil && ![updateURL isEqualToString:@""]) {
+                    [self showBackgroundView:ManUpMaintenanceBgImgName];
+                    
+                    NSString *maintenanceTitle = NSLocalizedString(@"Down for Maintenance", nil);
+                    NSString *maintenanceMessage = NSLocalizedString(@"Please check back again later.", nil);
+                    
+                    if ([settings valueForKey:kManUpMaintenanceModeTitle]) {
+                        maintenanceTitle = [settings valueForKey:kManUpMaintenanceModeTitle];
+                    }
+                    if ([settings valueForKey:kManUpMaintenanceModeMessage]) {
+                        maintenanceMessage = [settings valueForKey:kManUpMaintenanceModeMessage];
+                    }
+                    
+                    self.alertView = [[UIAlertView alloc] initWithTitle:maintenanceTitle
+                                                                message:maintenanceMessage
+                                                               delegate:self
+                                                      cancelButtonTitle:nil
+                                                      otherButtonTitles:nil];
+                    [self.alertView show];
+                    //                 self.alertView.height = self.alertView.height-50;
+                }
+            }
+            // Optional update (only show if an 2 hours later, don't want to keep pestering the user)
+            else if(currentVersion && [userVersion compare:currentVersion] < 0 && !self.optionalUpdateShown) {
+                NSLog(@"ManUp: User doesn't have latest version.");
+                if(updateURL != nil && ![updateURL isEqualToString:@""]) {
+                    self.alertView = [[UIAlertView alloc]
+                                      initWithTitle:@"Update Available"
+                                      message: @"An update is available. Would you like to update to the latest version?"
+                                      delegate: self
+                                      cancelButtonTitle:@"Upgrade"
+                                      otherButtonTitles:@"No Thanks",nil];
+                    [self.alertView show];
+                    self.optionalUpdateShown = YES;
+                }
+            }
         }
     }
-    // Optional update (only show if an 2 hours later, don't want to keep pestering the user)
-    else if([userVersion compare:currentVersion] < 0 && [self.optionalUpdateShown timeIntervalSinceNow]<60*60*2/*Two hours*/) {
-        NSLog(@"ManUp: User doesn't have latest version.");
-        if(updateURL != nil && ![updateURL isEqualToString:@""]) {
-            self.alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Update Required"
-                                  message: @"An update is available. Would you like to update to the latest version?"
-                                  delegate: self
-                                  cancelButtonTitle:@"Update"
-                                  otherButtonTitles:@"No Thanks",nil];
-            [self.alertView show];
-            self.optionalUpdateShown = [NSDate date];
-        }
+    @catch (NSException *exception) {
+        
     }
 }
 
@@ -377,31 +408,33 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 #pragma mark -
 #pragma mark NSURLConnectionDelegate methods
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
     if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
         [self.delegate manUpConfigUpdateFailed:error];
     }
     [self refreshView];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
     @synchronized(self) {
 
         if ([response respondsToSelector:@selector(statusCode)])
         {
-            int statusCode = [((NSHTTPURLResponse *)response) statusCode];
+            NSInteger statusCode = [((NSHTTPURLResponse *)response) statusCode];
             if (statusCode >= 400)
             {
                 [connection cancel];
                 NSDictionary *errorInfo
                 = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:
-                                                  NSLocalizedString(@"Server returned status code %d",@""),
-                                                  statusCode]
-                                          forKey:NSLocalizedDescriptionKey];
+                                                      NSLocalizedString(@"Server returned status code %d",@""),
+                                                      statusCode]
+                                              forKey:NSLocalizedDescriptionKey];
                 NSError *statusError
                 = [NSError errorWithDomain:@"ERROR"
-                                  code:statusCode
-                              userInfo:errorInfo];
+                                      code:statusCode
+                                  userInfo:errorInfo];
                 [self connection:connection didFailWithError:statusError];
                 _updateInProgress = NO;
                 
@@ -414,14 +447,15 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
     }
 }
 
-- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data {
+- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data
+{
     @synchronized(self) {
-        
         [_data appendData:data];
     }
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
     @synchronized(self) {
 
         if(_data != nil && _data.length > 0) {
