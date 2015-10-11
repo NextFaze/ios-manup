@@ -123,7 +123,7 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
     instance.minimumIntervalBetweenUpdates = minimumIntervalBetweenUpdates;
     
     // Only apply defaults if they do not exist already.
-    if(![instance hasPersistedSettings]) {
+    if (![instance hasPersistedSettings]) {
         NSData* jsonData = [NSData dataWithContentsOfFile:defaultSettingsPath];
         if(jsonData == nil) {
             // handle this error
@@ -159,7 +159,7 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 
 - (id)init
 {
-	if(self = [super init]) {
+	if (self = [super init]) {
 		_updateInProgress = NO;
         _callDidLaunchWhenFinished = NO;
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -173,9 +173,9 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 - (NSDictionary*)replaceNullsWithEmptyStringInDictionary:(NSDictionary*)dict
 {
     NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
-    for(NSString *key in dict) {
+    for (NSString *key in dict) {
         NSString *value = [dict objectForKey:key];
-        if(value == nil || [value isKindOfClass:[NSNull class]]) {
+        if (value == nil || [value isKindOfClass:[NSNull class]]) {
             value = @"";
         }
         [newDict setValue:value forKey:key];
@@ -188,7 +188,7 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
     [[NSUserDefaults standardUserDefaults] setObject:settings forKey:kManUpSettings];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
-    if([_delegate respondsToSelector:@selector(manUpConfigUpdated:)]) {
+    if ([_delegate respondsToSelector:@selector(manUpConfigUpdated:)]) {
         [_delegate manUpConfigUpdated:settings];
     }
 }
@@ -196,17 +196,19 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 - (void)setManUpSettingsIfNone:(NSDictionary*)settings
 {
     NSDictionary *persistedSettings = [self getPersistedSettings];
-    if(persistedSettings == nil) {
+    if (persistedSettings == nil) {
         [self setManUpSettings:settings];
     }
 }
 
-- (void)setLastUpdated:(NSDate *)date {
+- (void)setLastUpdated:(NSDate *)date
+{
     [[NSUserDefaults standardUserDefaults] setObject:date forKey:kManUpLastUpdated];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (NSDate *)lastUpdated {
+- (NSDate *)lastUpdated
+{
     return [[NSUserDefaults standardUserDefaults] objectForKey:kManUpLastUpdated];
 }
 
@@ -222,19 +224,19 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 
 - (void)updateFromServer
 {
-    if(_updateInProgress) {
+    if (_updateInProgress) {
         NSLog(@"ManUp: An update is currently in progress.");
         return;
     }
     
-    if(self.lastUpdated != nil && (-[self.lastUpdated timeIntervalSinceNow])<self.minimumIntervalBetweenUpdates) {
+    if (self.lastUpdated != nil && (-[self.lastUpdated timeIntervalSinceNow])<self.minimumIntervalBetweenUpdates) {
         NSLog(@"ManUp: Will not update. An update occurred recently.");
         NSLog(@"time interval since now: %f", (-[self.lastUpdated timeIntervalSinceNow]));
         return;
     }
     
     _updateInProgress = YES;
-    if([_delegate respondsToSelector:@selector(manUpConfigUpdateStarting)]) {
+    if ([_delegate respondsToSelector:@selector(manUpConfigUpdateStarting)]) {
         [_delegate manUpConfigUpdateStarting];
     }
     
@@ -248,13 +250,13 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
     UIImage *backgroundImage = [UIImage imageConsidering586hNamed:imageNamed];
     
     // Check for Default first if not provided.
-    if(backgroundImage == nil) {
+    if (backgroundImage == nil) {
         NSLog(@"ManUp: Did not include image named %@", ManUpUpdateRequiredBgImgName);
         backgroundImage = [UIImage imageConsidering586hNamed:@"Default"];
     }
     
     // Failing that, look at the plist.
-    if(backgroundImage == nil) {
+    if (backgroundImage == nil) {
         NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
         NSString *launchImgName = [infoDict objectForKey:@"UILaunchImageFile"];
         if(launchImgName == nil) {
@@ -289,7 +291,7 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if(buttonIndex == 0) {
+    if (buttonIndex == 0) {
         // Update
         NSDictionary *settings = [self getPersistedSettings];
         NSString *updateURLString = [settings objectForKey:kManUpAppUpdateLink];
@@ -330,10 +332,9 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
             
         }
         
-        
         // Hide any existing, refresh
-        //    [self.alertView dismissWithClickedButtonIndex:-1 animated:NO];
         [self.coverView removeFromSuperview];
+        
         if (!self.alertView) {
             // Check if mandatory update is required.
             if(minVersion && [userVersion compare:minVersion] < 0) {
@@ -346,10 +347,10 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
                     NSLog(@"ManUp: Blocking access and displaying update alert.");
                     [self showBackgroundView:ManUpUpdateRequiredBgImgName];
                     self.alertView = [[UIAlertView alloc]
-                                      initWithTitle:@"Update Required"
-                                      message: @"An update is required. To continue, please update the application."
+                                      initWithTitle:NSLocalizedString(@"Update Required", nil)
+                                      message:NSLocalizedString(@"An update is required. To continue, please update the application.", nil)
                                       delegate: self
-                                      cancelButtonTitle:@"Upgrade"
+                                      cancelButtonTitle:NSLocalizedString(@"Update", nil)
                                       otherButtonTitles:nil];
                     [self.alertView show];
                 }
@@ -376,7 +377,6 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
                                                       cancelButtonTitle:nil
                                                       otherButtonTitles:nil];
                     [self.alertView show];
-                    //                 self.alertView.height = self.alertView.height-50;
                 }
             }
             // Optional update (only show if an 2 hours later, don't want to keep pestering the user)
@@ -384,11 +384,11 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
                 NSLog(@"ManUp: User doesn't have latest version.");
                 if(updateURL != nil && ![updateURL isEqualToString:@""]) {
                     self.alertView = [[UIAlertView alloc]
-                                      initWithTitle:@"Update Available"
-                                      message: @"An update is available. Would you like to update to the latest version?"
+                                      initWithTitle:NSLocalizedString(@"Update Available", nil)
+                                      message:NSLocalizedString(@"An update is available. Would you like to update to the latest version?", nil)
                                       delegate: self
-                                      cancelButtonTitle:@"Upgrade"
-                                      otherButtonTitles:@"No Thanks",nil];
+                                      cancelButtonTitle:NSLocalizedString(@"Update", nil)
+                                      otherButtonTitles:NSLocalizedString(@"No Thanks", nil), nil];
                     [self.alertView show];
                     self.optionalUpdateShown = YES;
                 }
@@ -420,21 +420,17 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 {
     @synchronized(self) {
 
-        if ([response respondsToSelector:@selector(statusCode)])
-        {
+        if ([response respondsToSelector:@selector(statusCode)]) {
             NSInteger statusCode = [((NSHTTPURLResponse *)response) statusCode];
-            if (statusCode >= 400)
-            {
+            if (statusCode >= 400) {
                 [connection cancel];
-                NSDictionary *errorInfo
-                = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:
-                                                      NSLocalizedString(@"Server returned status code %d",@""),
-                                                      statusCode]
-                                              forKey:NSLocalizedDescriptionKey];
-                NSError *statusError
-                = [NSError errorWithDomain:@"ERROR"
-                                      code:statusCode
-                                  userInfo:errorInfo];
+                NSDictionary *errorInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:
+                                                                              NSLocalizedString(@"Server returned status code %d",@""),
+                                                                              statusCode]
+                                                                      forKey:NSLocalizedDescriptionKey];
+                NSError *statusError = [NSError errorWithDomain:NSLocalizedString(@"ERROR", nil)
+                                                           code:statusCode
+                                                       userInfo:errorInfo];
                 [self connection:connection didFailWithError:statusError];
                 _updateInProgress = NO;
                 
@@ -457,8 +453,7 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     @synchronized(self) {
-
-        if(_data != nil && _data.length > 0) {
+        if (_data != nil && _data.length > 0) {
             [self setLastUpdated:[NSDate date]];
             // If JSONKit detects a null value it returns NSNull which cannot be saved
             // in NSUserDefaults. For that reason we get copy and replace all occurrences of
