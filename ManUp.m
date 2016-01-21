@@ -57,7 +57,7 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 @end
 
 @interface ManUp ()
-@property (nonatomic,strong) UIAlertView *alertView;
+@property (nonatomic,strong) UIAlertController *alertView;
 //@property (nonatomic,strong) NSDate *optionalUpdateShown;
 @property (nonatomic,assign) BOOL optionalUpdateShown;
 
@@ -293,23 +293,42 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)showAlertViewWithTitle:(NSString*)title message:(NSString*)message cancelTitle:(NSString*)cancelTitle otherTitle:(NSString*)otherTitle
 {
-    if (buttonIndex == 0) {
+    
+    self.alertView = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    NSString* defaultTitle = [cancelTitle length] > 0 ? cancelTitle : @"OK";
+    UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:defaultTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         // Update
         NSDictionary *settings = [self getPersistedSettings];
         NSString *updateURLString = [settings objectForKey:kManUpAppUpdateLink];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:updateURLString]];
-    
-        if(![alertView.title isEqualToString:@"Update Required"]) {
+        
+        if(![title isEqualToString:@"Update Required"]) {
             // Alert closes and BG goes away: case of optional update.
             [self.coverView removeFromSuperview];
         }
-    } else {
-        // Close
-        [self.coverView removeFromSuperview];
+    }];
+    
+    [self.alertView addAction:defaultAction];
+    
+    if ([otherTitle length] > 0) {
+        UIAlertAction *otherAction = [UIAlertAction actionWithTitle:otherTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self.coverView removeFromSuperview];
+        }];
+        
+        [self.alertView addAction:otherAction];
     }
-    self.alertView = nil;
+    
+    // Get top view controller
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+    
+    [topController presentViewController:self.alertView animated:YES completion:nil];
 }
 
 /* On Lauch, we look at the most recently retrieved settings and if they are less than 1 hour old, use them
@@ -350,13 +369,11 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
                 } else {
                     NSLog(@"ManUp: Blocking access and displaying update alert.");
                     [self showBackgroundView:ManUpUpdateRequiredBgImgName];
-                    self.alertView = [[UIAlertView alloc]
-                                      initWithTitle:NSLocalizedString(@"Update Required", nil)
-                                      message:NSLocalizedString(@"An update is required. To continue, please update the application.", nil)
-                                      delegate: self
-                                      cancelButtonTitle:NSLocalizedString(@"Update", nil)
-                                      otherButtonTitles:nil];
-                    [self.alertView show];
+                    
+                    [self showAlertViewWithTitle:NSLocalizedString(@"Update Required", nil)
+                                         message:NSLocalizedString(@"An update is required. To continue, please update the application.", nil)
+                                     cancelTitle:NSLocalizedString(@"Update", nil)
+                                      otherTitle:nil];
                 }
             }
             // Maintenance Mode
@@ -375,25 +392,22 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
                         maintenanceMessage = [settings valueForKey:kManUpMaintenanceModeMessage];
                     }
                     
-                    self.alertView = [[UIAlertView alloc] initWithTitle:maintenanceTitle
-                                                                message:maintenanceMessage
-                                                               delegate:self
-                                                      cancelButtonTitle:nil
-                                                      otherButtonTitles:nil];
-                    [self.alertView show];
+                    [self showAlertViewWithTitle:maintenanceTitle
+                                         message:maintenanceMessage
+                                     cancelTitle:nil
+                                      otherTitle:nil];
                 }
             }
             // Optional update (only show if an 2 hours later, don't want to keep pestering the user)
             else if(currentVersion && [userVersion compare:currentVersion] < 0 && !self.optionalUpdateShown) {
                 NSLog(@"ManUp: User doesn't have latest version.");
                 if(updateURL != nil && ![updateURL isEqualToString:@""]) {
-                    self.alertView = [[UIAlertView alloc]
-                                      initWithTitle:NSLocalizedString(@"Update Available", nil)
-                                      message:NSLocalizedString(@"An update is available. Would you like to update to the latest version?", nil)
-                                      delegate: self
-                                      cancelButtonTitle:NSLocalizedString(@"Update", nil)
-                                      otherButtonTitles:NSLocalizedString(@"No Thanks", nil), nil];
-                    [self.alertView show];
+                    
+                    [self showAlertViewWithTitle:NSLocalizedString(@"Update Available", nil)
+                                         message:NSLocalizedString(@"An update is available. Would you like to update to the latest version?", nil)
+                                     cancelTitle:NSLocalizedString(@"Update", nil)
+                                      otherTitle:NSLocalizedString(@"No Thanks", nil)];
+                    
                     self.optionalUpdateShown = YES;
                 }
             }

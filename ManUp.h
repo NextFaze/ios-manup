@@ -31,7 +31,7 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 - (void)manUpConfigUpdated:(NSDictionary*)newSettings;
 @end
 
-@interface ManUp : NSObject <NSURLConnectionDelegate, UIAlertViewDelegate>
+@interface ManUp : NSObject <NSURLConnectionDelegate>
 {
     BOOL _updateInProgress;
     BOOL _callDidLaunchWhenFinished;

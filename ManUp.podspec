@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ManUp"
-  s.version          = "0.1.0"
+  s.version          = "0.1.1"
   s.summary          = "A server side check of the app version and configuration options for your iOS app."
 
   s.description      = <<-DESC
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.author           = { "Ricardo Santos" => "rics@ntos.me" }
   s.source           = { :git => "https://github.com/dayjer/ManUp.git", :tag => s.version.to_s }
 
-  s.ios.deployment_target = '7.0'
+  s.ios.deployment_target = '8.0'
   s.tvos.deployment_target = '9.0'
   s.requires_arc = true
 
