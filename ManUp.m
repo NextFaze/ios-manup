@@ -170,6 +170,10 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 	return self;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (NSDictionary*)replaceNullsWithEmptyStringInDictionary:(NSDictionary*)dict
 {
     NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
