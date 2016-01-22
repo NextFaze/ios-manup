@@ -9,20 +9,20 @@
 #import <Foundation/Foundation.h>
 
 /* User bundle key names */
-static NSString *const kManUpMaintenanceMode        = @"ManUpMaintenanceMode";
-static NSString *const kManUpMaintenanceModeTitle   = @"ManUpMaintenanceTitle";
-static NSString *const kManUpMaintenanceModeMessage = @"ManUpMaintenanceMessage";
-static NSString *const kManUpSettings               = @"ManUpSettings";
-static NSString *const kManUpServerConfigURL        = @"ManUpServerConfigURL";
-static NSString *const kManUpLastUpdated            = @"ManUpLastUpdated";
+static NSString *const kManUpMaintenanceMode        = @"kManUpMaintenanceMode";
+static NSString *const kManUpMaintenanceModeTitle   = @"kManUpMaintenanceTitle";
+static NSString *const kManUpMaintenanceModeMessage = @"kManUpMaintenanceMessage";
+static NSString *const kManUpSettings               = @"kManUpSettings";
+static NSString *const kManUpServerConfigURL        = @"kManUpServerConfigURL";
+static NSString *const kManUpLastUpdated            = @"kManUpLastUpdated";
 
 /* Server side key names */
 // required: the current version of the application
-static NSString *const kManUpAppVersionCurrent      = @"ManUpAppVersionCurrent";
+static NSString *const kManUpAppVersionCurrent      = @"kManUpAppVersionCurrent";
 // required: the min version of the application
-static NSString *const kManUpAppVersionMin          = @"ManUpAppVersionMin";
+static NSString *const kManUpAppVersionMin          = @"kManUpAppVersionMin";
 // optional: if not present there's no pathway to upgrade but the app is blocked (provided user_version < min)
-static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
+static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 
 @protocol ManUpDelegate <NSObject>
 @optional
