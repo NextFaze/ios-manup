@@ -293,6 +293,15 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 
 }
 
+- (void)clearedAlert
+{
+    [self.coverView removeFromSuperview];
+    
+    if ([self.delegate respondsToSelector:@selector(manUpAlertCleared)]) {
+        [self.delegate manUpAlertCleared];
+    }
+}
+
 - (void)showAlertViewWithTitle:(NSString*)title message:(NSString*)message cancelTitle:(NSString*)cancelTitle otherTitle:(NSString*)otherTitle
 {
     
@@ -307,7 +316,7 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
         
         if(![title isEqualToString:@"Update Required"]) {
             // Alert closes and BG goes away: case of optional update.
-            [self.coverView removeFromSuperview];
+            [self clearedAlert];
         }
     }];
     
@@ -315,7 +324,8 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
     
     if ([otherTitle length] > 0) {
         UIAlertAction *otherAction = [UIAlertAction actionWithTitle:otherTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self.coverView removeFromSuperview];
+            
+            [self clearedAlert];
         }];
         
         [self.alertView addAction:otherAction];
@@ -357,6 +367,8 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
         
         // Hide any existing, refresh
         [self.coverView removeFromSuperview];
+        
+        self.alertView = nil;
         
         if (!self.alertView) {
             // Check if mandatory update is required.

@@ -29,6 +29,7 @@ static NSString *const kManUpAppUpdateLink          = @"kManUpAppUpdateLink";
 - (void)manUpConfigUpdateStarting;
 - (void)manUpConfigUpdateFailed:(NSError*)error;
 - (void)manUpConfigUpdated:(NSDictionary*)newSettings;
+- (void)manUpAlertCleared;
 @end
 
 @interface ManUp : NSObject <NSURLConnectionDelegate>
