@@ -293,12 +293,15 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
 
 }
 
-- (void)clearedAlert
+- (void)clearedAlert:(BOOL)updateOK
 {
-    [self.coverView removeFromSuperview];
-    
-    if ([self.delegate respondsToSelector:@selector(manUpAlertCleared)]) {
-        [self.delegate manUpAlertCleared];
+    if (updateOK) {
+        
+        [self.coverView removeFromSuperview];
+        
+        if ([self.delegate respondsToSelector:@selector(manUpAlertCleared)]) {
+            [self.delegate manUpAlertCleared];
+        }
     }
     
     self.alertView = nil;
@@ -311,15 +314,14 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
     
     NSString* defaultTitle = [cancelTitle length] > 0 ? cancelTitle : @"OK";
     UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:defaultTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
         // Update
         NSDictionary *settings = [self getPersistedSettings];
         NSString *updateURLString = [settings objectForKey:kManUpAppUpdateLink];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:updateURLString]];
         
-        if(![title isEqualToString:@"Update Required"]) {
-            // Alert closes and BG goes away: case of optional update.
-            [self clearedAlert];
-        }
+        // Alert closes and BG goes away: case of optional update.
+        [self clearedAlert:![title isEqualToString:@"Update Required"]];
     }];
     
     [self.alertView addAction:defaultAction];
@@ -327,7 +329,7 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
     if ([otherTitle length] > 0) {
         UIAlertAction *otherAction = [UIAlertAction actionWithTitle:otherTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            [self clearedAlert];
+            [self clearedAlert:YES];
         }];
         
         [self.alertView addAction:otherAction];
