@@ -300,6 +300,8 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
     if ([self.delegate respondsToSelector:@selector(manUpAlertCleared)]) {
         [self.delegate manUpAlertCleared];
     }
+    
+    self.alertView = nil;
 }
 
 - (void)showAlertViewWithTitle:(NSString*)title message:(NSString*)message cancelTitle:(NSString*)cancelTitle otherTitle:(NSString*)otherTitle
@@ -367,8 +369,6 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
         
         // Hide any existing, refresh
         [self.coverView removeFromSuperview];
-        
-        self.alertView = nil;
         
         if (!self.alertView) {
             // Check if mandatory update is required.
