@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "ManUp.h"
 
 @interface ManUpDemoTests : XCTestCase
 
@@ -24,9 +25,11 @@
     [super tearDown];
 }
 
-- (void)testExample {
+- (void)testManUpSettingForKey {
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
+    id setting = [ManUp settingForKey:@"made-up-key"];
+    XCTAssertNil(setting, @"There should be no setting for this made up key.");
 }
 
 - (void)testPerformanceExample {
