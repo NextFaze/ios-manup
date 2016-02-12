@@ -1,0 +1,21 @@
+{
+  "name": "ManUp",
+  "version": "0.1.1",
+  "summary": "A server side check of the app version and configuration options for your iOS app.",
+  "description": "A useful class to add a server side check for a mandatory update and server-side configuration options to your iOS application.",
+  "homepage": "https://github.com/NextFaze/ManUp",
+  "license": "Apache 2.0",
+  "authors": {
+    "Jeremy Day": "jer.day@gmail.com",
+    "Ricardo Santos": "rics@ntos.me"
+  },
+  "source": {
+    "git": "https://github.com/NextFaze/ManUp.git",
+    "tag": "0.1.1"
+  },
+  "platforms": {
+    "ios": "7.0"
+  },
+  "requires_arc": true,
+  "source_files": "ManUp/*.{h,m}"
+}
