@@ -11,26 +11,15 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = [[DemoViewController alloc] initWithNibName:@"DemoViewController" bundle:nil];
+    self.window.rootViewController = [[DemoViewController alloc] init];
     [self.window makeKeyAndVisible];
     
     [ManUp manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"test_minEqualsCurrent" ofType:@"json"]
                     serverConfigURL:[NSURL URLWithString:@"https://github.com/dayjer/ManUp/raw/master/Example/ManUpDemo/ManUpDemo/TestFiles/test_minLessCurrent.json"]
                            delegate:self];
     return YES;
-}
-
--(void) manUpConfigUpdateStarting {
-    NSLog(@"manUpConfigUpdateStarting");
-}
--(void) manUpConfigUpdateFailed:(NSError*)error {
-    NSLog(@"manUpConfigUpdateFailed: %@", error);
-}
--(void) manUpConfigUpdated:(NSDictionary*)newSettings {
-    NSLog(@"manUpConfigUpdated: %@", newSettings);
 }
 
 
@@ -42,7 +31,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
@@ -59,6 +48,20 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - ManUpDelegate
+
+- (void)manUpConfigUpdateStarting {
+    NSLog(@"manUpConfigUpdateStarting");
+}
+
+- (void)manUpConfigUpdateFailed:(NSError *)error {
+    NSLog(@"manUpConfigUpdateFailed: %@", error);
+}
+
+- (void)manUpConfigUpdated:(NSDictionary *)newSettings {
+    NSLog(@"manUpConfigUpdated: %@", newSettings);
 }
 
 @end
