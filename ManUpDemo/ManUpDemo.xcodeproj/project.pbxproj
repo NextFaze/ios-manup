@@ -13,36 +13,22 @@
 		7C3106181C6D8DBB005E9578 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106171C6D8DBB005E9578 /* Assets.xcassets */; };
 		7C31061B1C6D8DBB005E9578 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106191C6D8DBB005E9578 /* LaunchScreen.storyboard */; };
 		7C3106261C6D8DBB005E9578 /* ManUpDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */; };
-		7C3106311C6D8DBB005E9578 /* ManUpDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3106301C6D8DBB005E9578 /* ManUpDemoUITests.m */; };
 		7C3106441C6D9322005E9578 /* test_Link_UpgradeAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C31063F1C6D9322005E9578 /* test_Link_UpgradeAvailable.json */; };
 		7C3106451C6D9322005E9578 /* test_Link_UpgradeAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C31063F1C6D9322005E9578 /* test_Link_UpgradeAvailable.json */; };
-		7C3106461C6D9322005E9578 /* test_Link_UpgradeAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C31063F1C6D9322005E9578 /* test_Link_UpgradeAvailable.json */; };
 		7C3106471C6D9322005E9578 /* test_minEqualsCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106401C6D9322005E9578 /* test_minEqualsCurrent.json */; };
 		7C3106481C6D9322005E9578 /* test_minEqualsCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106401C6D9322005E9578 /* test_minEqualsCurrent.json */; };
-		7C3106491C6D9322005E9578 /* test_minEqualsCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106401C6D9322005E9578 /* test_minEqualsCurrent.json */; };
 		7C31064A1C6D9322005E9578 /* test_minGreaterCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106411C6D9322005E9578 /* test_minGreaterCurrent.json */; };
 		7C31064B1C6D9322005E9578 /* test_minGreaterCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106411C6D9322005E9578 /* test_minGreaterCurrent.json */; };
-		7C31064C1C6D9322005E9578 /* test_minGreaterCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106411C6D9322005E9578 /* test_minGreaterCurrent.json */; };
 		7C31064D1C6D9322005E9578 /* test_minLessCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106421C6D9322005E9578 /* test_minLessCurrent.json */; };
 		7C31064E1C6D9322005E9578 /* test_minLessCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106421C6D9322005E9578 /* test_minLessCurrent.json */; };
-		7C31064F1C6D9322005E9578 /* test_minLessCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106421C6D9322005E9578 /* test_minLessCurrent.json */; };
 		7C3106501C6D9322005E9578 /* test_noLink_UpgradeAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106431C6D9322005E9578 /* test_noLink_UpgradeAvailable.json */; };
 		7C3106511C6D9322005E9578 /* test_noLink_UpgradeAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106431C6D9322005E9578 /* test_noLink_UpgradeAvailable.json */; };
-		7C3106521C6D9322005E9578 /* test_noLink_UpgradeAvailable.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106431C6D9322005E9578 /* test_noLink_UpgradeAvailable.json */; };
-		BD90F1ECB434717B9C4BF8D1 /* libPods-ManUpDemoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2433050CB41A67846A31BF2 /* libPods-ManUpDemoUITests.a */; };
 		CB0D2DFD78C53EA00EE473F1 /* libPods-ManUpDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 647615055885DA5DD386E54D /* libPods-ManUpDemo.a */; };
 		D5A80371865271C5E76BE4BF /* libPods-ManUpDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC71BB5DC7139C08F947538 /* libPods-ManUpDemoTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		7C3106221C6D8DBB005E9578 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7C3106001C6D8DBB005E9578 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7C3106071C6D8DBB005E9578;
-			remoteInfo = ManUpDemo;
-		};
-		7C31062D1C6D8DBB005E9578 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7C3106001C6D8DBB005E9578 /* Project object */;
 			proxyType = 1;
@@ -69,7 +55,6 @@
 		7C3106211C6D8DBB005E9578 /* ManUpDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ManUpDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManUpDemoTests.m; sourceTree = "<group>"; };
 		7C3106271C6D8DBB005E9578 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7C31062C1C6D8DBB005E9578 /* ManUpDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ManUpDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C3106301C6D8DBB005E9578 /* ManUpDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManUpDemoUITests.m; sourceTree = "<group>"; };
 		7C3106321C6D8DBB005E9578 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C31063F1C6D9322005E9578 /* test_Link_UpgradeAvailable.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_Link_UpgradeAvailable.json; sourceTree = "<group>"; };
@@ -100,14 +85,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7C3106291C6D8DBB005E9578 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BD90F1ECB434717B9C4BF8D1 /* libPods-ManUpDemoUITests.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -128,7 +105,6 @@
 			children = (
 				7C3106081C6D8DBB005E9578 /* ManUpDemo.app */,
 				7C3106211C6D8DBB005E9578 /* ManUpDemoTests.xctest */,
-				7C31062C1C6D8DBB005E9578 /* ManUpDemoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -254,26 +230,6 @@
 			productReference = 7C3106211C6D8DBB005E9578 /* ManUpDemoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		7C31062B1C6D8DBB005E9578 /* ManUpDemoUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7C31063B1C6D8DBB005E9578 /* Build configuration list for PBXNativeTarget "ManUpDemoUITests" */;
-			buildPhases = (
-				5AC155A91AFA830C6E587FE5 /* Check Pods Manifest.lock */,
-				7C3106281C6D8DBB005E9578 /* Sources */,
-				7C3106291C6D8DBB005E9578 /* Frameworks */,
-				7C31062A1C6D8DBB005E9578 /* Resources */,
-				523CD76D78FB90FD003E8340 /* Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				7C31062E1C6D8DBB005E9578 /* PBXTargetDependency */,
-			);
-			name = ManUpDemoUITests;
-			productName = ManUpDemoUITests;
-			productReference = 7C31062C1C6D8DBB005E9578 /* ManUpDemoUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -287,10 +243,6 @@
 						CreatedOnToolsVersion = 7.2.1;
 					};
 					7C3106201C6D8DBB005E9578 = {
-						CreatedOnToolsVersion = 7.2.1;
-						TestTargetID = 7C3106071C6D8DBB005E9578;
-					};
-					7C31062B1C6D8DBB005E9578 = {
 						CreatedOnToolsVersion = 7.2.1;
 						TestTargetID = 7C3106071C6D8DBB005E9578;
 					};
@@ -311,7 +263,6 @@
 			targets = (
 				7C3106071C6D8DBB005E9578 /* ManUpDemo */,
 				7C3106201C6D8DBB005E9578 /* ManUpDemoTests */,
-				7C31062B1C6D8DBB005E9578 /* ManUpDemoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -340,18 +291,6 @@
 				7C31064E1C6D9322005E9578 /* test_minLessCurrent.json in Resources */,
 				7C31064B1C6D9322005E9578 /* test_minGreaterCurrent.json in Resources */,
 				7C3106481C6D9322005E9578 /* test_minEqualsCurrent.json in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7C31062A1C6D8DBB005E9578 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7C3106521C6D9322005E9578 /* test_noLink_UpgradeAvailable.json in Resources */,
-				7C3106461C6D9322005E9578 /* test_Link_UpgradeAvailable.json in Resources */,
-				7C31064F1C6D9322005E9578 /* test_minLessCurrent.json in Resources */,
-				7C31064C1C6D9322005E9578 /* test_minGreaterCurrent.json in Resources */,
-				7C3106491C6D9322005E9578 /* test_minEqualsCurrent.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,36 +340,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ManUpDemo/Pods-ManUpDemo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		523CD76D78FB90FD003E8340 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ManUpDemoUITests/Pods-ManUpDemoUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5AC155A91AFA830C6E587FE5 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		5B94159A5F152793D6A60E99 /* Embed Pods Frameworks */ = {
@@ -499,14 +408,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7C3106281C6D8DBB005E9578 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7C3106311C6D8DBB005E9578 /* ManUpDemoUITests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -514,11 +415,6 @@
 			isa = PBXTargetDependency;
 			target = 7C3106071C6D8DBB005E9578 /* ManUpDemo */;
 			targetProxy = 7C3106221C6D8DBB005E9578 /* PBXContainerItemProxy */;
-		};
-		7C31062E1C6D8DBB005E9578 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7C3106071C6D8DBB005E9578 /* ManUpDemo */;
-			targetProxy = 7C31062D1C6D8DBB005E9578 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -668,32 +564,6 @@
 			};
 			name = Release;
 		};
-		7C31063C1C6D8DBB005E9578 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 47AC8C2428E3561568B4D67F /* Pods-ManUpDemoUITests.debug.xcconfig */;
-			buildSettings = {
-				INFOPLIST_FILE = ManUpDemoUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nextfaze.ManUpDemoUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = ManUpDemo;
-				USES_XCTRUNNER = YES;
-			};
-			name = Debug;
-		};
-		7C31063D1C6D8DBB005E9578 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 60B11AD688270B43A1896E49 /* Pods-ManUpDemoUITests.release.xcconfig */;
-			buildSettings = {
-				INFOPLIST_FILE = ManUpDemoUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.nextfaze.ManUpDemoUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = ManUpDemo;
-				USES_XCTRUNNER = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -720,15 +590,6 @@
 			buildConfigurations = (
 				7C3106391C6D8DBB005E9578 /* Debug */,
 				7C31063A1C6D8DBB005E9578 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7C31063B1C6D8DBB005E9578 /* Build configuration list for PBXNativeTarget "ManUpDemoUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7C31063C1C6D8DBB005E9578 /* Debug */,
-				7C31063D1C6D8DBB005E9578 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
