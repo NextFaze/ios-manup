@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ManUp.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, ManUpDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

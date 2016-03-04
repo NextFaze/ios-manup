@@ -13,12 +13,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = [[DemoViewController alloc] init];
+    
+    DemoViewController *demoViewController = [[DemoViewController alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:demoViewController];
+    self.window.rootViewController = navigationController;
+    
     [self.window makeKeyAndVisible];
     
-    [ManUp manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"test_minEqualsCurrent" ofType:@"json"]
-                    serverConfigURL:[NSURL URLWithString:@"https://github.com/dayjer/ManUp/raw/master/Example/ManUpDemo/ManUpDemo/TestFiles/test_minLessCurrent.json"]
-                           delegate:self];
     return YES;
 }
 
@@ -48,20 +49,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-#pragma mark - ManUpDelegate
-
-- (void)manUpConfigUpdateStarting {
-    NSLog(@"manUpConfigUpdateStarting");
-}
-
-- (void)manUpConfigUpdateFailed:(NSError *)error {
-    NSLog(@"manUpConfigUpdateFailed: %@", error);
-}
-
-- (void)manUpConfigUpdated:(NSDictionary *)newSettings {
-    NSLog(@"manUpConfigUpdated: %@", newSettings);
 }
 
 @end
