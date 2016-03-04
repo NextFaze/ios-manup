@@ -9,7 +9,10 @@
 #import <XCTest/XCTest.h>
 #import "ManUp.h"
 
-@interface ManUpDemoTests : XCTestCase
+@interface ManUpDemoTests : XCTestCase <ManUpDelegate>
+
+@property (nonatomic, strong) XCTestExpectation *expectation;
+@property (nonatomic, assign) BOOL updated;
 
 @end
 
@@ -32,11 +35,33 @@
     XCTAssertNil(setting, @"There should be no setting for this made up key.");
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)testConfigUpdates {
+    [ManUp manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"test_noLink_UpgradeAvailable.json" ofType:@"json"]
+                    serverConfigURL:[NSURL URLWithString:@"https://github.com/NextFaze/ManUp/raw/master/Example/ManUpDemo/ManUpDemo/TestFiles/test_noLink_UpgradeAvailable.json"]
+                           delegate:self];
+    
+    self.expectation = [self expectationWithDescription:@"async test"];
+    
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    
+    XCTAssert(self.updated);
+}
+
+#pragma mark - ManUpDelegate
+
+- (void)manUpConfigUpdateStarting {
+    NSLog(@"TEST: update starting");
+}
+
+- (void)manUpConfigUpdateFailed:(NSError *)error {
+    NSLog(@"TEST: update failed with error '%@'", error);
+    [self.expectation fulfill];
+}
+
+- (void)manUpConfigUpdated:(NSDictionary *)newSettings {
+    NSLog(@"TEST updated with settings:\n%@", newSettings);
+    self.updated = YES;
+    [self.expectation fulfill];
 }
 
 @end
