@@ -55,8 +55,6 @@
 		7C3106211C6D8DBB005E9578 /* ManUpDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ManUpDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManUpDemoTests.m; sourceTree = "<group>"; };
 		7C3106271C6D8DBB005E9578 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7C3106301C6D8DBB005E9578 /* ManUpDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManUpDemoUITests.m; sourceTree = "<group>"; };
-		7C3106321C6D8DBB005E9578 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C31063F1C6D9322005E9578 /* test_Link_UpgradeAvailable.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_Link_UpgradeAvailable.json; sourceTree = "<group>"; };
 		7C3106401C6D9322005E9578 /* test_minEqualsCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_minEqualsCurrent.json; sourceTree = "<group>"; };
 		7C3106411C6D9322005E9578 /* test_minGreaterCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_minGreaterCurrent.json; sourceTree = "<group>"; };
@@ -93,7 +91,6 @@
 			children = (
 				7C31060A1C6D8DBB005E9578 /* ManUpDemo */,
 				7C3106241C6D8DBB005E9578 /* ManUpDemoTests */,
-				7C31062F1C6D8DBB005E9578 /* ManUpDemoUITests */,
 				7C3106091C6D8DBB005E9578 /* Products */,
 				CC1239EE651CCBA0630612B1 /* Pods */,
 				B34B6819DF306CFC8040D160 /* Frameworks */,
@@ -140,15 +137,6 @@
 				7C3106271C6D8DBB005E9578 /* Info.plist */,
 			);
 			path = ManUpDemoTests;
-			sourceTree = "<group>";
-		};
-		7C31062F1C6D8DBB005E9578 /* ManUpDemoUITests */ = {
-			isa = PBXGroup;
-			children = (
-				7C3106301C6D8DBB005E9578 /* ManUpDemoUITests.m */,
-				7C3106321C6D8DBB005E9578 /* Info.plist */,
-			);
-			path = ManUpDemoUITests;
 			sourceTree = "<group>";
 		};
 		7C31063E1C6D9322005E9578 /* TestFiles */ = {
