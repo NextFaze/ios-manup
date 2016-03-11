@@ -36,9 +36,9 @@
 }
 
 - (void)testConfigUpdates {
-    [ManUp manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"test_noLink_UpgradeAvailable.json" ofType:@"json"]
-                    serverConfigURL:[NSURL URLWithString:@"https://github.com/NextFaze/ManUp/raw/master/Example/ManUpDemo/ManUpDemo/TestFiles/test_noLink_UpgradeAvailable.json"]
-                           delegate:self];
+    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"TestVersionsEqual.json" ofType:@"json"]
+                                     serverConfigURL:[NSURL URLWithString:@"https://github.com/NextFaze/ManUp/raw/master/Example/ManUpDemo/ManUpDemo/TestFiles/TestVersionsEqual"]
+                                            delegate:self];
     
     self.expectation = [self expectationWithDescription:@"async test"];
     

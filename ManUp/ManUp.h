@@ -31,49 +31,27 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 - (void)manUpConfigUpdated:(NSDictionary*)newSettings;
 @end
 
-@interface ManUp : NSObject <NSURLConnectionDelegate, UIAlertViewDelegate>
-{
-    BOOL _updateInProgress;
-    BOOL _callDidLaunchWhenFinished;
-    NSMutableData *_data; // used by NSURLConnectionDelegate
-    NSURL* _lastServerConfigURL;
-    UIView *_bgView;
-}
+@interface ManUp : NSObject
 
-+ (id)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
++ (ManUp *)sharedInstance;
+
+- (void)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
+                   serverConfigURL:(NSURL *)serverConfigURL
+                          delegate:(NSObject<ManUpDelegate> *)delegate;
+
+- (void)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
                  serverConfigURL:(NSURL *)serverConfigURL
-                        delegate:(id<ManUpDelegate>)delegate;
+                        delegate:(NSObject<ManUpDelegate> *)delegate;
 
-+ (id)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
-               serverConfigURL:(NSURL *)serverConfigURL
-                      delegate:(id<ManUpDelegate>)delegate;
-
-+ (id)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
-                 serverConfigURL:(NSURL *)serverConfigURL
-                        delegate:(id<ManUpDelegate>)delegate
-   minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates;
-
-+ (id)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
-               serverConfigURL:(NSURL *)serverConfigURL
-                      delegate:(id<ManUpDelegate>)delegate
- minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates;
-
-// Man Up Delegate, notifies the delegate on state changes
-@property(nonatomic,assign) id<ManUpDelegate> delegate;
+@property(nonatomic, weak) NSObject<ManUpDelegate> *delegate;
 
 // URL to server config data
-@property(nonatomic,strong) NSURL *lastServerConfigURL;
-
-// The view that covers the app, shown behind the alert view
-@property(nonatomic,strong) UIView *coverView;
+@property(nonatomic, readonly) NSURL *lastServerConfigURL;
 
 // Last time configuration was successfully updated from the server
-@property(nonatomic,readonly) NSDate *lastUpdated;
+@property(nonatomic, readonly) NSDate *lastUpdated;
 
-// Default minimum interval is 10mins;
-@property(nonatomic,assign) NSTimeInterval minimumIntervalBetweenUpdates;
-
-// Fetch a stored settings
+// Fetch a stored setting
 + (id)settingForKey:(NSString *)key;
 
 @end

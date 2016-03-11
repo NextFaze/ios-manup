@@ -6,172 +6,88 @@
 //  Copyright (c) 2012 Burleigh Labs. All rights reserved.
 //
 
+// TODO: convert to semantic versioning of marketing version (not build number) - see https://github.com/eure/AppVersionMonitor
+
 #import "ManUp.h"
 
-/* Image locations */
-
-// Load up an image with this name (and @2x / -568h@2x) and they will
-// display when a mandatory update is required.
-static NSString *const ManUpUpdateRequiredBgImgName = @"manup-required";
-static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
-
-
-
-# pragma mark -
-# pragma mark UIImage helper
-@interface UIImage (ManUp)
-
-+ (UIImage *)imageConsidering586hNamed:(NSString *)imageName;
-
-@end
-
-@implementation UIImage (ManUp)
-
-+ (UIImage *)imageConsidering586hNamed:(NSString *)imageName
-{
-    //NSLog(@"Loading image named => %@", imageName);
-    NSMutableString *imageNameMutable = [imageName mutableCopy];
-    NSRange retinaAtSymbol = [imageName rangeOfString:@"@"];
-    if (retinaAtSymbol.location != NSNotFound) {
-        [imageNameMutable insertString:@"-568h" atIndex:retinaAtSymbol.location];
-    } else {
-        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
-        if ([UIScreen mainScreen].scale == 2.f && screenHeight == 568.0f) {
-            NSRange dot = [imageName rangeOfString:@"."];
-            if (dot.location != NSNotFound) {
-                [imageNameMutable insertString:@"-568h@2x" atIndex:dot.location];
-            } else {
-                [imageNameMutable appendString:@"-568h@2x"];
-            }
-        }
-    }
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageNameMutable ofType:@"png"];
-    if (imagePath) {
-        return [UIImage imageNamed:imageNameMutable];
-    } else {
-        return [UIImage imageNamed:imageName];
-    }
-    return nil;
-}
-
-@end
-
 @interface ManUp ()
-@property (nonatomic,strong) UIAlertView *alertView;
-//@property (nonatomic,strong) NSDate *optionalUpdateShown;
-@property (nonatomic,assign) BOOL optionalUpdateShown;
 
-// private methods
-+ (ManUp*)instance;
+@property (nonatomic, strong) UIAlertController *alertController;
+
+@property (nonatomic, assign) BOOL optionalUpdateShown;
+
+@property (nonatomic, assign) BOOL updateInProgress;
+
+@property (nonatomic, assign) BOOL callDidLaunchWhenFinished; // TODO: what is this for??
+
+@property (nonatomic, strong) NSURL *lastServerConfigURL;
 
 @end
 
 @implementation ManUp
 
-+ (id)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
-                 serverConfigURL:(NSURL *)serverConfigURL
-                        delegate:(id<ManUpDelegate>)delegate
-{
-    return [ManUp manUpWithDefaultDictionary:defaultSettingsDict
-                             serverConfigURL:serverConfigURL
-                                    delegate:delegate
-               minimumIntervalBetweenUpdates:10*60];
-}
-
-
-+ (id)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
-               serverConfigURL:(NSURL *)serverConfigURL
-                      delegate:(id<ManUpDelegate>)delegate
-{
-    return [ManUp manUpWithDefaultJSONFile:defaultSettingsPath
-                           serverConfigURL:serverConfigURL
-                                  delegate:delegate
-             minimumIntervalBetweenUpdates:10*60];
-}
-
-
-+ (id)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
-                 serverConfigURL:(NSURL *)serverConfigURL
-                        delegate:(id<ManUpDelegate>)delegate
-   minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates
-{
-    ManUp *instance = [ManUp instance];
-    instance.delegate = delegate;
-    instance.lastServerConfigURL = serverConfigURL;
-    instance.minimumIntervalBetweenUpdates = minimumIntervalBetweenUpdates;
+- (void)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict serverConfigURL:(NSURL *)serverConfigURL delegate:(NSObject<ManUpDelegate> *)delegate {
+    self.delegate = delegate;
+    self.lastServerConfigURL = serverConfigURL;
     
     // Only apply defaults if they do not exist already.
-    if(![instance hasPersistedSettings]) {
-        NSDictionary* nonNullDefaultSettings = [instance replaceNullsWithEmptyStringInDictionary:defaultSettingsDict];
-        [instance setManUpSettings:nonNullDefaultSettings];
+    if(![self hasPersistedSettings]) {
+        NSDictionary* nonNullDefaultSettings = [self replaceNullsWithEmptyStringInDictionary:defaultSettingsDict];
+        [self setManUpSettings:nonNullDefaultSettings];
     }
     
-    [instance refreshView];
-    [instance updateFromServer];
-    return instance;
+    [self refreshView];
+    [self updateFromServer];
 }
 
-
-+ (id)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
-               serverConfigURL:(NSURL *)serverConfigURL
-                      delegate:(id<ManUpDelegate>)delegate
- minimumIntervalBetweenUpdates:(NSTimeInterval)minimumIntervalBetweenUpdates
-{
-    ManUp *instance = [ManUp instance];
-    instance.delegate = delegate;
-    instance.lastServerConfigURL = serverConfigURL;
-    instance.minimumIntervalBetweenUpdates = minimumIntervalBetweenUpdates;
+- (void)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath serverConfigURL:(NSURL *)serverConfigURL delegate:(NSObject<ManUpDelegate> *)delegate {
+    self.delegate = delegate;
+    self.lastServerConfigURL = serverConfigURL;
     
     // Only apply defaults if they do not exist already.
-    if (![instance hasPersistedSettings]) {
-        NSData* jsonData = [NSData dataWithContentsOfFile:defaultSettingsPath];
-        if(jsonData == nil) {
-            // handle this error
-            return instance;
+    if (![self hasPersistedSettings]) {
+        NSData *jsonData = [NSData dataWithContentsOfFile:defaultSettingsPath];
+        if (jsonData == nil) {
+            // TODO: handle this error
+            return;
         }
-        
-        // If JSONKit detects a null value it returns NSNull which cannot be saved
-        // in NSUserDefaults. For that reason we get copy and replace all occurrences of
-        // NSNull with the empty string.
+
         NSError *error = nil;
-        NSDictionary* defaultSettings = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
-        NSDictionary* nonNullDefaultSettings = [instance replaceNullsWithEmptyStringInDictionary:defaultSettings];
-        [instance setManUpSettings:nonNullDefaultSettings];
+        NSDictionary *defaultSettings = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+        NSDictionary *nonNullDefaultSettings = [self replaceNullsWithEmptyStringInDictionary:defaultSettings];
+        [self setManUpSettings:nonNullDefaultSettings];
     }
     
-    [instance refreshView];
-    [instance updateFromServer];
-    return instance;
+    [self refreshView];
+    [self updateFromServer];
 }
 
-#pragma mark -
-#pragma mark Instance and unexposed methods
+#pragma mark - Creation
 
-+ (ManUp*)instance
-{
-    static ManUp *_instance = nil;
-    if (_instance == nil) {
-        _instance = [[ManUp alloc] init];
-        _instance.minimumIntervalBetweenUpdates = 10*60; /*10mins*/
-    }
-    return _instance;
++ (ManUp *)sharedInstance {
+    static id sharedInstance = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[[self class] alloc] init];
+    });
+
+    return sharedInstance;
 }
 
-- (id)init
-{
+- (id)init {
 	if (self = [super init]) {
-		_updateInProgress = NO;
-        _callDidLaunchWhenFinished = NO;
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(updateFromServer)
-                                                     name:UIApplicationDidBecomeActiveNotification object:nil];
+		self.updateInProgress = NO;
+        self.callDidLaunchWhenFinished = NO;
+        
         self.optionalUpdateShown = NO;
 	}
 	return self;
 }
 
-- (NSDictionary*)replaceNullsWithEmptyStringInDictionary:(NSDictionary*)dict
-{
+#pragma mark - 
+
+- (NSDictionary *)replaceNullsWithEmptyStringInDictionary:(NSDictionary *)dict {
     NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
     for (NSString *key in dict) {
         NSString *value = [dict objectForKey:key];
@@ -183,8 +99,7 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
     return newDict;
 }
 
-- (void)setManUpSettings:(NSDictionary*)settings
-{
+- (void)setManUpSettings:(NSDictionary *)settings {
     [[NSUserDefaults standardUserDefaults] setObject:settings forKey:kManUpSettings];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
@@ -193,288 +108,168 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
     }
 }
 
-- (void)setManUpSettingsIfNone:(NSDictionary*)settings
-{
+- (void)setManUpSettingsIfNone:(NSDictionary*)settings {
     NSDictionary *persistedSettings = [self getPersistedSettings];
     if (persistedSettings == nil) {
         [self setManUpSettings:settings];
     }
 }
 
-- (void)setLastUpdated:(NSDate *)date
-{
+- (void)setLastUpdated:(NSDate *)date {
     [[NSUserDefaults standardUserDefaults] setObject:date forKey:kManUpLastUpdated];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (NSDate *)lastUpdated
-{
+- (NSDate *)lastUpdated {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kManUpLastUpdated];
 }
 
-- (NSDictionary *)getPersistedSettings
-{
+- (NSDictionary *)getPersistedSettings {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kManUpSettings];
 }
 
-- (BOOL)hasPersistedSettings
-{
+- (BOOL)hasPersistedSettings {
     return [self getPersistedSettings] != nil;
 }
 
-- (void)updateFromServer
-{
-    if (_updateInProgress) {
+- (void)updateFromServer {
+    if (self.updateInProgress) {
         NSLog(@"ManUp: An update is currently in progress.");
         return;
     }
     
-    if (self.lastUpdated != nil && (-[self.lastUpdated timeIntervalSinceNow])<self.minimumIntervalBetweenUpdates) {
-        NSLog(@"ManUp: Will not update. An update occurred recently.");
-        NSLog(@"time interval since now: %f", (-[self.lastUpdated timeIntervalSinceNow]));
-        return;
+    self.updateInProgress = YES;
+    if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateStarting)]) {
+        [self.delegate manUpConfigUpdateStarting];
     }
     
-    _updateInProgress = YES;
-    if ([_delegate respondsToSelector:@selector(manUpConfigUpdateStarting)]) {
-        [_delegate manUpConfigUpdateStarting];
-    }
-    
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:_lastServerConfigURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:15];
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    [connection start];
-}
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:self.lastServerConfigURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:15];
 
-- (void)showBackgroundView:(NSString *)imageNamed
-{
-    UIImage *backgroundImage = [UIImage imageConsidering586hNamed:imageNamed];
-    
-    // Check for Default first if not provided.
-    if (backgroundImage == nil) {
-        NSLog(@"ManUp: Did not include image named %@", ManUpUpdateRequiredBgImgName);
-        backgroundImage = [UIImage imageConsidering586hNamed:@"Default"];
-    }
-    
-    // Failing that, look at the plist.
-    if (backgroundImage == nil) {
-        NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
-        NSString *launchImgName = [infoDict objectForKey:@"UILaunchImageFile"];
-        if(launchImgName == nil) {
-            if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-                launchImgName = [infoDict objectForKey:@"UILaunchImageFile~ipad"];
-            }
-        }
-        if(launchImgName != nil) {
-            backgroundImage = [UIImage imageConsidering586hNamed:launchImgName];
-        }
-    }
-        
-    // Create cover view if not already existing
-    if (!self.coverView) {
-        self.coverView  = [[UIImageView alloc] init];
-        self.coverView.backgroundColor = [UIColor blackColor];
-        self.coverView.userInteractionEnabled = YES;
-    }
-    
-    // Just in case some one decided to inject their own view
-    if ([self.coverView isKindOfClass:[UIImageView class]]) {
-        [((UIImageView *) self.coverView) setImage:backgroundImage];
-        
-    }
-    
-    UIView *window = [[UIApplication sharedApplication].windows lastObject];
-    self.coverView.contentMode = UIViewContentModeScaleAspectFill;
-    self.coverView.frame = window.bounds;
-    [window addSubview:self.coverView];
-
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        // Update
-        NSDictionary *settings = [self getPersistedSettings];
-        NSString *updateURLString = [settings objectForKey:kManUpAppUpdateLink];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:updateURLString]];
-    
-        if(![alertView.title isEqualToString:@"Update Required"]) {
-            // Alert closes and BG goes away: case of optional update.
-            [self.coverView removeFromSuperview];
-        }
-    } else {
-        // Close
-        [self.coverView removeFromSuperview];
-    }
-    self.alertView = nil;
-}
-
-/* On Lauch, we look at the most recently retrieved settings and if they are less than 1 hour old, use them
-   to check if we need to display update or mandatory update dialogs. */
-- (void)refreshView
-{
-    @try {
-        NSDictionary *settings = [self getPersistedSettings];
-        NSString *updateURL      = [settings objectForKey:kManUpAppUpdateLink];
-        id currentVersion = [settings objectForKey:kManUpAppVersionCurrent];
-        id minVersion     = [settings objectForKey:kManUpAppVersionMin];
-        BOOL maintenanceMode     = [[settings objectForKey:kManUpMaintenanceMode] boolValue];
-        id userVersion    = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-        
-        // If number version
-        if ([currentVersion isKindOfClass:[NSNumber class]] && [minVersion isKindOfClass:[NSNumber class]]) {
-            userVersion = @([[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] integerValue]);
-            
-        } else {
-            // Just in case, they come through as strings, convert to numbers
-            if ([currentVersion isKindOfClass:[NSString class]]) currentVersion = @([currentVersion integerValue]);
-            if ([minVersion isKindOfClass:[NSString class]]) minVersion = @([minVersion integerValue]);
-            if ([userVersion isKindOfClass:[NSString class]]) userVersion = @([userVersion integerValue]);
-            
-        }
-        
-        // Hide any existing, refresh
-        [self.coverView removeFromSuperview];
-        
-        if (!self.alertView) {
-            // Check if mandatory update is required.
-            if(minVersion && [userVersion compare:minVersion] < 0) {
-                NSLog(@"ManUp: Mandatory update required.");
-                
-                if(updateURL == nil || [updateURL isEqualToString:@""]) {
-                    NSLog(@"ManUp: No update URL provided, blocking app access");
-                    [self showBackgroundView:ManUpUpdateRequiredBgImgName];
-                } else {
-                    NSLog(@"ManUp: Blocking access and displaying update alert.");
-                    [self showBackgroundView:ManUpUpdateRequiredBgImgName];
-                    self.alertView = [[UIAlertView alloc]
-                                      initWithTitle:NSLocalizedString(@"Update Required", nil)
-                                      message:NSLocalizedString(@"An update is required. To continue, please update the application.", nil)
-                                      delegate: self
-                                      cancelButtonTitle:NSLocalizedString(@"Update", nil)
-                                      otherButtonTitles:nil];
-                    [self.alertView show];
-                }
-            }
-            // Maintenance Mode
-            else if(maintenanceMode) {
-                NSLog(@"ManUp: Maintenance Mode.");
-                if(updateURL != nil && ![updateURL isEqualToString:@""]) {
-                    [self showBackgroundView:ManUpMaintenanceBgImgName];
-                    
-                    NSString *maintenanceTitle = NSLocalizedString(@"Down for Maintenance", nil);
-                    NSString *maintenanceMessage = NSLocalizedString(@"Please check back again later.", nil);
-                    
-                    if ([settings valueForKey:kManUpMaintenanceModeTitle]) {
-                        maintenanceTitle = [settings valueForKey:kManUpMaintenanceModeTitle];
-                    }
-                    if ([settings valueForKey:kManUpMaintenanceModeMessage]) {
-                        maintenanceMessage = [settings valueForKey:kManUpMaintenanceModeMessage];
-                    }
-                    
-                    self.alertView = [[UIAlertView alloc] initWithTitle:maintenanceTitle
-                                                                message:maintenanceMessage
-                                                               delegate:self
-                                                      cancelButtonTitle:nil
-                                                      otherButtonTitles:nil];
-                    [self.alertView show];
-                }
-            }
-            // Optional update (only show if an 2 hours later, don't want to keep pestering the user)
-            else if(currentVersion && [userVersion compare:currentVersion] < 0 && !self.optionalUpdateShown) {
-                NSLog(@"ManUp: User doesn't have latest version.");
-                if(updateURL != nil && ![updateURL isEqualToString:@""]) {
-                    self.alertView = [[UIAlertView alloc]
-                                      initWithTitle:NSLocalizedString(@"Update Available", nil)
-                                      message:NSLocalizedString(@"An update is available. Would you like to update to the latest version?", nil)
-                                      delegate: self
-                                      cancelButtonTitle:NSLocalizedString(@"Update", nil)
-                                      otherButtonTitles:NSLocalizedString(@"No Thanks", nil), nil];
-                    [self.alertView show];
-                    self.optionalUpdateShown = YES;
-                }
-            }
-        }
-    }
-    @catch (NSException *exception) {
-        
-    }
-}
-
-+ (id)settingForKey:(NSString *)key
-{
-    return [[[NSUserDefaults standardUserDefaults] valueForKey:kManUpSettings] valueForKey:key];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+                                            completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                                                self.updateInProgress = NO;
+                                                
+                                                if (error) {
+                                                    if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
+                                                        [self.delegate manUpConfigUpdateFailed:error];
+                                                    }
+                                                    [self refreshView];
+                                                }
+                                                
+                                                NSError *parsingError;
+                                                id jsonObject = [NSJSONSerialization JSONObjectWithData:data
+                                                                                                options:kNilOptions
+                                                                                                  error:&parsingError];
+                                                
+                                                if (parsingError) {
+                                                    NSLog(@"ERROR: %@", parsingError);
+                                                    NSLog(@"\%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+                                                    if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
+                                                        [self.delegate manUpConfigUpdateFailed:error];
+                                                    }
+                                                    [self refreshView];
+                                                }
+                                                
+                                                NSDictionary *nonNullSettings = [self replaceNullsWithEmptyStringInDictionary:jsonObject];
+                                                [self setManUpSettings:nonNullSettings];
+                                            }];
+    [task resume];
 }
 
 #pragma mark -
-#pragma mark NSURLConnectionDelegate methods
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
-        [self.delegate manUpConfigUpdateFailed:error];
+- (void)showAlertWithTitle:(NSString *)title message:(NSString *)message actions:(NSArray *)actions {
+    self.alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    for (UIAlertAction *action in actions) {
+        [self.alertController addAction:action];
     }
-    [self refreshView];
+    
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+    [topController presentViewController:self.alertController animated:YES completion:nil];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    @synchronized(self) {
 
-        if ([response respondsToSelector:@selector(statusCode)]) {
-            NSInteger statusCode = [((NSHTTPURLResponse *)response) statusCode];
-            if (statusCode >= 400) {
-                [connection cancel];
-                NSDictionary *errorInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:
-                                                                              NSLocalizedString(@"Server returned status code %d",@""),
-                                                                              statusCode]
-                                                                      forKey:NSLocalizedDescriptionKey];
-                NSError *statusError = [NSError errorWithDomain:NSLocalizedString(@"ERROR", nil)
-                                                           code:statusCode
-                                                       userInfo:errorInfo];
-                [self connection:connection didFailWithError:statusError];
-                _updateInProgress = NO;
-                
-                [self refreshView];
+/* On Lauch, we look at the most recently retrieved settings and if they are less than 1 hour old, use them
+   to check if we need to display update or mandatory update dialogs. */
+- (void)refreshView {
+    NSDictionary *settings = [self getPersistedSettings];
+    NSString *updateURL  = [settings objectForKey:kManUpAppUpdateLink];
+    id currentVersion = [settings objectForKey:kManUpAppVersionCurrent];
+    id minVersion = [settings objectForKey:kManUpAppVersionMin];
+    id userVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    
+    // If number version
+    if ([currentVersion isKindOfClass:[NSNumber class]] && [minVersion isKindOfClass:[NSNumber class]]) {
+        userVersion = @([[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] integerValue]);
+        
+    } else {
+        // Just in case, they come through as strings, convert to numbers
+        if ([currentVersion isKindOfClass:[NSString class]]) currentVersion = @([currentVersion integerValue]);
+        if ([minVersion isKindOfClass:[NSString class]]) minVersion = @([minVersion integerValue]);
+        if ([userVersion isKindOfClass:[NSString class]]) userVersion = @([userVersion integerValue]);
+    }
+    
+    if (!self.alertController) {
+        // Check if mandatory update is required.
+        if (minVersion && [userVersion compare:minVersion] < 0) {
+            NSLog(@"ManUp: Mandatory update required.");
+            
+            if (updateURL == nil || [updateURL isEqualToString:@""]) {
+                NSLog(@"ManUp: No update URL provided, blocking app access");
+                // TODO: what happens here?
                 
             } else {
-                _data = [[NSMutableData alloc]init];
+                NSLog(@"ManUp: Blocking access and displaying update alert.");
+                
+                UIAlertAction *updateAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update", nil)
+                                                                       style:UIAlertActionStyleDefault
+                                                                     handler:^(UIAlertAction * _Nonnull action) {
+                                                                         [self openUpdateURL];
+                                                                     }];
+                
+                [self showAlertWithTitle:NSLocalizedString(@"Update Required", nil)
+                                 message:NSLocalizedString(@"An update is required. To continue, please update the application.", nil)
+                                 actions:@[updateAction]];
+            }
+            
+        } else if (currentVersion && [userVersion compare:currentVersion] < 0 && !self.optionalUpdateShown) {
+            // Optional update (only show if an 2 hours later, don't want to keep pestering the user)
+            NSLog(@"ManUp: User doesn't have latest version.");
+            
+            if (updateURL != nil && ![updateURL isEqualToString:@""]) {
+                UIAlertAction *updateAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update", nil)
+                                                                       style:UIAlertActionStyleDefault
+                                                                     handler:^(UIAlertAction * _Nonnull action) {
+                                                                         [self openUpdateURL];
+                                                                     }];
+                
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"No Thanks", nil)
+                                                                       style:UIAlertActionStyleCancel
+                                                                     handler:nil];
+                
+                [self showAlertWithTitle:NSLocalizedString(@"Update Available", nil)
+                                 message:NSLocalizedString(@"An update is available. Would you like to update to the latest version?", nil)
+                                 actions:@[updateAction, cancelAction]];
+
+                self.optionalUpdateShown = YES;
             }
         }
     }
 }
 
-- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data
-{
-    @synchronized(self) {
-        [_data appendData:data];
-    }
+- (void)openUpdateURL {
+    NSDictionary *settings = [self getPersistedSettings];
+    NSString *updateURLString = [settings objectForKey:kManUpAppUpdateLink];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:updateURLString]];
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    @synchronized(self) {
-        if (_data != nil && _data.length > 0) {
-            [self setLastUpdated:[NSDate date]];
-            // If JSONKit detects a null value it returns NSNull which cannot be saved
-            // in NSUserDefaults. For that reason we get copy and replace all occurrences of
-            // NSNull with the empty string.
-            
-            NSError *error = nil;
-            NSDictionary* settings = [NSJSONSerialization JSONObjectWithData:_data options:0 error:&error];
-
-            NSDictionary* nonNullSettings = [self replaceNullsWithEmptyStringInDictionary:settings];
-            
-            if (error) {
-                if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
-                    [self.delegate manUpConfigUpdateFailed:error];
-                }
-            }
-            
-            [self setManUpSettings:nonNullSettings];
-        }
-        _updateInProgress = NO;
-        [self refreshView];
-    }
++ (id)settingForKey:(NSString *)key {
+    return [[[NSUserDefaults standardUserDefaults] valueForKey:kManUpSettings] valueForKey:key];
 }
 
 @end
