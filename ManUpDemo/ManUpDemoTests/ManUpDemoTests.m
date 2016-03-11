@@ -37,7 +37,7 @@
 
 - (void)testConfigUpdates {
     [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"TestVersionsEqual.json" ofType:@"json"]
-                                     serverConfigURL:[NSURL URLWithString:@"https://github.com/NextFaze/ManUp/raw/master/Example/ManUpDemo/ManUpDemo/TestFiles/TestVersionsEqual"]
+                                     serverConfigURL:[NSURL URLWithString:@"https://github.com/NextFaze/ManUp/raw/develop/Example/ManUpDemo/ManUpDemo/TestFiles/TestVersionsEqual"]
                                             delegate:self];
     
     self.expectation = [self expectationWithDescription:@"async test"];

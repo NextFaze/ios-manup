@@ -74,7 +74,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     NSString *fileName = self.testItems[indexPath.item];
-    NSString *serverPath = [@"https://github.com/NextFaze/ManUp/raw/master/ManUpDemo/TestFiles/" stringByAppendingString:fileName];
+    NSString *serverPath = [@"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/" stringByAppendingString:fileName];
 
     [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:[fileName stringByDeletingPathExtension] ofType:@"json"]
                                      serverConfigURL:[NSURL URLWithString:serverPath]
