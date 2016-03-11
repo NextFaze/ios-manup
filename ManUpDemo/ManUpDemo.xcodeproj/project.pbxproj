@@ -61,6 +61,7 @@
 		7C3106421C6D9322005E9578 /* TestMinVersionLessThanCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestMinVersionLessThanCurrent.json; sourceTree = "<group>"; };
 		7C3106431C6D9322005E9578 /* TestUpgradeAvailableWithoutURL.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableWithoutURL.json; sourceTree = "<group>"; };
 		7CE189181C928EBF00118822 /* ManUp.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = ManUp.podspec; path = ../ManUp.podspec; sourceTree = "<group>"; };
+		7CE189191C9290F700118822 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		7DC71BB5DC7139C08F947538 /* libPods-ManUpDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ManUpDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2433050CB41A67846A31BF2 /* libPods-ManUpDemoUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ManUpDemoUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3C378C136524F5D7513F8B6 /* Pods-ManUpDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemoTests/Pods-ManUpDemoTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -90,6 +91,7 @@
 		7C3105FF1C6D8DBB005E9578 = {
 			isa = PBXGroup;
 			children = (
+				7CE189191C9290F700118822 /* README.md */,
 				7CE189181C928EBF00118822 /* ManUp.podspec */,
 				7C31060A1C6D8DBB005E9578 /* ManUpDemo */,
 				7C3106241C6D8DBB005E9578 /* ManUpDemoTests */,
