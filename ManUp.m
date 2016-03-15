@@ -236,6 +236,11 @@ static NSString *const ManUpMaintenanceBgImgName = @"manup-maintenance";
     if (self.lastUpdated != nil && (-[self.lastUpdated timeIntervalSinceNow])<self.minimumIntervalBetweenUpdates) {
         NSLog(@"ManUp: Will not update. An update occurred recently.");
         NSLog(@"time interval since now: %f", (-[self.lastUpdated timeIntervalSinceNow]));
+        
+        if ([_delegate respondsToSelector:@selector(manUpConfigUpdated:)]) {
+            [_delegate manUpConfigUpdated:[self getPersistedSettings]];
+        }
+        
         return;
     }
     
