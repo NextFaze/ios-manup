@@ -27,8 +27,8 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 @protocol ManUpDelegate <NSObject>
 @optional
 - (void)manUpConfigUpdateStarting;
-- (void)manUpConfigUpdateFailed:(NSError*)error;
-- (void)manUpConfigUpdated:(NSDictionary*)newSettings;
+- (void)manUpConfigUpdateFailed:(NSError *)error;
+- (void)manUpConfigUpdated:(NSDictionary *)newSettings;
 @end
 
 @interface ManUp : NSObject
@@ -46,7 +46,7 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
 @property(nonatomic, weak) NSObject<ManUpDelegate> *delegate;
 
 // URL to server config data
-@property(nonatomic, readonly) NSURL *lastServerConfigURL;
+@property(nonatomic, readonly) NSURL *serverConfigURL;
 
 // Last time configuration was successfully updated from the server
 @property(nonatomic, readonly) NSDate *lastUpdated;

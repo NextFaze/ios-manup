@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) XCTestExpectation *expectation;
 @property (nonatomic, assign) BOOL updated;
+@property (nonatomic, assign) BOOL failed;
 
 @end
 
@@ -35,14 +36,22 @@
     XCTAssertNil(setting, @"There should be no setting for this made up key.");
 }
 
-- (void)testConfigUpdates {
+- (void)testConfigInvalidURL {
+    [[ManUp sharedInstance] manUpWithDefaultJSONFile:nil
+                                     serverConfigURL:nil
+                                            delegate:self];
+    
+    XCTAssert(self.failed);
+}
+
+- (void)testConfigVersionsEqual {
     [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"TestVersionsEqual.json" ofType:@"json"]
                                      serverConfigURL:[NSURL URLWithString:@"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/TestVersionsEqual.json"]
                                             delegate:self];
     
-    self.expectation = [self expectationWithDescription:@"async test"];
+    self.expectation = [self expectationWithDescription:@"ManUp with versions equal"];
     
-    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    [self waitForExpectationsWithTimeout:60.0 handler:nil];
     
     XCTAssert(self.updated);
 }
@@ -55,6 +64,7 @@
 
 - (void)manUpConfigUpdateFailed:(NSError *)error {
     NSLog(@"TEST: update failed with error '%@'", error);
+    self.failed = YES;
     [self.expectation fulfill];
 }
 
