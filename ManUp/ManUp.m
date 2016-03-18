@@ -20,7 +20,7 @@
 
 @property (nonatomic, assign) BOOL callDidLaunchWhenFinished; // TODO: what is this for??
 
-@property (nonatomic, strong) NSURL *lastServerConfigURL;
+@property (nonatomic, strong) NSURL *serverConfigURL;
 
 @end
 
@@ -28,7 +28,7 @@
 
 - (void)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict serverConfigURL:(NSURL *)serverConfigURL delegate:(NSObject<ManUpDelegate> *)delegate {
     self.delegate = delegate;
-    self.lastServerConfigURL = serverConfigURL;
+    self.serverConfigURL = serverConfigURL;
     
     // Only apply defaults if they do not exist already.
     if(![self hasPersistedSettings]) {
@@ -42,7 +42,7 @@
 
 - (void)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath serverConfigURL:(NSURL *)serverConfigURL delegate:(NSObject<ManUpDelegate> *)delegate {
     self.delegate = delegate;
-    self.lastServerConfigURL = serverConfigURL;
+    self.serverConfigURL = serverConfigURL;
     
     // Only apply defaults if they do not exist already.
     if (![self hasPersistedSettings]) {
@@ -103,8 +103,8 @@
     [[NSUserDefaults standardUserDefaults] setObject:settings forKey:kManUpSettings];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
-    if ([_delegate respondsToSelector:@selector(manUpConfigUpdated:)]) {
-        [_delegate manUpConfigUpdated:settings];
+    if ([self.delegate respondsToSelector:@selector(manUpConfigUpdated:)]) {
+        [self.delegate manUpConfigUpdated:settings];
     }
 }
 
@@ -133,6 +133,15 @@
 }
 
 - (void)updateFromServer {
+    if (!self.serverConfigURL) {
+        NSLog(@"ERROR: No server config URL specified.");
+        if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
+            NSError *error = [NSError errorWithDomain:@"com.nextfaze.ManUp" code:1 userInfo:nil];
+            [self.delegate manUpConfigUpdateFailed:error];
+        }
+        return;
+    }
+    
     if (self.updateInProgress) {
         NSLog(@"ManUp: An update is currently in progress.");
         return;
@@ -143,7 +152,7 @@
         [self.delegate manUpConfigUpdateStarting];
     }
     
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:self.lastServerConfigURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:15];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:self.serverConfigURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
 
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request
