@@ -42,7 +42,7 @@
     
     self.expectation = [self expectationWithDescription:@"async test"];
     
-    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    [self waitForExpectationsWithTimeout:120.0 handler:nil];
     
     XCTAssert(self.updated);
 }
