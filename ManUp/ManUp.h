@@ -18,11 +18,11 @@ static NSString *const kManUpLastUpdated            = @"ManUpLastUpdated";
 
 /* Server side key names */
 // required: the current version of the application
-static NSString *const kManUpAppVersionCurrent      = @"ManUpAppVersionCurrent";
+static NSString *const kManUpAppVersionCurrent      = @"manUpAppVersionCurrent";
 // required: the min version of the application
-static NSString *const kManUpAppVersionMin          = @"ManUpAppVersionMin";
+static NSString *const kManUpAppVersionMin          = @"manUpAppVersionMin";
 // optional: if not present there's no pathway to upgrade but the app is blocked (provided user_version < min)
-static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
+static NSString *const kManUpAppUpdateURL          = @"manUpAppUpdateURL";
 
 @protocol ManUpDelegate <NSObject>
 @optional
@@ -43,15 +43,18 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
                  serverConfigURL:(NSURL *)serverConfigURL
                         delegate:(NSObject<ManUpDelegate> *)delegate;
 
-@property(nonatomic, weak) NSObject<ManUpDelegate> *delegate;
+@property (nonatomic, weak) NSObject<ManUpDelegate> *delegate;
 
 // URL to server config data
-@property(nonatomic, readonly) NSURL *serverConfigURL;
+@property (nonatomic, readonly) NSURL *serverConfigURL;
 
 // Last time configuration was successfully updated from the server
-@property(nonatomic, readonly) NSDate *lastUpdated;
+@property (nonatomic, readonly) NSDate *lastUpdated;
 
 // Fetch a stored setting
 + (id)settingForKey:(NSString *)key;
+
+// String version comparison
++ (NSComparisonResult)compareVersion:(NSString *)firstVersion toVersion:(NSString *)secondVersion;
 
 @end

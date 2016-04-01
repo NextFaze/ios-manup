@@ -37,7 +37,7 @@
 }
 
 - (void)testConfigInvalidURL {
-    [[ManUp sharedInstance] manUpWithDefaultJSONFile:nil
+    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"TestVersionsEqual" ofType:@"json"]
                                      serverConfigURL:nil
                                             delegate:self];
     
@@ -45,7 +45,7 @@
 }
 
 - (void)testConfigVersionsEqual {
-    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"TestVersionsEqual.json" ofType:@"json"]
+    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"TestVersionsEqual" ofType:@"json"]
                                      serverConfigURL:[NSURL URLWithString:@"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/TestVersionsEqual.json"]
                                             delegate:self];
     

@@ -13,16 +13,17 @@
 		7C3106181C6D8DBB005E9578 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106171C6D8DBB005E9578 /* Assets.xcassets */; };
 		7C31061B1C6D8DBB005E9578 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106191C6D8DBB005E9578 /* LaunchScreen.storyboard */; };
 		7C3106261C6D8DBB005E9578 /* ManUpDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */; };
-		7C3106441C6D9322005E9578 /* TestUpgradeAvailableWithURL.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C31063F1C6D9322005E9578 /* TestUpgradeAvailableWithURL.json */; };
-		7C3106451C6D9322005E9578 /* TestUpgradeAvailableWithURL.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C31063F1C6D9322005E9578 /* TestUpgradeAvailableWithURL.json */; };
-		7C3106471C6D9322005E9578 /* TestVersionsEqual.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106401C6D9322005E9578 /* TestVersionsEqual.json */; };
-		7C3106481C6D9322005E9578 /* TestVersionsEqual.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106401C6D9322005E9578 /* TestVersionsEqual.json */; };
-		7C31064A1C6D9322005E9578 /* TestMinVersionGreaterThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106411C6D9322005E9578 /* TestMinVersionGreaterThanCurrent.json */; };
-		7C31064B1C6D9322005E9578 /* TestMinVersionGreaterThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106411C6D9322005E9578 /* TestMinVersionGreaterThanCurrent.json */; };
-		7C31064D1C6D9322005E9578 /* TestMinVersionLessThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106421C6D9322005E9578 /* TestMinVersionLessThanCurrent.json */; };
-		7C31064E1C6D9322005E9578 /* TestMinVersionLessThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106421C6D9322005E9578 /* TestMinVersionLessThanCurrent.json */; };
-		7C3106501C6D9322005E9578 /* TestUpgradeAvailableWithoutURL.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106431C6D9322005E9578 /* TestUpgradeAvailableWithoutURL.json */; };
-		7C3106511C6D9322005E9578 /* TestUpgradeAvailableWithoutURL.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106431C6D9322005E9578 /* TestUpgradeAvailableWithoutURL.json */; };
+		7CB87B811CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */; };
+		7CB87B821CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */; };
+		7CB87B831CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7D1CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json */; };
+		7CB87B841CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7D1CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json */; };
+		7CB87B851CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7E1CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json */; };
+		7CB87B861CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7E1CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json */; };
+		7CB87B871CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7F1CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json */; };
+		7CB87B881CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7F1CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json */; };
+		7CB87B891CAE14EB0006CB79 /* TestVersionsEqual.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B801CAE14EB0006CB79 /* TestVersionsEqual.json */; };
+		7CB87B8A1CAE14EB0006CB79 /* TestVersionsEqual.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B801CAE14EB0006CB79 /* TestVersionsEqual.json */; };
+		7CB87B8C1CAE261C0006CB79 /* ManUpVersionCompareTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB87B8B1CAE261C0006CB79 /* ManUpVersionCompareTests.m */; };
 		CB0D2DFD78C53EA00EE473F1 /* libPods-ManUpDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 647615055885DA5DD386E54D /* libPods-ManUpDemo.a */; };
 		D5A80371865271C5E76BE4BF /* libPods-ManUpDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC71BB5DC7139C08F947538 /* libPods-ManUpDemoTests.a */; };
 /* End PBXBuildFile section */
@@ -55,11 +56,12 @@
 		7C3106211C6D8DBB005E9578 /* ManUpDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ManUpDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManUpDemoTests.m; sourceTree = "<group>"; };
 		7C3106271C6D8DBB005E9578 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7C31063F1C6D9322005E9578 /* TestUpgradeAvailableWithURL.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableWithURL.json; sourceTree = "<group>"; };
-		7C3106401C6D9322005E9578 /* TestVersionsEqual.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestVersionsEqual.json; sourceTree = "<group>"; };
-		7C3106411C6D9322005E9578 /* TestMinVersionGreaterThanCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestMinVersionGreaterThanCurrent.json; sourceTree = "<group>"; };
-		7C3106421C6D9322005E9578 /* TestMinVersionLessThanCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestMinVersionLessThanCurrent.json; sourceTree = "<group>"; };
-		7C3106431C6D9322005E9578 /* TestUpgradeAvailableWithoutURL.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableWithoutURL.json; sourceTree = "<group>"; };
+		7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestMinVersionGreaterThanCurrent.json; sourceTree = "<group>"; };
+		7CB87B7D1CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestMinVersionLessThanCurrent.json; sourceTree = "<group>"; };
+		7CB87B7E1CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableWithoutURL.json; sourceTree = "<group>"; };
+		7CB87B7F1CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableWithURL.json; sourceTree = "<group>"; };
+		7CB87B801CAE14EB0006CB79 /* TestVersionsEqual.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestVersionsEqual.json; sourceTree = "<group>"; };
+		7CB87B8B1CAE261C0006CB79 /* ManUpVersionCompareTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManUpVersionCompareTests.m; sourceTree = "<group>"; };
 		7CE189181C928EBF00118822 /* ManUp.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = ManUp.podspec; path = ../ManUp.podspec; sourceTree = "<group>"; };
 		7CE189191C9290F700118822 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		7DC71BB5DC7139C08F947538 /* libPods-ManUpDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ManUpDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +97,7 @@
 				7CE189181C928EBF00118822 /* ManUp.podspec */,
 				7C31060A1C6D8DBB005E9578 /* ManUpDemo */,
 				7C3106241C6D8DBB005E9578 /* ManUpDemoTests */,
+				7CB87B7B1CAE14EB0006CB79 /* TestFiles */,
 				7C3106091C6D8DBB005E9578 /* Products */,
 				CC1239EE651CCBA0630612B1 /* Pods */,
 				B34B6819DF306CFC8040D160 /* Frameworks */,
@@ -121,7 +124,6 @@
 				7C3106191C6D8DBB005E9578 /* LaunchScreen.storyboard */,
 				7C31061C1C6D8DBB005E9578 /* Info.plist */,
 				7C31060B1C6D8DBB005E9578 /* Supporting Files */,
-				7C31063E1C6D9322005E9578 /* TestFiles */,
 			);
 			path = ManUpDemo;
 			sourceTree = "<group>";
@@ -138,22 +140,23 @@
 			isa = PBXGroup;
 			children = (
 				7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */,
+				7CB87B8B1CAE261C0006CB79 /* ManUpVersionCompareTests.m */,
 				7C3106271C6D8DBB005E9578 /* Info.plist */,
 			);
 			path = ManUpDemoTests;
 			sourceTree = "<group>";
 		};
-		7C31063E1C6D9322005E9578 /* TestFiles */ = {
+		7CB87B7B1CAE14EB0006CB79 /* TestFiles */ = {
 			isa = PBXGroup;
 			children = (
-				7C31063F1C6D9322005E9578 /* TestUpgradeAvailableWithURL.json */,
-				7C3106431C6D9322005E9578 /* TestUpgradeAvailableWithoutURL.json */,
-				7C3106401C6D9322005E9578 /* TestVersionsEqual.json */,
-				7C3106411C6D9322005E9578 /* TestMinVersionGreaterThanCurrent.json */,
-				7C3106421C6D9322005E9578 /* TestMinVersionLessThanCurrent.json */,
+				7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */,
+				7CB87B7D1CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json */,
+				7CB87B7E1CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json */,
+				7CB87B7F1CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json */,
+				7CB87B801CAE14EB0006CB79 /* TestVersionsEqual.json */,
 			);
 			path = TestFiles;
-			sourceTree = SOURCE_ROOT;
+			sourceTree = "<group>";
 		};
 		B34B6819DF306CFC8040D160 /* Frameworks */ = {
 			isa = PBXGroup;
@@ -265,12 +268,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C31061B1C6D8DBB005E9578 /* LaunchScreen.storyboard in Resources */,
-				7C31064D1C6D9322005E9578 /* TestMinVersionLessThanCurrent.json in Resources */,
-				7C3106441C6D9322005E9578 /* TestUpgradeAvailableWithURL.json in Resources */,
-				7C3106501C6D9322005E9578 /* TestUpgradeAvailableWithoutURL.json in Resources */,
-				7C31064A1C6D9322005E9578 /* TestMinVersionGreaterThanCurrent.json in Resources */,
+				7CB87B831CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json in Resources */,
+				7CB87B871CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json in Resources */,
 				7C3106181C6D8DBB005E9578 /* Assets.xcassets in Resources */,
-				7C3106471C6D9322005E9578 /* TestVersionsEqual.json in Resources */,
+				7CB87B851CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json in Resources */,
+				7CB87B811CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */,
+				7CB87B891CAE14EB0006CB79 /* TestVersionsEqual.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,11 +281,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C3106511C6D9322005E9578 /* TestUpgradeAvailableWithoutURL.json in Resources */,
-				7C3106451C6D9322005E9578 /* TestUpgradeAvailableWithURL.json in Resources */,
-				7C31064E1C6D9322005E9578 /* TestMinVersionLessThanCurrent.json in Resources */,
-				7C31064B1C6D9322005E9578 /* TestMinVersionGreaterThanCurrent.json in Resources */,
-				7C3106481C6D9322005E9578 /* TestVersionsEqual.json in Resources */,
+				7CB87B881CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json in Resources */,
+				7CB87B8A1CAE14EB0006CB79 /* TestVersionsEqual.json in Resources */,
+				7CB87B821CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */,
+				7CB87B841CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json in Resources */,
+				7CB87B861CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +399,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CB87B8C1CAE261C0006CB79 /* ManUpVersionCompareTests.m in Sources */,
 				7C3106261C6D8DBB005E9578 /* ManUpDemoTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
