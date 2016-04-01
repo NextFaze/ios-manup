@@ -36,7 +36,7 @@
         [self setManUpSettings:nonNullDefaultSettings];
     }
     
-    [self refreshView];
+    [self checkAppVersion];
     [self updateFromServer];
 }
 
@@ -58,7 +58,7 @@
         [self setManUpSettings:nonNullDefaultSettings];
     }
     
-    [self refreshView];
+    [self checkAppVersion];
     [self updateFromServer];
 }
 
@@ -163,7 +163,7 @@
                                                     if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
                                                         [self.delegate manUpConfigUpdateFailed:error];
                                                     }
-                                                    [self refreshView];
+                                                    [self checkAppVersion];
                                                 }
                                                 
                                                 NSError *parsingError;
@@ -177,7 +177,7 @@
                                                     if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
                                                         [self.delegate manUpConfigUpdateFailed:error];
                                                     }
-                                                    [self refreshView];
+                                                    [self checkAppVersion];
                                                 }
                                                 
                                                 NSDictionary *nonNullSettings = [self replaceNullsWithEmptyStringInDictionary:jsonObject];
@@ -202,30 +202,33 @@
     [topController presentViewController:self.alertController animated:YES completion:nil];
 }
 
-
-/* On Lauch, we look at the most recently retrieved settings and if they are less than 1 hour old, use them
-   to check if we need to display update or mandatory update dialogs. */
-- (void)refreshView {
+- (void)checkAppVersion {
     NSDictionary *settings = [self getPersistedSettings];
-    NSString *updateURL  = [settings objectForKey:kManUpAppUpdateLink];
-    id currentVersion = [settings objectForKey:kManUpAppVersionCurrent];
-    id minVersion = [settings objectForKey:kManUpAppVersionMin];
-    id userVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    NSString *updateURL  = [settings objectForKey:kManUpAppUpdateURL];
+    NSString *currentVersion = [settings objectForKey:kManUpAppVersionCurrent];
+    NSString *minVersion = [settings objectForKey:kManUpAppVersionMin];
+    NSString *installedVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     
-    // If number version
-    if ([currentVersion isKindOfClass:[NSNumber class]] && [minVersion isKindOfClass:[NSNumber class]]) {
-        userVersion = @([[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] integerValue]);
-        
-    } else {
-        // Just in case, they come through as strings, convert to numbers
-        if ([currentVersion isKindOfClass:[NSString class]]) currentVersion = @([currentVersion integerValue]);
-        if ([minVersion isKindOfClass:[NSString class]]) minVersion = @([minVersion integerValue]);
-        if ([userVersion isKindOfClass:[NSString class]]) userVersion = @([userVersion integerValue]);
+    if (![currentVersion isKindOfClass:[NSString class]]) {
+        NSLog(@"ManUp: Error, expecting string for key %@", kManUpAppVersionCurrent);
+        return;
     }
+    
+    if (![minVersion isKindOfClass:[NSString class]]) {
+        NSLog(@"ManUp: Error, expecting string for key %@", kManUpAppVersionMin);
+        return;
+    }
+    
+    NSLog(@"Current version  : %@", currentVersion);
+    NSLog(@"Min version      : %@", currentVersion);
+    NSLog(@"Installed version: %@", currentVersion);
+    
+    NSComparisonResult minVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:minVersion];
+    NSComparisonResult currentVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:currentVersion];
     
     if (!self.alertController) {
         // Check if mandatory update is required.
-        if (minVersion && [userVersion compare:minVersion] < 0) {
+        if (minVersion && minVersionComparisonResult == NSOrderedDescending) {
             NSLog(@"ManUp: Mandatory update required.");
             
             if (updateURL == nil || [updateURL isEqualToString:@""]) {
@@ -246,7 +249,7 @@
                                  actions:@[updateAction]];
             }
             
-        } else if (currentVersion && [userVersion compare:currentVersion] < 0 && !self.optionalUpdateShown) {
+        } else if (currentVersion && currentVersionComparisonResult == NSOrderedDescending && !self.optionalUpdateShown) {
             // Optional update (only show if an 2 hours later, don't want to keep pestering the user)
             NSLog(@"ManUp: User doesn't have latest version.");
             
@@ -273,12 +276,35 @@
 
 - (void)openUpdateURL {
     NSDictionary *settings = [self getPersistedSettings];
-    NSString *updateURLString = [settings objectForKey:kManUpAppUpdateLink];
+    NSString *updateURLString = [settings objectForKey:kManUpAppUpdateURL];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:updateURLString]];
 }
 
 + (id)settingForKey:(NSString *)key {
     return [[[NSUserDefaults standardUserDefaults] valueForKey:kManUpSettings] valueForKey:key];
+}
+
++ (NSComparisonResult)compareVersion:(NSString *)firstVersion toVersion:(NSString *)secondVersion {
+    if ([firstVersion isEqualToString:secondVersion]) {
+        return NSOrderedSame;
+    }
+    
+    NSArray *firstVersionComponents = [firstVersion componentsSeparatedByString:@"."];
+    NSArray *secondVersionComponents = [secondVersion componentsSeparatedByString:@"."];
+    
+    for (NSInteger index = 0; index < MAX([firstVersionComponents count], [secondVersionComponents count]); index++){
+        NSInteger firstComponent = (index < [firstVersionComponents count]) ? [firstVersionComponents[index] integerValue] : 0;
+        NSInteger secondComponent = (index < [secondVersionComponents count]) ? [secondVersionComponents[index] integerValue] : 0;
+        
+        if (firstComponent < secondComponent) {
+            return NSOrderedAscending;
+            
+        } else if (firstComponent > secondComponent) {
+            return NSOrderedDescending;
+        }
+    }
+    
+    return NSOrderedSame;
 }
 
 @end
