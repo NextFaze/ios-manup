@@ -43,13 +43,13 @@ static NSString *const kManUpAppUpdateLink          = @"ManUpAppUpdateLink";
                  serverConfigURL:(NSURL *)serverConfigURL
                         delegate:(NSObject<ManUpDelegate> *)delegate;
 
-@property(nonatomic, weak) NSObject<ManUpDelegate> *delegate;
+@property (nonatomic, weak) NSObject<ManUpDelegate> *delegate;
 
 // URL to server config data
-@property(nonatomic, readonly) NSURL *serverConfigURL;
+@property (nonatomic, readonly) NSURL *serverConfigURL;
 
 // Last time configuration was successfully updated from the server
-@property(nonatomic, readonly) NSDate *lastUpdated;
+@property (nonatomic, readonly) NSDate *lastUpdated;
 
 // Fetch a stored setting
 + (id)settingForKey:(NSString *)key;
