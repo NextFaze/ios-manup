@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ManUp"
-  s.version          = "0.2.1"
+  s.version          = "0.3.0"
   s.summary          = "A server side check of the app version and configuration options for your iOS app."
 
   s.description      = <<-DESC
