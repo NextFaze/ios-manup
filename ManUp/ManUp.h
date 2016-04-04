@@ -45,6 +45,8 @@ static NSString *const kManUpAppUpdateURL           = @"manUpAppUpdateURL";
 
 @property (nonatomic, weak) NSObject<ManUpDelegate> *delegate;
 
+@property (nonatomic, assign) BOOL enableConsoleLogging;
+
 // URL to server config data
 @property (nonatomic, readonly) NSURL *serverConfigURL;
 

@@ -76,6 +76,7 @@
     NSString *fileName = self.testItems[indexPath.item];
     NSString *serverPath = [@"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/" stringByAppendingString:fileName];
 
+    [ManUp sharedInstance].enableConsoleLogging = YES;
     [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:[fileName stringByDeletingPathExtension] ofType:@"json"]
                                      serverConfigURL:[NSURL URLWithString:serverPath]
                                             delegate:self];

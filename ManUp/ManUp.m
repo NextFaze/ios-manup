@@ -122,9 +122,17 @@
     return [self getPersistedSettings] != nil;
 }
 
+- (void)log:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2) {
+    if (self.enableConsoleLogging) {
+        NSLog([NSString stringWithFormat:format]);
+    }
+}
+
+#pragma mark -
+
 - (void)updateFromServer {
     if (!self.serverConfigURL) {
-        NSLog(@"ERROR: No server config URL specified.");
+        [self log:@"ERROR: No server config URL specified."];
         if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
             NSError *error = [NSError errorWithDomain:@"com.nextfaze.ManUp" code:1 userInfo:nil];
             [self.delegate manUpConfigUpdateFailed:error];
@@ -133,7 +141,7 @@
     }
     
     if (self.updateInProgress) {
-        NSLog(@"ManUp: An update is currently in progress.");
+        [self log:@"ManUp: An update is currently in progress."];
         return;
     }
     
@@ -163,8 +171,8 @@
                                                                                                   error:&parsingError];
                                                 
                                                 if (parsingError) {
-                                                    NSLog(@"ERROR: %@", parsingError);
-                                                    NSLog(@"\%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+                                                    [self log:@"ERROR: %@", parsingError];
+                                                    [self log:@"\%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
                                                     if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
                                                         [self.delegate manUpConfigUpdateFailed:error];
                                                     }
@@ -206,28 +214,28 @@
     NSString *installedVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
     if (![currentVersion isKindOfClass:[NSString class]]) {
-        NSLog(@"ManUp: Error, expecting string for key %@", kManUpAppVersionCurrent);
+        [self log:@"ManUp: Error, expecting string for key %@", kManUpAppVersionCurrent];
         return;
     }
     
     if (![minVersion isKindOfClass:[NSString class]]) {
-        NSLog(@"ManUp: Error, expecting string for key %@", kManUpAppVersionMin);
+        [self log:@"ManUp: Error, expecting string for key %@", kManUpAppVersionMin];
         return;
     }
     
-    NSLog(@"Current version  : %@", currentVersion);
-    NSLog(@"Min version      : %@", minVersion);
-    NSLog(@"Installed version: %@", installedVersion);
+    [self log:@"Current version  : %@", currentVersion];
+    [self log:@"Min version      : %@", minVersion];
+    [self log:@"Installed version: %@", installedVersion];
     
     NSComparisonResult minVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:minVersion];
     NSComparisonResult currentVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:currentVersion];
     
     if (!self.alertController) {
         if (minVersion && minVersionComparisonResult == NSOrderedAscending) {
-            NSLog(@"ManUp: Mandatory update required.");
+            [self log:@"ManUp: Mandatory update required."];
             
             if (updateURL.length > 0) {
-                NSLog(@"ManUp: Blocking access and displaying update alert.");
+                [self log:@"ManUp: Blocking access and displaying update alert."];
                 
                 UIAlertAction *updateAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update", nil)
                                                                        style:UIAlertActionStyleDefault
@@ -241,7 +249,7 @@
             }
             
         } else if (currentVersion && currentVersionComparisonResult == NSOrderedAscending && !self.optionalUpdateShown) {
-            NSLog(@"ManUp: User doesn't have latest version.");
+            [self log:@"ManUp: User doesn't have latest version."];
             
             if (updateURL.length > 0) {
                 UIAlertAction *updateAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update", nil)
