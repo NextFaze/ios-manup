@@ -6,8 +6,6 @@
 //  Copyright (c) 2012 Burleigh Labs. All rights reserved.
 //
 
-// TODO: convert to semantic versioning of marketing version (not build number) - see https://github.com/eure/AppVersionMonitor
-
 #import "ManUp.h"
 
 @interface ManUp ()
@@ -15,11 +13,7 @@
 @property (nonatomic, strong) UIAlertController *alertController;
 
 @property (nonatomic, assign) BOOL optionalUpdateShown;
-
 @property (nonatomic, assign) BOOL updateInProgress;
-
-@property (nonatomic, assign) BOOL callDidLaunchWhenFinished; // TODO: what is this for??
-
 @property (nonatomic, strong) NSURL *serverConfigURL;
 
 @end
@@ -78,8 +72,6 @@
 - (id)init {
 	if (self = [super init]) {
 		self.updateInProgress = NO;
-        self.callDidLaunchWhenFinished = NO;
-        
         self.optionalUpdateShown = NO;
 	}
 	return self;
@@ -292,7 +284,7 @@
     NSArray *firstVersionComponents = [firstVersion componentsSeparatedByString:@"."];
     NSArray *secondVersionComponents = [secondVersion componentsSeparatedByString:@"."];
     
-    for (NSInteger index = 0; index < MAX([firstVersionComponents count], [secondVersionComponents count]); index++){
+    for (NSInteger index = 0; index < MAX([firstVersionComponents count], [secondVersionComponents count]); index++) {
         NSInteger firstComponent = (index < [firstVersionComponents count]) ? [firstVersionComponents[index] integerValue] : 0;
         NSInteger secondComponent = (index < [secondVersionComponents count]) ? [secondVersionComponents[index] integerValue] : 0;
         
