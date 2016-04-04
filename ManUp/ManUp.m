@@ -124,7 +124,7 @@
 
 - (void)log:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2) {
     if (self.enableConsoleLogging) {
-        NSLog([NSString stringWithFormat:format]);
+        NSLog([NSString stringWithFormat:format], nil);
     }
 }
 
