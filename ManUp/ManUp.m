@@ -30,7 +30,6 @@
         [self setManUpSettings:nonNullDefaultSettings];
     }
     
-    [self checkAppVersion];
     [self updateFromServer];
 }
 
@@ -52,7 +51,6 @@
         [self setManUpSettings:nonNullDefaultSettings];
     }
     
-    [self checkAppVersion];
     [self updateFromServer];
 }
 
@@ -156,6 +154,7 @@
                                                         [self.delegate manUpConfigUpdateFailed:error];
                                                     }
                                                     [self checkAppVersion];
+                                                    return;
                                                 }
                                                 
                                                 NSError *parsingError;
@@ -170,10 +169,13 @@
                                                         [self.delegate manUpConfigUpdateFailed:error];
                                                     }
                                                     [self checkAppVersion];
+                                                    return;
                                                 }
                                                 
                                                 NSDictionary *nonNullSettings = [self replaceNullsWithEmptyStringInDictionary:jsonObject];
                                                 [self setManUpSettings:nonNullSettings];
+                                                [self checkAppVersion];
+                                                return;
                                             }];
     [task resume];
 }
@@ -181,17 +183,19 @@
 #pragma mark -
 
 - (void)showAlertWithTitle:(NSString *)title message:(NSString *)message actions:(NSArray *)actions {
-    self.alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    
-    for (UIAlertAction *action in actions) {
-        [self.alertController addAction:action];
-    }
-    
-    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    while (topController.presentedViewController) {
-        topController = topController.presentedViewController;
-    }
-    [topController presentViewController:self.alertController animated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        
+        for (UIAlertAction *action in actions) {
+            [self.alertController addAction:action];
+        }
+        
+        UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+        while (topController.presentedViewController) {
+            topController = topController.presentedViewController;
+        }
+        [topController presentViewController:self.alertController animated:YES completion:nil];
+    });
 }
 
 - (void)checkAppVersion {
@@ -199,7 +203,7 @@
     NSString *updateURL  = [settings objectForKey:kManUpAppUpdateURL];
     NSString *currentVersion = [settings objectForKey:kManUpAppVersionCurrent];
     NSString *minVersion = [settings objectForKey:kManUpAppVersionMin];
-    NSString *installedVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    NSString *installedVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
     if (![currentVersion isKindOfClass:[NSString class]]) {
         NSLog(@"ManUp: Error, expecting string for key %@", kManUpAppVersionCurrent);
@@ -212,22 +216,17 @@
     }
     
     NSLog(@"Current version  : %@", currentVersion);
-    NSLog(@"Min version      : %@", currentVersion);
-    NSLog(@"Installed version: %@", currentVersion);
+    NSLog(@"Min version      : %@", minVersion);
+    NSLog(@"Installed version: %@", installedVersion);
     
     NSComparisonResult minVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:minVersion];
     NSComparisonResult currentVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:currentVersion];
     
     if (!self.alertController) {
-        // Check if mandatory update is required.
-        if (minVersion && minVersionComparisonResult == NSOrderedDescending) {
+        if (minVersion && minVersionComparisonResult == NSOrderedAscending) {
             NSLog(@"ManUp: Mandatory update required.");
             
-            if (updateURL == nil || [updateURL isEqualToString:@""]) {
-                NSLog(@"ManUp: No update URL provided, blocking app access");
-                // TODO: what happens here?
-                
-            } else {
+            if (updateURL.length > 0) {
                 NSLog(@"ManUp: Blocking access and displaying update alert.");
                 
                 UIAlertAction *updateAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update", nil)
@@ -241,11 +240,10 @@
                                  actions:@[updateAction]];
             }
             
-        } else if (currentVersion && currentVersionComparisonResult == NSOrderedDescending && !self.optionalUpdateShown) {
-            // Optional update (only show if an 2 hours later, don't want to keep pestering the user)
+        } else if (currentVersion && currentVersionComparisonResult == NSOrderedAscending && !self.optionalUpdateShown) {
             NSLog(@"ManUp: User doesn't have latest version.");
             
-            if (updateURL != nil && ![updateURL isEqualToString:@""]) {
+            if (updateURL.length > 0) {
                 UIAlertAction *updateAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update", nil)
                                                                        style:UIAlertActionStyleDefault
                                                                      handler:^(UIAlertAction * _Nonnull action) {

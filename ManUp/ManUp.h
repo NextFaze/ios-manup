@@ -21,8 +21,8 @@ static NSString *const kManUpLastUpdated            = @"ManUpLastUpdated";
 static NSString *const kManUpAppVersionCurrent      = @"manUpAppVersionCurrent";
 // required: the min version of the application
 static NSString *const kManUpAppVersionMin          = @"manUpAppVersionMin";
-// optional: if not present there's no pathway to upgrade but the app is blocked (provided user_version < min)
-static NSString *const kManUpAppUpdateURL          = @"manUpAppUpdateURL";
+// required: URL to take the user to update the app
+static NSString *const kManUpAppUpdateURL           = @"manUpAppUpdateURL";
 
 @protocol ManUpDelegate <NSObject>
 @optional
