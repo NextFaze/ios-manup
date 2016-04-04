@@ -8,6 +8,14 @@
 
 #import "ManUp.h"
 
+/**
+ NSUserDefaults keys
+ Used to save settings used by ManUp locally to the device
+ */
+static NSString *const kManUpSettings                   = @"ManUpSettings";
+static NSString *const kManUpServerConfigURL            = @"ManUpServerConfigURL";
+static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
+
 @interface ManUp ()
 
 @property (nonatomic, strong) UIAlertController *alertController;
@@ -122,6 +130,16 @@
     return [self getPersistedSettings] != nil;
 }
 
+- (id)settingForKey:(NSString *)key {
+    NSDictionary *settingsDictionary = [[NSUserDefaults standardUserDefaults] valueForKey:kManUpSettings];
+    NSString *resolvedKey = self.customConfigKeyMapping[key] ?: key;
+    return settingsDictionary[resolvedKey];
+}
+
++ (id)settingForKey:(NSString *)key {
+    return [[ManUp sharedInstance] settingForKey:key];
+}
+
 - (void)log:(NSString *)format, ... {
     if (self.enableConsoleLogging) {
 #pragma clang diagnostic push
@@ -210,19 +228,18 @@
 }
 
 - (void)checkAppVersion {
-    NSDictionary *settings = [self getPersistedSettings];
-    NSString *updateURL  = [settings objectForKey:kManUpAppUpdateURL];
-    NSString *currentVersion = [settings objectForKey:kManUpAppVersionCurrent];
-    NSString *minVersion = [settings objectForKey:kManUpAppVersionMin];
+    NSString *updateURL = [self settingForKey:kManUpConfigAppUpdateURL];
+    NSString *currentVersion = [self settingForKey:kManUpConfigAppVersionCurrent];
+    NSString *minVersion = [self settingForKey:kManUpConfigAppVersionMin];
     NSString *installedVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     
     if (![currentVersion isKindOfClass:[NSString class]]) {
-        [self log:@"ManUp: Error, expecting string for key %@", kManUpAppVersionCurrent];
+        [self log:@"ManUp: Error, expecting string for current app store version"];
         return;
     }
     
     if (![minVersion isKindOfClass:[NSString class]]) {
-        [self log:@"ManUp: Error, expecting string for key %@", kManUpAppVersionMin];
+        [self log:@"ManUp: Error, expecting string for minimum app store version"];
         return;
     }
     
@@ -283,15 +300,13 @@
 }
 
 - (void)openUpdateURL {
-    NSDictionary *settings = [self getPersistedSettings];
-    NSString *updateURLString = [settings objectForKey:kManUpAppUpdateURL];
+    NSString *updateURLString = [self settingForKey:kManUpConfigAppUpdateURL];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:updateURLString]];
 }
 
-+ (id)settingForKey:(NSString *)key {
-    return [[[NSUserDefaults standardUserDefaults] valueForKey:kManUpSettings] valueForKey:key];
-}
-
+/**
+ Compare two version strings
+ */
 + (NSComparisonResult)compareVersion:(NSString *)firstVersion toVersion:(NSString *)secondVersion {
     if ([firstVersion isEqualToString:secondVersion]) {
         return NSOrderedSame;

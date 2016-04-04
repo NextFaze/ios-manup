@@ -77,6 +77,20 @@
     NSString *serverPath = [@"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/" stringByAppendingString:fileName];
 
     [ManUp sharedInstance].enableConsoleLogging = YES;
+    
+    if ([fileName isEqualToString:@"TestCustomConfigKeys.json"]) {
+        NSLog(@"Setting custom keys");
+        // Don't like the json keys used by ManUp? Specify your own with a custom mapping dictionary
+        [ManUp sharedInstance].customConfigKeyMapping = @{
+                                                          kManUpConfigAppVersionCurrent: @"app_store_version_current",
+                                                          kManUpConfigAppVersionMin: @"minimum_allowed_version",
+                                                          kManUpConfigAppUpdateURL: @"app_update_url"
+                                                          };
+        
+    } else {
+        [ManUp sharedInstance].customConfigKeyMapping = nil;
+    }
+    
     [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:[fileName stringByDeletingPathExtension] ofType:@"json"]
                                      serverConfigURL:[NSURL URLWithString:serverPath]
                                             delegate:self];
