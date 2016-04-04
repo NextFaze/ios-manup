@@ -230,7 +230,10 @@
     NSComparisonResult minVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:minVersion];
     NSComparisonResult currentVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:currentVersion];
     
-    if (!self.alertController) {
+    if (self.alertController) {
+        [self log:@"ManUp: An alert is already displayed, aborting."];
+        
+    } else {
         if (minVersion && minVersionComparisonResult == NSOrderedAscending) {
             [self log:@"ManUp: Mandatory update required."];
             
@@ -241,6 +244,7 @@
                                                                        style:UIAlertActionStyleDefault
                                                                      handler:^(UIAlertAction * _Nonnull action) {
                                                                          [self openUpdateURL];
+                                                                         self.alertController = nil;
                                                                      }];
                 
                 [self showAlertWithTitle:NSLocalizedString(@"Update Required", nil)
@@ -256,11 +260,14 @@
                                                                        style:UIAlertActionStyleDefault
                                                                      handler:^(UIAlertAction * _Nonnull action) {
                                                                          [self openUpdateURL];
+                                                                         self.alertController = nil;
                                                                      }];
                 
                 UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"No Thanks", nil)
                                                                        style:UIAlertActionStyleCancel
-                                                                     handler:nil];
+                                                                     handler:^(UIAlertAction * _Nonnull action) {
+                                                                         self.alertController = nil;
+                                                                     }];
                 
                 [self showAlertWithTitle:NSLocalizedString(@"Update Available", nil)
                                  message:NSLocalizedString(@"An update is available. Would you like to update to the latest version?", nil)
