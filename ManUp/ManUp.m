@@ -122,9 +122,12 @@
     return [self getPersistedSettings] != nil;
 }
 
-- (void)log:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2) {
+- (void)log:(NSString *)format, ... {
     if (self.enableConsoleLogging) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wformat-security"
         NSLog([NSString stringWithFormat:format], nil);
+#pragma clang diagnostic pop
     }
 }
 
