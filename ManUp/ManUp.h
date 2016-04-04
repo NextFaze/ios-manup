@@ -8,21 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-/* User bundle key names */
-static NSString *const kManUpMaintenanceMode        = @"ManUpMaintenanceMode";
-static NSString *const kManUpMaintenanceModeTitle   = @"ManUpMaintenanceTitle";
-static NSString *const kManUpMaintenanceModeMessage = @"ManUpMaintenanceMessage";
-static NSString *const kManUpSettings               = @"ManUpSettings";
-static NSString *const kManUpServerConfigURL        = @"ManUpServerConfigURL";
-static NSString *const kManUpLastUpdated            = @"ManUpLastUpdated";
-
-/* Server side key names */
-// required: the current version of the application
-static NSString *const kManUpAppVersionCurrent      = @"manUpAppVersionCurrent";
-// required: the min version of the application
-static NSString *const kManUpAppVersionMin          = @"manUpAppVersionMin";
-// required: URL to take the user to update the app
-static NSString *const kManUpAppUpdateURL           = @"manUpAppUpdateURL";
+/**
+ Default config.json keys
+ Use these keys in your applications config json file to be served to ManUp
+ 
+    manUpAppVersionCurrent: the current App Store version, eg 2.0
+    manUpAppVersionMin: the minimum required version, which will force a mandatory update, eg 1.1
+    manUpAppUpdateURL" the URL to be opened to update the app, eg an App Store URL or a website
+ */
+static NSString *const kManUpConfigAppVersionCurrent    = @"manUpAppVersionCurrent";
+static NSString *const kManUpConfigAppVersionMin        = @"manUpAppVersionMin";
+static NSString *const kManUpConfigAppUpdateURL         = @"manUpAppUpdateURL";
 
 @protocol ManUpDelegate <NSObject>
 @optional
@@ -45,18 +41,45 @@ static NSString *const kManUpAppUpdateURL           = @"manUpAppUpdateURL";
 
 @property (nonatomic, weak) NSObject<ManUpDelegate> *delegate;
 
+/**
+ Enable console logging
+ 
+ @param enableConsoleLogging set to YES and ManUp will log its output to the console
+ */
 @property (nonatomic, assign) BOOL enableConsoleLogging;
 
-// URL to server config data
+/**
+ @param serverCongifURL URL to server config data
+ */
 @property (nonatomic, readonly) NSURL *serverConfigURL;
 
-// Last time configuration was successfully updated from the server
+/**
+ @param lastUpdated Last time configuration was successfully updated from the server
+ */
 @property (nonatomic, readonly) NSDate *lastUpdated;
 
-// Fetch a stored setting
+/**
+ Specify custom keys to be used instead of the default keys
+ 
+ @param customConfigKeys provide a new value for each default key that should be custom mapped
+ */
+@property (nonatomic, strong) NSDictionary *customConfigKeyMapping;
+
+/**
+ Fetch a stored setting
+ 
+ @param key the key used in the config json file
+ */
 + (id)settingForKey:(NSString *)key;
 
-// String version comparison
+/** 
+ String version comparison
+
+ Compare two strings, which represent versions, that are integers separated by dots (.)
+ 
+ @param firstVersion the version to compare
+ @param secondVersion the version being compared to
+ */
 + (NSComparisonResult)compareVersion:(NSString *)firstVersion toVersion:(NSString *)secondVersion;
 
 @end
