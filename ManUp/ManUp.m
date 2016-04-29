@@ -1,6 +1,6 @@
 //
 //  ManUp.m
-//  ManUpDemo
+//  ManUp
 //
 //  Created by Jeremy Day on 23/10/12.
 //  Copyright (c) 2012 Burleigh Labs. All rights reserved.
