@@ -240,9 +240,12 @@
 				TargetAttributes = {
 					7C3106071C6D8DBB005E9578 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = B89H5L73N6;
+						ProvisioningStyle = Automatic;
 					};
 					7C3106201C6D8DBB005E9578 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = B89H5L73N6;
 						TestTargetID = 7C3106071C6D8DBB005E9578;
 					};
 				};
@@ -520,11 +523,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = B89H5L73N6;
 				INFOPLIST_FILE = ManUpDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nextfaze.ManUpDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -534,6 +541,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = B89H5L73N6;
 				INFOPLIST_FILE = ManUpDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -547,6 +556,7 @@
 			baseConfigurationReference = 666C04EE96A11222E26C2145 /* Pods-ManUpDemoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = B89H5L73N6;
 				INFOPLIST_FILE = ManUpDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nextfaze.ManUpDemoTests;
@@ -560,6 +570,7 @@
 			baseConfigurationReference = B3C378C136524F5D7513F8B6 /* Pods-ManUpDemoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = B89H5L73N6;
 				INFOPLIST_FILE = ManUpDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nextfaze.ManUpDemoTests;
