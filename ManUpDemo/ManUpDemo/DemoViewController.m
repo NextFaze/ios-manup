@@ -40,6 +40,12 @@
     
     self.title = @"ManUp Demo";
 
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    self.navigationController.navigationBar.opaque = YES;
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:238.0/255.0 green:65.0/255.0 blue:54.0/255.0 alpha:1.0];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    
     self.tableView = [[UITableView alloc] init];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
