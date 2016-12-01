@@ -140,12 +140,12 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
     return [[ManUp sharedInstance] settingForKey:key];
 }
 
-- (void)log:(NSString *)format, ... {
+- (void)log:(NSString *)string, ... NS_FORMAT_FUNCTION(1,2) {
     if (self.enableConsoleLogging) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wformat-security"
-        NSLog([NSString stringWithFormat:format], nil);
-#pragma clang diagnostic pop
+        va_list args;
+        va_start(args, string);
+        NSLog([[NSString alloc] initWithFormat:string arguments:args], nil);
+        va_end(args);
     }
 }
 
