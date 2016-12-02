@@ -28,6 +28,7 @@ static NSString *const kManUpConfigAppDeploymentTarget  = @"manUpAppDeploymentTa
 - (void)manUpConfigUpdateStarting;
 - (void)manUpConfigUpdateFailed:(NSError *)error;
 - (void)manUpConfigUpdated:(NSDictionary *)newSettings;
+- (BOOL)manUpShouldShowAlert;
 - (void)manUpUpdateRequired;
 - (void)manUpUpdateAvailable;
 

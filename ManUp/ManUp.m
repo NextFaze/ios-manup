@@ -212,6 +212,10 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 #pragma mark -
 
 - (void)showAlertWithTitle:(NSString *)title message:(NSString *)message actions:(NSArray *)actions {
+    if ([self.delegate respondsToSelector:@selector(manUpShouldShowAlert)] && ![self.delegate manUpShouldShowAlert]) {
+        return;
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         self.alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
         

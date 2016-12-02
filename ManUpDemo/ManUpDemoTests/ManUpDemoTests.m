@@ -151,7 +151,11 @@
         [self.expectation fulfill];
     });
 }
-    
+
+- (BOOL)manUpShouldShowAlert {
+    return NO;
+}
+
 - (void)manUpUpdateAvailable {
     NSLog(@"ManUpDelegate: update available");
     self.updateAvailable = YES;
