@@ -1,6 +1,6 @@
 //
 //  ManUp.m
-//  ManUpDemo
+//  ManUp
 //
 //  Created by Jeremy Day on 23/10/12.
 //  Copyright (c) 2012 Burleigh Labs. All rights reserved.
@@ -140,12 +140,12 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
     return [[ManUp sharedInstance] settingForKey:key];
 }
 
-- (void)log:(NSString *)format, ... {
+- (void)log:(NSString *)string, ... NS_FORMAT_FUNCTION(1,2) {
     if (self.enableConsoleLogging) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wformat-security"
-        NSLog([NSString stringWithFormat:format], nil);
-#pragma clang diagnostic pop
+        va_list args;
+        va_start(args, string);
+        NSLog([[NSString alloc] initWithFormat:string arguments:args], nil);
+        va_end(args);
     }
 }
 
@@ -177,6 +177,18 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request
                                             completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                                                 self.updateInProgress = NO;
+                                                
+                                                NSInteger statusCode = [((NSHTTPURLResponse *)response) statusCode];
+                                                if (statusCode >= 400) {
+                                                    if (!error) {
+                                                        NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+                                                        NSString *message = [NSHTTPURLResponse localizedStringForStatusCode:statusCode];
+                                                        if (message) {
+                                                            userInfo[NSLocalizedDescriptionKey] = message;
+                                                        }
+                                                        error = [NSError errorWithDomain:NSURLErrorDomain code:statusCode userInfo:userInfo];
+                                                    }
+                                                }
                                                 
                                                 if (error) {
                                                     if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
@@ -212,6 +224,10 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 #pragma mark -
 
 - (void)showAlertWithTitle:(NSString *)title message:(NSString *)message actions:(NSArray *)actions {
+    if ([self.delegate respondsToSelector:@selector(manUpShouldShowAlert)] && ![self.delegate manUpShouldShowAlert]) {
+        return;
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         self.alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
         
@@ -254,6 +270,17 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
         [self log:@"ManUp: An alert is already displayed, aborting."];
         
     } else {
+        NSString *deploymentTarget = [self settingForKey:kManUpConfigAppDeploymentTarget];
+        if (deploymentTarget) {
+            NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
+            
+            NSComparisonResult osVersionComparisonResult = [ManUp compareVersion:systemVersion toVersion:deploymentTarget];
+            if (osVersionComparisonResult == NSOrderedAscending) {
+                [self log:@"ManUp: Update available, but system version %@ is less than the update deployment target %@", systemVersion, deploymentTarget];
+                return;
+            }
+        }
+        
         if (minVersion && minVersionComparisonResult == NSOrderedAscending) {
             [self log:@"ManUp: Mandatory update required."];
             
@@ -270,6 +297,10 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
                 [self showAlertWithTitle:NSLocalizedString(@"Update Required", nil)
                                  message:NSLocalizedString(@"An update is required. To continue, please update the application.", nil)
                                  actions:@[updateAction]];
+                
+                if ([self.delegate respondsToSelector:@selector(manUpUpdateRequired)]) {
+                    [self.delegate manUpUpdateRequired];
+                }
             }
             
         } else if (currentVersion && currentVersionComparisonResult == NSOrderedAscending && !self.optionalUpdateShown) {
@@ -294,6 +325,10 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
                                  actions:@[updateAction, cancelAction]];
 
                 self.optionalUpdateShown = YES;
+                
+                if ([self.delegate respondsToSelector:@selector(manUpUpdateAvailable)]) {
+                    [self.delegate manUpUpdateAvailable];
+                }
             }
         }
     }

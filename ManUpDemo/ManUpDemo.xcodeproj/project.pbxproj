@@ -9,12 +9,21 @@
 /* Begin PBXBuildFile section */
 		7C03353C1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */; };
 		7C03353D1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */; };
+		7C239A661DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C239A631DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json */; };
+		7C239A671DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C239A631DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json */; };
+		7C239A681DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C239A641DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json */; };
+		7C239A691DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C239A641DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json */; };
+		7C239A6A1DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C239A651DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json */; };
+		7C239A6B1DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C239A651DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json */; };
+		7C239A6D1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C239A6C1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json */; };
+		7C239A6E1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C239A6C1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json */; };
 		7C31060D1C6D8DBB005E9578 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C31060C1C6D8DBB005E9578 /* main.m */; };
 		7C3106101C6D8DBB005E9578 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C31060F1C6D8DBB005E9578 /* AppDelegate.m */; };
 		7C3106131C6D8DBB005E9578 /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3106121C6D8DBB005E9578 /* DemoViewController.m */; };
 		7C3106181C6D8DBB005E9578 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106171C6D8DBB005E9578 /* Assets.xcassets */; };
 		7C31061B1C6D8DBB005E9578 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106191C6D8DBB005E9578 /* LaunchScreen.storyboard */; };
 		7C3106261C6D8DBB005E9578 /* ManUpDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */; };
+		7C7B05F51DF12EB70040E031 /* ManUp+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B05F41DF12EB70040E031 /* ManUp+Testing.m */; };
 		7CB87B811CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */; };
 		7CB87B821CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */; };
 		7CB87B831CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7D1CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json */; };
@@ -47,6 +56,10 @@
 		647615055885DA5DD386E54D /* libPods-ManUpDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ManUpDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		666C04EE96A11222E26C2145 /* Pods-ManUpDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemoTests/Pods-ManUpDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestCustomConfigKeys.json; sourceTree = "<group>"; };
+		7C239A631DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableDeploymentTarget9.json; sourceTree = "<group>"; };
+		7C239A641DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableDeploymentTarget10.json; sourceTree = "<group>"; };
+		7C239A651DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableDeploymentTarget11.json; sourceTree = "<group>"; };
+		7C239A6C1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableDeploymentTarget8.json; sourceTree = "<group>"; };
 		7C3106081C6D8DBB005E9578 /* ManUpDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ManUpDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C31060C1C6D8DBB005E9578 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7C31060E1C6D8DBB005E9578 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -59,6 +72,8 @@
 		7C3106211C6D8DBB005E9578 /* ManUpDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ManUpDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManUpDemoTests.m; sourceTree = "<group>"; };
 		7C3106271C6D8DBB005E9578 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C7B05F31DF12EB70040E031 /* ManUp+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ManUp+Testing.h"; sourceTree = "<group>"; };
+		7C7B05F41DF12EB70040E031 /* ManUp+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ManUp+Testing.m"; sourceTree = "<group>"; };
 		7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestMinVersionGreaterThanCurrent.json; sourceTree = "<group>"; };
 		7CB87B7D1CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestMinVersionLessThanCurrent.json; sourceTree = "<group>"; };
 		7CB87B7E1CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableWithoutURL.json; sourceTree = "<group>"; };
@@ -145,6 +160,8 @@
 				7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */,
 				7CB87B8B1CAE261C0006CB79 /* ManUpVersionCompareTests.m */,
 				7C3106271C6D8DBB005E9578 /* Info.plist */,
+				7C7B05F31DF12EB70040E031 /* ManUp+Testing.h */,
+				7C7B05F41DF12EB70040E031 /* ManUp+Testing.m */,
 			);
 			path = ManUpDemoTests;
 			sourceTree = "<group>";
@@ -155,6 +172,10 @@
 				7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */,
 				7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */,
 				7CB87B7D1CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json */,
+				7C239A6C1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json */,
+				7C239A631DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json */,
+				7C239A641DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json */,
+				7C239A651DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json */,
 				7CB87B7E1CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json */,
 				7CB87B7F1CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json */,
 				7CB87B801CAE14EB0006CB79 /* TestVersionsEqual.json */,
@@ -240,9 +261,12 @@
 				TargetAttributes = {
 					7C3106071C6D8DBB005E9578 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = B89H5L73N6;
+						ProvisioningStyle = Automatic;
 					};
 					7C3106201C6D8DBB005E9578 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = B89H5L73N6;
 						TestTargetID = 7C3106071C6D8DBB005E9578;
 					};
 				};
@@ -272,12 +296,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C31061B1C6D8DBB005E9578 /* LaunchScreen.storyboard in Resources */,
+				7C239A681DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json in Resources */,
 				7CB87B831CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json in Resources */,
+				7C239A6D1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json in Resources */,
 				7CB87B871CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json in Resources */,
 				7C3106181C6D8DBB005E9578 /* Assets.xcassets in Resources */,
 				7CB87B851CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json in Resources */,
 				7CB87B811CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */,
+				7C239A6A1DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json in Resources */,
 				7C03353C1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */,
+				7C239A661DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json in Resources */,
 				7CB87B891CAE14EB0006CB79 /* TestVersionsEqual.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,11 +315,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C03353D1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */,
+				7C239A6E1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json in Resources */,
 				7CB87B881CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json in Resources */,
 				7CB87B8A1CAE14EB0006CB79 /* TestVersionsEqual.json in Resources */,
 				7CB87B821CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */,
 				7CB87B841CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json in Resources */,
+				7C239A691DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json in Resources */,
 				7CB87B861CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json in Resources */,
+				7C239A6B1DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json in Resources */,
+				7C239A671DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +439,7 @@
 			files = (
 				7CB87B8C1CAE261C0006CB79 /* ManUpVersionCompareTests.m in Sources */,
 				7C3106261C6D8DBB005E9578 /* ManUpDemoTests.m in Sources */,
+				7C7B05F51DF12EB70040E031 /* ManUp+Testing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,11 +553,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = B89H5L73N6;
 				INFOPLIST_FILE = ManUpDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nextfaze.ManUpDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -534,6 +571,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = B89H5L73N6;
 				INFOPLIST_FILE = ManUpDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -547,6 +586,7 @@
 			baseConfigurationReference = 666C04EE96A11222E26C2145 /* Pods-ManUpDemoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = B89H5L73N6;
 				INFOPLIST_FILE = ManUpDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nextfaze.ManUpDemoTests;
@@ -560,6 +600,7 @@
 			baseConfigurationReference = B3C378C136524F5D7513F8B6 /* Pods-ManUpDemoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = B89H5L73N6;
 				INFOPLIST_FILE = ManUpDemoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nextfaze.ManUpDemoTests;
