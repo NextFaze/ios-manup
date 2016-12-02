@@ -147,8 +147,8 @@
 - (void)manUpConfigUpdated:(NSDictionary *)newSettings {
     NSLog(@"ManUpDelegate: updated with settings:\n%@", newSettings);
     self.updated = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // fulfill the expectation on the next run loop to allow the update available/required callbacks to complete first
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // fulfill the expectation after a delay to allow the update available/required callbacks to complete first
         [self.expectation fulfill];
     });
 }
