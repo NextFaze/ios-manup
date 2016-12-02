@@ -254,6 +254,17 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
         [self log:@"ManUp: An alert is already displayed, aborting."];
         
     } else {
+        NSString *deploymentTarget = [self settingForKey:kManUpConfigAppDeploymentTarget];
+        if (deploymentTarget) {
+            NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
+            
+            NSComparisonResult osVersionComparisonResult = [ManUp compareVersion:systemVersion toVersion:deploymentTarget];
+            if (osVersionComparisonResult == NSOrderedAscending) {
+                [self log:@"ManUp: Update available, but system version %@ is less than the update deployment target %@", systemVersion, deploymentTarget];
+                return;
+            }
+        }
+        
         if (minVersion && minVersionComparisonResult == NSOrderedAscending) {
             [self log:@"ManUp: Mandatory update required."];
             
@@ -270,6 +281,10 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
                 [self showAlertWithTitle:NSLocalizedString(@"Update Required", nil)
                                  message:NSLocalizedString(@"An update is required. To continue, please update the application.", nil)
                                  actions:@[updateAction]];
+                
+                if ([self.delegate respondsToSelector:@selector(manUpUpdateRequired)]) {
+                    [self.delegate manUpUpdateRequired];
+                }
             }
             
         } else if (currentVersion && currentVersionComparisonResult == NSOrderedAscending && !self.optionalUpdateShown) {
@@ -294,6 +309,10 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
                                  actions:@[updateAction, cancelAction]];
 
                 self.optionalUpdateShown = YES;
+                
+                if ([self.delegate respondsToSelector:@selector(manUpUpdateAvailable)]) {
+                    [self.delegate manUpUpdateAvailable];
+                }
             }
         }
     }

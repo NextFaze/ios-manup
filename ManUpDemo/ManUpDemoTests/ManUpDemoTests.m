@@ -9,12 +9,16 @@
 #import <XCTest/XCTest.h>
 #import "ManUp.h"
 
+#define ServerConfigPath @"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/"
+
 @interface ManUpDemoTests : XCTestCase <ManUpDelegate>
 
 @property (nonatomic, strong) XCTestExpectation *expectation;
 @property (nonatomic, assign) BOOL updated;
 @property (nonatomic, assign) BOOL failed;
-
+@property (nonatomic, assign) BOOL updateAvailable;
+@property (nonatomic, assign) BOOL updateRequired;
+    
 @end
 
 @implementation ManUpDemoTests
@@ -22,6 +26,7 @@
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    [ManUp sharedInstance].enableConsoleLogging = YES;
 }
 
 - (void)tearDown {
@@ -30,8 +35,6 @@
 }
 
 - (void)testManUpSettingForKey {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
     id setting = [ManUp settingForKey:@"made-up-key"];
     XCTAssertNil(setting, @"There should be no setting for this made up key.");
 }
@@ -46,7 +49,7 @@
 
 - (void)testConfigVersionsEqual {
     [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"TestVersionsEqual" ofType:@"json"]
-                                     serverConfigURL:[NSURL URLWithString:@"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/TestVersionsEqual.json"]
+                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEqual.json", ServerConfigPath]]
                                             delegate:self];
     
     self.expectation = [self expectationWithDescription:@"ManUp with versions equal"];
@@ -56,22 +59,103 @@
     XCTAssert(self.updated);
 }
 
+- (void)testConfigLowerDeploymentTarget {
+    NSString *operatingSystemVersion = [[UIDevice currentDevice] systemVersion];
+    NSArray *versionComponents = [operatingSystemVersion componentsSeparatedByString:@"."];
+    
+    XCTAssert(versionComponents.count > 0, "Unable to determine OS version.");
+    
+    NSInteger operatingSystemMajorVersion = [versionComponents[0] integerValue];
+    NSInteger lowerMajorVersion = operatingSystemMajorVersion - 1;
+    NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%d", lowerMajorVersion];
+    
+    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:testFilename ofType:@"json"]
+                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]]
+                                            delegate:self];
+    
+    self.expectation = [self expectationWithDescription:@"ManUp update available as the update's deployment target is lower than the OS version"];
+    
+    [self waitForExpectationsWithTimeout:60.0 handler:nil];
+    
+    XCTAssert(self.updated);
+    XCTAssert(self.updateAvailable == YES);
+    XCTAssert(self.updateRequired == NO);
+}
+    
+- (void)testConfigSameDeploymentTarget {
+    NSString *operatingSystemVersion = [[UIDevice currentDevice] systemVersion];
+    NSArray *versionComponents = [operatingSystemVersion componentsSeparatedByString:@"."];
+    
+    XCTAssert(versionComponents.count > 0, "Unable to determine OS version.");
+    
+    NSInteger operatingSystemMajorVersion = [versionComponents[0] integerValue];
+    NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%d", operatingSystemMajorVersion];
+    
+    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:testFilename ofType:@"json"]
+                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]]
+                                            delegate:self];
+    
+    self.expectation = [self expectationWithDescription:@"ManUp update available as the update's deployment target is the same (major) as the OS version"];
+    
+    [self waitForExpectationsWithTimeout:60.0 handler:nil];
+    
+    XCTAssert(self.updated);
+    XCTAssert(self.updateAvailable == YES);
+    XCTAssert(self.updateRequired == NO);
+}
+    
+- (void)testConfigHigherDeploymentTarget {
+    NSString *operatingSystemVersion = [[UIDevice currentDevice] systemVersion];
+    NSArray *versionComponents = [operatingSystemVersion componentsSeparatedByString:@"."];
+    
+    XCTAssert(versionComponents.count > 0, "Unable to determine OS version.");
+    
+    NSInteger operatingSystemMajorVersion = [versionComponents[0] integerValue];
+    NSInteger higherMajorVersion = operatingSystemMajorVersion + 1;
+    NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%d", higherMajorVersion];
+    
+    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:testFilename ofType:@"json"]
+                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]]
+                                            delegate:self];
+    
+    self.expectation = [self expectationWithDescription:@"ManUp update exists but is not available as the update's deployment target is higher than the OS version"];
+    
+    [self waitForExpectationsWithTimeout:60.0 handler:nil];
+
+    XCTAssert(self.updated);
+    XCTAssert(self.updateAvailable == NO);
+    XCTAssert(self.updateRequired == NO);
+}
+
 #pragma mark - ManUpDelegate
 
 - (void)manUpConfigUpdateStarting {
-    NSLog(@"TEST: update starting");
+    NSLog(@"ManUpDelegate: update starting");
 }
 
 - (void)manUpConfigUpdateFailed:(NSError *)error {
-    NSLog(@"TEST: update failed with error '%@'", error);
+    NSLog(@"ManUpDelegate: update failed with error '%@'", error);
     self.failed = YES;
     [self.expectation fulfill];
 }
 
 - (void)manUpConfigUpdated:(NSDictionary *)newSettings {
-    NSLog(@"TEST updated with settings:\n%@", newSettings);
+    NSLog(@"ManUpDelegate: updated with settings:\n%@", newSettings);
     self.updated = YES;
-    [self.expectation fulfill];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // fulfill the expectation on the next run loop to allow the update available/required callbacks to complete first
+        [self.expectation fulfill];
+    });
+}
+    
+- (void)manUpUpdateAvailable {
+    NSLog(@"ManUpDelegate: update available");
+    self.updateAvailable = YES;
+}
+
+- (void)manUpUpdateRequired {
+    NSLog(@"ManUpDelegate: update required");
+    self.updateRequired = YES;
 }
 
 @end

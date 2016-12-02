@@ -14,11 +14,13 @@
  
     manUpAppVersionCurrent: the current App Store version, eg 2.0
     manUpAppVersionMin: the minimum required version, which will force a mandatory update, eg 1.1
-    manUpAppUpdateURL" the URL to be opened to update the app, eg an App Store URL or a website
+    manUpAppUpdateURL: the URL to be opened to update the app, eg an App Store URL or a website
+    manUpAppDeploymentTarget: the minimum required OS for this update, optional, eg 8.1
  */
 static NSString *const kManUpConfigAppVersionCurrent    = @"manUpAppVersionCurrent";
 static NSString *const kManUpConfigAppVersionMin        = @"manUpAppVersionMin";
 static NSString *const kManUpConfigAppUpdateURL         = @"manUpAppUpdateURL";
+static NSString *const kManUpConfigAppDeploymentTarget  = @"manUpAppDeploymentTarget";
 
 @protocol ManUpDelegate <NSObject>
 
@@ -26,6 +28,8 @@ static NSString *const kManUpConfigAppUpdateURL         = @"manUpAppUpdateURL";
 - (void)manUpConfigUpdateStarting;
 - (void)manUpConfigUpdateFailed:(NSError *)error;
 - (void)manUpConfigUpdated:(NSDictionary *)newSettings;
+- (void)manUpUpdateRequired;
+- (void)manUpUpdateAvailable;
 
 @end
 
