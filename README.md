@@ -1,4 +1,4 @@
-# ManUp
+# <img src="https://github.com/NextFaze/ManUp/raw/master/icon.png" width="40"> ManUp
 
 [![Build Status](https://travis-ci.org/NextFaze/ManUp.svg?style=flat)](https://travis-ci.org/NextFaze/ManUp)
 [![Version](https://img.shields.io/cocoapods/v/ManUp.svg?style=flat)](http://cocoapods.org/pods/ManUp)
