@@ -49,7 +49,8 @@
                                      serverConfigURL:nil
                                             delegate:self];
     
-    XCTAssert(self.failed);
+    XCTAssert(self.failed == YES);
+    XCTAssert(self.updated == NO);
 }
 
 - (void)testConfigVersionsEqual {
@@ -61,7 +62,8 @@
     
     [self waitForExpectationsWithTimeout:60.0 handler:nil];
     
-    XCTAssert(self.updated);
+    XCTAssert(self.failed == NO);
+    XCTAssert(self.updated == YES);
 }
 
 - (void)testConfigLowerDeploymentTarget {
@@ -82,7 +84,8 @@
     
     [self waitForExpectationsWithTimeout:60.0 handler:nil];
     
-    XCTAssert(self.updated);
+    XCTAssert(self.failed == NO);
+    XCTAssert(self.updated == YES);
     XCTAssert(self.updateAvailable == YES);
     XCTAssert(self.updateRequired == NO);
 }
@@ -104,7 +107,8 @@
     
     [self waitForExpectationsWithTimeout:60.0 handler:nil];
     
-    XCTAssert(self.updated);
+    XCTAssert(self.failed == NO);
+    XCTAssert(self.updated == YES);
     XCTAssert(self.updateAvailable == YES);
     XCTAssert(self.updateRequired == NO);
 }
@@ -127,7 +131,8 @@
     
     [self waitForExpectationsWithTimeout:60.0 handler:nil];
 
-    XCTAssert(self.updated);
+    XCTAssert(self.failed == NO);
+    XCTAssert(self.updated == YES);
     XCTAssert(self.updateAvailable == NO);
     XCTAssert(self.updateRequired == NO);
 }
