@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "ManUp.h"
+#import "ManUp+Testing.h"
 
 #define ServerConfigPath @"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/"
 
@@ -36,6 +36,7 @@
     self.failed = NO;
     self.updateAvailable = NO;
     self.updateRequired = NO;
+    [ManUp sharedInstance].optionalUpdateShown = NO;
 }
 
 - (void)testManUpSettingForKey {

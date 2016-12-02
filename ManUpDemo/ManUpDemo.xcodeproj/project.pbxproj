@@ -23,6 +23,7 @@
 		7C3106181C6D8DBB005E9578 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106171C6D8DBB005E9578 /* Assets.xcassets */; };
 		7C31061B1C6D8DBB005E9578 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106191C6D8DBB005E9578 /* LaunchScreen.storyboard */; };
 		7C3106261C6D8DBB005E9578 /* ManUpDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */; };
+		7C7B05F51DF12EB70040E031 /* ManUp+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B05F41DF12EB70040E031 /* ManUp+Testing.m */; };
 		7CB87B811CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */; };
 		7CB87B821CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */; };
 		7CB87B831CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7D1CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json */; };
@@ -71,6 +72,8 @@
 		7C3106211C6D8DBB005E9578 /* ManUpDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ManUpDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManUpDemoTests.m; sourceTree = "<group>"; };
 		7C3106271C6D8DBB005E9578 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C7B05F31DF12EB70040E031 /* ManUp+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ManUp+Testing.h"; sourceTree = "<group>"; };
+		7C7B05F41DF12EB70040E031 /* ManUp+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ManUp+Testing.m"; sourceTree = "<group>"; };
 		7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestMinVersionGreaterThanCurrent.json; sourceTree = "<group>"; };
 		7CB87B7D1CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestMinVersionLessThanCurrent.json; sourceTree = "<group>"; };
 		7CB87B7E1CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableWithoutURL.json; sourceTree = "<group>"; };
@@ -157,6 +160,8 @@
 				7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */,
 				7CB87B8B1CAE261C0006CB79 /* ManUpVersionCompareTests.m */,
 				7C3106271C6D8DBB005E9578 /* Info.plist */,
+				7C7B05F31DF12EB70040E031 /* ManUp+Testing.h */,
+				7C7B05F41DF12EB70040E031 /* ManUp+Testing.m */,
 			);
 			path = ManUpDemoTests;
 			sourceTree = "<group>";
@@ -434,6 +439,7 @@
 			files = (
 				7CB87B8C1CAE261C0006CB79 /* ManUpVersionCompareTests.m in Sources */,
 				7C3106261C6D8DBB005E9578 /* ManUpDemoTests.m in Sources */,
+				7C7B05F51DF12EB70040E031 /* ManUp+Testing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
