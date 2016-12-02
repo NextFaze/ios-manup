@@ -178,6 +178,18 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
                                             completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                                                 self.updateInProgress = NO;
                                                 
+                                                NSInteger statusCode = [((NSHTTPURLResponse *)response) statusCode];
+                                                if (statusCode >= 400) {
+                                                    if (!error) {
+                                                        NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+                                                        NSString *message = [NSHTTPURLResponse localizedStringForStatusCode:statusCode];
+                                                        if (message) {
+                                                            userInfo[NSLocalizedDescriptionKey] = message;
+                                                        }
+                                                        error = [NSError errorWithDomain:NSURLErrorDomain code:statusCode userInfo:userInfo];
+                                                    }
+                                                }
+                                                
                                                 if (error) {
                                                     if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
                                                         [self.delegate manUpConfigUpdateFailed:error];
