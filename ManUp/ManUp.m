@@ -48,15 +48,12 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
     // Only apply defaults if they do not exist already.
     if (![self hasPersistedSettings]) {
         NSData *jsonData = [NSData dataWithContentsOfFile:defaultSettingsPath];
-        if (jsonData == nil) {
-            // TODO: handle this error
-            return;
+        if (jsonData) {
+            NSError *error = nil;
+            NSDictionary *defaultSettings = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+            NSDictionary *nonNullDefaultSettings = [self replaceNullsWithEmptyStringInDictionary:defaultSettings];
+            [self setManUpSettings:nonNullDefaultSettings];
         }
-
-        NSError *error = nil;
-        NSDictionary *defaultSettings = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
-        NSDictionary *nonNullDefaultSettings = [self replaceNullsWithEmptyStringInDictionary:defaultSettings];
-        [self setManUpSettings:nonNullDefaultSettings];
     }
     
     [self updateFromServer];

@@ -9,13 +9,11 @@ Adds a server side check for a mandatory app update and server-side configuratio
 
 ## Installation
 
-### Via CocoaPods
+The preferred method is via CocoaPods:
 
     pod 'ManUp'
 
-### Manually
-
-Copy the folder `ManUp` into your project.
+Alterantively, you can simply copy the folder `ManUp` into your project.
 
 ## Usage
 
@@ -28,7 +26,7 @@ ManUp will download a ManUp configuration file (json) that is hosted on a server
     }
 
 Running ManUp will download this file and compare it to the installed app's version to determine if there is an update available (`manUpAppVersionCurrent`), or if there is a mandatory update required (`manUpAppVersionMin`).
-	
+
 	[[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"config_manup" ofType:@"json"]
                                      serverConfigURL:[NSURL URLWithString:@"https://yourserver.com/config.json"]
                                             delegate:self];

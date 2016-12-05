@@ -53,6 +53,32 @@
     XCTAssert(self.updated == NO);
 }
 
+- (void)testConfigWithIncorrectJSONFile {
+    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"ThisFileDoesntExist" ofType:@"json"]
+                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEqual.json", ServerConfigPath]]
+                                            delegate:self];
+
+    self.expectation = [self expectationWithDescription:@"ManUp with versions equal"];
+    
+    [self waitForExpectationsWithTimeout:60.0 handler:nil];
+    
+    XCTAssert(self.failed == NO);
+    XCTAssert(self.updated == YES);
+}
+
+- (void)testConfigWithNilJSONFile {
+    [[ManUp sharedInstance] manUpWithDefaultJSONFile:nil
+                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEqual.json", ServerConfigPath]]
+                                            delegate:self];
+    
+    self.expectation = [self expectationWithDescription:@"ManUp with versions equal"];
+    
+    [self waitForExpectationsWithTimeout:60.0 handler:nil];
+    
+    XCTAssert(self.failed == NO);
+    XCTAssert(self.updated == YES);
+}
+    
 - (void)testConfigVersionsEqual {
     [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"TestVersionsEqual" ofType:@"json"]
                                      serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEqual.json", ServerConfigPath]]
