@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Default config.json keys
  Use these keys in your applications config json file to be served to ManUp
@@ -38,37 +40,33 @@ static NSString *const kManUpConfigAppDeploymentTarget  = @"manUpAppDeploymentTa
 
 + (ManUp *)sharedInstance;
 
-- (void)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict
-                   serverConfigURL:(NSURL *)serverConfigURL
-                          delegate:(NSObject<ManUpDelegate> *)delegate;
+- (void)manUpWithDefaultDictionary:(nullable NSDictionary *)defaultSettingsDict
+                   serverConfigURL:(nullable NSURL *)serverConfigURL
+                          delegate:(nullable NSObject<ManUpDelegate> *)delegate;
 
-- (void)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath
-                 serverConfigURL:(NSURL *)serverConfigURL
-                        delegate:(NSObject<ManUpDelegate> *)delegate;
+- (void)manUpWithDefaultJSONFile:(nullable NSString *)defaultSettingsPath
+                 serverConfigURL:(nullable NSURL *)serverConfigURL
+                        delegate:(nullable NSObject<ManUpDelegate> *)delegate;
 
 @property (nonatomic, weak) NSObject<ManUpDelegate> *delegate;
 
 /**
- Enable console logging
- 
- @param enableConsoleLogging set to YES and ManUp will log its output to the console
+ If set to YES, log the output to the console.
  */
 @property (nonatomic, assign) BOOL enableConsoleLogging;
 
 /**
- @param serverConfigURL URL to the remote config.json file
+ The URL pointing to the remote config.json file.
  */
 @property (nonatomic, readonly) NSURL *serverConfigURL;
 
 /**
- @param lastUpdated the date that the configuration was last successfully updated from the server
+ The date that the configuration was last successfully updated from the server.
  */
 @property (nonatomic, readonly) NSDate *lastUpdated;
 
 /**
- Specify custom keys to be used instead of the default keys
- 
- @param customConfigKeyMapping a dictionary that provides a new key for each default key that should be custom mapped
+ Maps the default configuration keys to custom ones.
  */
 @property (nonatomic, strong) NSDictionary *customConfigKeyMapping;
 
@@ -90,3 +88,5 @@ static NSString *const kManUpConfigAppDeploymentTarget  = @"manUpAppDeploymentTa
 + (NSComparisonResult)compareVersion:(NSString *)firstVersion toVersion:(NSString *)secondVersion;
 
 @end
+
+NS_ASSUME_NONNULL_END
