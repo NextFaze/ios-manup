@@ -48,7 +48,7 @@ static NSString *const kManUpConfigAppDeploymentTarget  = @"manUpAppDeploymentTa
                  serverConfigURL:(nullable NSURL *)serverConfigURL
                         delegate:(nullable NSObject<ManUpDelegate> *)delegate;
 
-@property (nonatomic, weak) NSObject<ManUpDelegate> *delegate;
+@property (nonatomic, weak, nullable) NSObject<ManUpDelegate> *delegate;
 
 /**
  If set to YES, log the output to the console.
@@ -58,17 +58,17 @@ static NSString *const kManUpConfigAppDeploymentTarget  = @"manUpAppDeploymentTa
 /**
  The URL pointing to the remote config.json file.
  */
-@property (nonatomic, readonly) NSURL *serverConfigURL;
+@property (nonatomic, readonly, nullable) NSURL *serverConfigURL;
 
 /**
  The date that the configuration was last successfully updated from the server.
  */
-@property (nonatomic, readonly) NSDate *lastUpdated;
+@property (nonatomic, readonly, nullable) NSDate *lastUpdated;
 
 /**
  Maps the default configuration keys to custom ones.
  */
-@property (nonatomic, strong) NSDictionary *customConfigKeyMapping;
+@property (nonatomic, strong, nullable) NSDictionary *customConfigKeyMapping;
 
 /**
  Fetch a stored setting

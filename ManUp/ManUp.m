@@ -112,16 +112,16 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
     }
 }
 
-- (void)setLastUpdated:(NSDate *)date {
+- (void)setLastUpdated:(nullable NSDate *)date {
     [[NSUserDefaults standardUserDefaults] setObject:date forKey:kManUpLastUpdated];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (NSDate *)lastUpdated {
+- (nullable NSDate *)lastUpdated {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kManUpLastUpdated];
 }
 
-- (NSDictionary *)getPersistedSettings {
+- (nullable NSDictionary *)getPersistedSettings {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kManUpSettings];
 }
 
