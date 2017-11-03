@@ -100,7 +100,7 @@
     
     NSInteger operatingSystemMajorVersion = [versionComponents[0] integerValue];
     NSInteger lowerMajorVersion = operatingSystemMajorVersion - 1;
-    NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%d", lowerMajorVersion];
+    NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%ld", (long)lowerMajorVersion];
     
     [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:testFilename ofType:@"json"]
                                      serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]]
@@ -123,7 +123,7 @@
     XCTAssert(versionComponents.count > 0, "Unable to determine OS version.");
     
     NSInteger operatingSystemMajorVersion = [versionComponents[0] integerValue];
-    NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%d", operatingSystemMajorVersion];
+    NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%ld", (long)operatingSystemMajorVersion];
     
     [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:testFilename ofType:@"json"]
                                      serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]]
@@ -147,7 +147,7 @@
     
     NSInteger operatingSystemMajorVersion = [versionComponents[0] integerValue];
     NSInteger higherMajorVersion = operatingSystemMajorVersion + 1;
-    NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%d", higherMajorVersion];
+    NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%ld", (long)higherMajorVersion];
     
     [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:testFilename ofType:@"json"]
                                      serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]]

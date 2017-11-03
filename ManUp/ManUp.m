@@ -8,6 +8,8 @@
 
 #import "ManUp.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  NSUserDefaults keys
  Used to save settings used by ManUp locally to the device
@@ -18,17 +20,17 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 
 @interface ManUp ()
 
-@property (nonatomic, strong) UIAlertController *alertController;
+@property (nonatomic, strong, nullable) UIAlertController *alertController;
 
 @property (nonatomic, assign) BOOL optionalUpdateShown;
 @property (nonatomic, assign) BOOL updateInProgress;
-@property (nonatomic, strong) NSURL *serverConfigURL;
+@property (nonatomic, strong, nullable) NSURL *serverConfigURL;
 
 @end
 
 @implementation ManUp
 
-- (void)manUpWithDefaultDictionary:(NSDictionary *)defaultSettingsDict serverConfigURL:(NSURL *)serverConfigURL delegate:(NSObject<ManUpDelegate> *)delegate {
+- (void)manUpWithDefaultDictionary:(nullable NSDictionary *)defaultSettingsDict serverConfigURL:(nullable NSURL *)serverConfigURL delegate:(nullable NSObject<ManUpDelegate> *)delegate {
     self.delegate = delegate;
     self.serverConfigURL = serverConfigURL;
     
@@ -41,7 +43,7 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
     [self updateFromServer];
 }
 
-- (void)manUpWithDefaultJSONFile:(NSString *)defaultSettingsPath serverConfigURL:(NSURL *)serverConfigURL delegate:(NSObject<ManUpDelegate> *)delegate {
+- (void)manUpWithDefaultJSONFile:(nullable NSString *)defaultSettingsPath serverConfigURL:(nullable NSURL *)serverConfigURL delegate:(nullable NSObject<ManUpDelegate> *)delegate {
     self.delegate = delegate;
     self.serverConfigURL = serverConfigURL;
     
@@ -85,7 +87,7 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 - (NSDictionary *)replaceNullsWithEmptyStringInDictionary:(NSDictionary *)dict {
     NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
     for (NSString *key in dict) {
-        NSString *value = [dict objectForKey:key];
+        id value = [dict objectForKey:key];
         if (value == nil || [value isKindOfClass:[NSNull class]]) {
             value = @"";
         }
@@ -110,16 +112,16 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
     }
 }
 
-- (void)setLastUpdated:(NSDate *)date {
+- (void)setLastUpdated:(nullable NSDate *)date {
     [[NSUserDefaults standardUserDefaults] setObject:date forKey:kManUpLastUpdated];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (NSDate *)lastUpdated {
+- (nullable NSDate *)lastUpdated {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kManUpLastUpdated];
 }
 
-- (NSDictionary *)getPersistedSettings {
+- (nullable NSDictionary *)getPersistedSettings {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kManUpSettings];
 }
 
@@ -363,3 +365,5 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
