@@ -23,6 +23,14 @@
 		7C3106181C6D8DBB005E9578 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106171C6D8DBB005E9578 /* Assets.xcassets */; };
 		7C31061B1C6D8DBB005E9578 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C3106191C6D8DBB005E9578 /* LaunchScreen.storyboard */; };
 		7C3106261C6D8DBB005E9578 /* ManUpDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */; };
+		7C404B321FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget12.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C404B2E1FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget12.json */; };
+		7C404B331FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget12.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C404B2E1FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget12.json */; };
+		7C404B341FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget14.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C404B2F1FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget14.json */; };
+		7C404B351FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget14.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C404B2F1FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget14.json */; };
+		7C404B361FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget13.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C404B301FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget13.json */; };
+		7C404B371FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget13.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C404B301FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget13.json */; };
+		7C404B381FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget15.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C404B311FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget15.json */; };
+		7C404B391FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget15.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C404B311FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget15.json */; };
 		7C7B05F51DF12EB70040E031 /* ManUp+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B05F41DF12EB70040E031 /* ManUp+Testing.m */; };
 		7CB87B811CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */; };
 		7CB87B821CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */; };
@@ -72,6 +80,10 @@
 		7C3106211C6D8DBB005E9578 /* ManUpDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ManUpDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C3106251C6D8DBB005E9578 /* ManUpDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManUpDemoTests.m; sourceTree = "<group>"; };
 		7C3106271C6D8DBB005E9578 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C404B2E1FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget12.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableDeploymentTarget12.json; sourceTree = "<group>"; };
+		7C404B2F1FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget14.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableDeploymentTarget14.json; sourceTree = "<group>"; };
+		7C404B301FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget13.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableDeploymentTarget13.json; sourceTree = "<group>"; };
+		7C404B311FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget15.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableDeploymentTarget15.json; sourceTree = "<group>"; };
 		7C7B05F31DF12EB70040E031 /* ManUp+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ManUp+Testing.h"; sourceTree = "<group>"; };
 		7C7B05F41DF12EB70040E031 /* ManUp+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ManUp+Testing.m"; sourceTree = "<group>"; };
 		7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestMinVersionGreaterThanCurrent.json; sourceTree = "<group>"; };
@@ -176,6 +188,10 @@
 				7C239A631DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json */,
 				7C239A641DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json */,
 				7C239A651DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json */,
+				7C404B2E1FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget12.json */,
+				7C404B301FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget13.json */,
+				7C404B2F1FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget14.json */,
+				7C404B311FAC346F001E649E /* TestUpgradeAvailableDeploymentTarget15.json */,
 				7CB87B7E1CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json */,
 				7CB87B7F1CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json */,
 				7CB87B801CAE14EB0006CB79 /* TestVersionsEqual.json */,
@@ -296,13 +312,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C31061B1C6D8DBB005E9578 /* LaunchScreen.storyboard in Resources */,
+				7C404B341FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget14.json in Resources */,
 				7C239A681DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json in Resources */,
 				7CB87B831CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json in Resources */,
 				7C239A6D1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json in Resources */,
 				7CB87B871CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json in Resources */,
+				7C404B321FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget12.json in Resources */,
 				7C3106181C6D8DBB005E9578 /* Assets.xcassets in Resources */,
 				7CB87B851CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json in Resources */,
 				7CB87B811CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */,
+				7C404B381FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget15.json in Resources */,
+				7C404B361FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget13.json in Resources */,
 				7C239A6A1DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json in Resources */,
 				7C03353C1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */,
 				7C239A661DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json in Resources */,
@@ -315,6 +335,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C03353D1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */,
+				7C404B351FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget14.json in Resources */,
+				7C404B391FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget15.json in Resources */,
 				7C239A6E1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json in Resources */,
 				7CB87B881CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json in Resources */,
 				7CB87B8A1CAE14EB0006CB79 /* TestVersionsEqual.json in Resources */,
@@ -324,6 +346,8 @@
 				7CB87B861CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json in Resources */,
 				7C239A6B1DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json in Resources */,
 				7C239A671DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json in Resources */,
+				7C404B371FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget13.json in Resources */,
+				7C404B331FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget12.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
