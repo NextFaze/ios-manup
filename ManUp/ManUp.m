@@ -87,7 +87,7 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 - (NSDictionary *)replaceNullsWithEmptyStringInDictionary:(NSDictionary *)dict {
     NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
     for (NSString *key in dict) {
-        NSString *value = [dict objectForKey:key];
+        id value = [dict objectForKey:key];
         if (value == nil || [value isKindOfClass:[NSNull class]]) {
             value = @"";
         }
