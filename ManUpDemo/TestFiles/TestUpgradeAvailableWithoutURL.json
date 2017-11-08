@@ -1,5 +1,5 @@
 {
-	"manUpAppUpdateURL": null,
-	"manUpAppVersionCurrent": "99999.0",
-	"manUpAppVersionMin": "1.0"
+	"url": null,
+	"latest": "99999.0",
+	"minimum": "1.0"
 }

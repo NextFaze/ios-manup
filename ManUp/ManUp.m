@@ -130,9 +130,16 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 }
 
 - (id)settingForKey:(NSString *)key {
-    NSDictionary *settingsDictionary = [[NSUserDefaults standardUserDefaults] valueForKey:kManUpSettings];
+    NSDictionary *settings = [[NSUserDefaults standardUserDefaults] valueForKey:kManUpSettings];
     NSString *resolvedKey = self.customConfigKeyMapping[key] ?: key;
-    return settingsDictionary[resolvedKey];
+    id object = settings[resolvedKey];
+    if (object == nil) {
+        // value not found at the root level, also check inside the `ios` object
+        NSString *iOSKey = self.customConfigKeyMapping[kManUpConfigiOSContainer] ?: kManUpConfigiOSContainer;
+        NSDictionary *iOSSettings = settings[iOSKey];
+        object = iOSSettings[resolvedKey];
+    }
+    return object;
 }
 
 + (id)settingForKey:(NSString *)key {

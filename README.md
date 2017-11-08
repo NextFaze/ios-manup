@@ -19,13 +19,15 @@ Alterantively, you can simply copy the folder `ManUp` into your project.
 
 ManUp will download a ManUp configuration file (json) that is hosted on a server of your choice. This file will have the current app store version, the minimum version, and a URL to the app store or app website.
 
-    { 
-        "manUpAppUpdateLink": "https://itunes.apple.com/app/id0000000?mt=8",
-        "manUpAppVersionCurrent": "2.0",
-        "manUpAppVersionMin": "1.1"
+    {
+        "ios": {
+            "url": "https://itunes.apple.com/app/id0000000?mt=8",
+            "latest": "2.0",
+            "minimum": "1.1"
+        }
     }
 
-Running ManUp will download this file and compare it to the installed app's version to determine if there is an update available (`manUpAppVersionCurrent`), or if there is a mandatory update required (`manUpAppVersionMin`).
+Running ManUp will download this file and compare it to the installed app's version to determine if there is an update available (`latest`), or if there is a mandatory update required (`minimum`).
 
 	[[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"config_manup" ofType:@"json"]
                                      serverConfigURL:[NSURL URLWithString:@"https://yourserver.com/config.json"]
