@@ -1,5 +1,7 @@
 {
-	"url": null,
-	"latest": "99999.0",
-	"minimum": "1.0"
+    "ios": {
+        "url": null,
+        "latest": "99999.0",
+        "minimum": "1.0"
+    }
 }
