@@ -200,7 +200,7 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
                                                     if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
                                                         [self.delegate manUpConfigUpdateFailed:error];
                                                     }
-                                                    [self checkAppVersion];
+                                                    [self runManUpChecks];
                                                     return;
                                                 }
                                                 
@@ -215,13 +215,13 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
                                                     if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
                                                         [self.delegate manUpConfigUpdateFailed:error];
                                                     }
-                                                    [self checkAppVersion];
+                                                    [self runManUpChecks];
                                                     return;
                                                 }
                                                 
                                                 NSDictionary *nonNullSettings = [self replaceNullsWithEmptyStringInDictionary:jsonObject];
                                                 [self setManUpSettings:nonNullSettings];
-                                                [self checkAppVersion];
+                                                [self runManUpChecks];
                                                 return;
                                             }];
     [task resume];
@@ -249,12 +249,13 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
     });
 }
 
-- (void)checkAppVersion {
+- (void)runManUpChecks {
     NSString *updateURL = [self settingForKey:kManUpConfigAppUpdateURL];
     NSString *currentVersion = [self settingForKey:kManUpConfigAppVersionCurrent];
     NSString *minVersion = [self settingForKey:kManUpConfigAppVersionMin];
     NSString *installedVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    
+    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+
     if (![currentVersion isKindOfClass:[NSString class]]) {
         [self log:@"ManUp: Error, expecting string for current app store version"];
         return;
@@ -276,6 +277,18 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
         [self log:@"ManUp: An alert is already displayed, aborting."];
         
     } else {
+        BOOL enabled = [self settingForKey:kManUpConfigAppIsEnabled] ? [[self settingForKey:kManUpConfigAppIsEnabled] boolValue] : YES;
+        if (!enabled) {
+            [self showAlertWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ Unavailable", nil), appName]
+                             message:[NSString stringWithFormat:NSLocalizedString(@"%@ is currently unavailable. Please check back later.", nil), appName]
+                             actions:@[]];
+            
+            if ([self.delegate respondsToSelector:@selector(manUpMaintenanceMode)]) {
+                [self.delegate manUpMaintenanceMode];
+            }
+            return;
+        }
+        
         NSString *deploymentTarget = [self settingForKey:kManUpConfigAppDeploymentTarget];
         if (deploymentTarget) {
             NSString *systemVersion = [[UIDevice currentDevice] systemVersion];

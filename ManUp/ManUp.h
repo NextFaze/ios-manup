@@ -24,6 +24,7 @@ static NSString *const kManUpConfigAppVersionCurrent    = @"latest";
 static NSString *const kManUpConfigAppVersionMin        = @"minimum";
 static NSString *const kManUpConfigAppUpdateURL         = @"url";
 static NSString *const kManUpConfigAppDeploymentTarget  = @"target";
+static NSString *const kManUpConfigAppIsEnabled         = @"enabled";
 
 @protocol ManUpDelegate <NSObject>
 
@@ -34,6 +35,7 @@ static NSString *const kManUpConfigAppDeploymentTarget  = @"target";
 - (BOOL)manUpShouldShowAlert;
 - (void)manUpUpdateRequired;
 - (void)manUpUpdateAvailable;
+- (void)manUpMaintenanceMode;
 
 @end
 

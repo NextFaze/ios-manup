@@ -18,7 +18,8 @@
 @property (nonatomic, assign) BOOL failed;
 @property (nonatomic, assign) BOOL updateAvailable;
 @property (nonatomic, assign) BOOL updateRequired;
-    
+@property (nonatomic, assign) BOOL maintenanceMode;
+
 @end
 
 @implementation ManUpDemoTests
@@ -163,6 +164,22 @@
     XCTAssert(self.updateRequired == NO);
 }
 
+- (void)testMaintenanceMode {
+    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"TestMaintenanceMode" ofType:@"json"]
+                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@TestMaintenanceMode.json", ServerConfigPath]]
+                                            delegate:self];
+    
+    self.expectation = [self expectationWithDescription:@"ManUp with maintenance mode is true"];
+    
+    [self waitForExpectationsWithTimeout:60.0 handler:nil];
+    
+    XCTAssert(self.maintenanceMode == YES);
+    XCTAssert(self.failed == NO);
+    XCTAssert(self.updated == YES);
+    XCTAssert(self.updateAvailable == NO);
+    XCTAssert(self.updateRequired == NO);
+}
+
 #pragma mark - ManUpDelegate
 
 - (void)manUpConfigUpdateStarting {
@@ -196,6 +213,11 @@
 - (void)manUpUpdateRequired {
     NSLog(@"ManUpDelegate: update required");
     self.updateRequired = YES;
+}
+
+- (void)manUpMaintenanceMode {
+    NSLog(@"ManUpDelegate: maintenance mode");
+    self.maintenanceMode = YES;
 }
 
 @end
