@@ -23,6 +23,7 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 @property (nonatomic, strong, nullable) UIAlertController *alertController;
 
 @property (nonatomic, assign) BOOL optionalUpdateShown;
+@property (nonatomic, assign) BOOL maintenanceModeShown;
 @property (nonatomic, assign) BOOL updateInProgress;
 @property (nonatomic, strong, nullable) NSURL *serverConfigURL;
 
@@ -78,6 +79,7 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 	if (self = [super init]) {
 		self.updateInProgress = NO;
         self.optionalUpdateShown = NO;
+        self.maintenanceModeShown = NO;
 	}
 	return self;
 }
@@ -229,8 +231,15 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 
 #pragma mark -
 
+- (BOOL)shouldShowAlert {
+    if ([self.delegate respondsToSelector:@selector(manUpShouldShowAlert)]) {
+        return [self.delegate manUpShouldShowAlert];
+    }
+    return YES;
+}
+
 - (void)showAlertWithTitle:(NSString *)title message:(NSString *)message actions:(NSArray *)actions {
-    if ([self.delegate respondsToSelector:@selector(manUpShouldShowAlert)] && ![self.delegate manUpShouldShowAlert]) {
+    if ([self shouldShowAlert] == NO) {
         return;
     }
     
@@ -273,15 +282,24 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
     NSComparisonResult minVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:minVersion];
     NSComparisonResult currentVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:currentVersion];
     
-    if (self.alertController) {
+    if (self.alertController && !self.maintenanceModeShown) {
         [self log:@"ManUp: An alert is already displayed, aborting."];
         
     } else {
         BOOL enabled = [self settingForKey:kManUpConfigAppIsEnabled] ? [[self settingForKey:kManUpConfigAppIsEnabled] boolValue] : YES;
-        if (!enabled) {
+        if (enabled && self.maintenanceModeShown) {
+            self.maintenanceModeShown = NO;
+            [self.alertController dismissViewControllerAnimated:YES completion:nil];
+            self.alertController = nil;
+            
+        } else if (!enabled && !self.maintenanceModeShown) {
             [self showAlertWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ Unavailable", nil), appName]
                              message:[NSString stringWithFormat:NSLocalizedString(@"%@ is currently unavailable. Please check back later.", nil), appName]
                              actions:@[]];
+            
+            if ([self shouldShowAlert]) {
+                self.maintenanceModeShown = YES;
+            }
             
             if ([self.delegate respondsToSelector:@selector(manUpMaintenanceMode)]) {
                 [self.delegate manUpMaintenanceMode];
@@ -343,7 +361,9 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
                                  message:NSLocalizedString(@"An update is available. Would you like to update to the latest version?", nil)
                                  actions:@[updateAction, cancelAction]];
 
-                self.optionalUpdateShown = YES;
+                if ([self shouldShowAlert]) {
+                    self.optionalUpdateShown = YES;
+                }
                 
                 if ([self.delegate respondsToSelector:@selector(manUpUpdateAvailable)]) {
                     [self.delegate manUpUpdateAvailable];
