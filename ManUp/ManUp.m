@@ -313,8 +313,8 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
     
     if (!enabled) {
         [self showAlertOfType:ManUpAlertTypeMaintenanceMode
-                    withTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ Unavailable", nil), appName]
-                      message:[NSString stringWithFormat:NSLocalizedString(@"%@ is currently unavailable. Please check back later.", nil), appName]
+                    withTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ Unavailable", @"{app name} Unavailable"), appName]
+                      message:[NSString stringWithFormat:NSLocalizedString(@"%@ is currently unavailable. Please check back later.", @"{app name} is currently unavailable..."), appName]
                       actions:@[]];
         
         if ([self.delegate respondsToSelector:@selector(manUpMaintenanceMode)]) {
