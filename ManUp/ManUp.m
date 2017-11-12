@@ -18,12 +18,18 @@ static NSString *const kManUpSettings                   = @"ManUpSettings";
 static NSString *const kManUpServerConfigURL            = @"ManUpServerConfigURL";
 static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 
+typedef NS_ENUM(NSUInteger, ManUpAlertType) {
+    ManUpAlertTypeNone,
+    ManUpAlertTypeOptionalUpdate,
+    ManUpAlertTypeMandatoryUpdate,
+    ManUpAlertTypeMaintenanceMode
+};
+
 @interface ManUp ()
 
 @property (nonatomic, strong, nullable) UIAlertController *alertController;
-
+@property (nonatomic, assign) ManUpAlertType currentlyShownAlertType;
 @property (nonatomic, assign) BOOL optionalUpdateShown;
-@property (nonatomic, assign) BOOL maintenanceModeShown;
 @property (nonatomic, assign) BOOL updateInProgress;
 @property (nonatomic, strong, nullable) NSURL *serverConfigURL;
 
@@ -79,7 +85,7 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 	if (self = [super init]) {
 		self.updateInProgress = NO;
         self.optionalUpdateShown = NO;
-        self.maintenanceModeShown = NO;
+        self.currentlyShownAlertType = ManUpAlertTypeNone;
 	}
 	return self;
 }
@@ -238,12 +244,12 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
     return YES;
 }
 
-- (void)showAlertWithTitle:(NSString *)title message:(NSString *)message actions:(NSArray *)actions {
+- (void)showAlertOfType:(ManUpAlertType)alertType withTitle:(NSString *)title message:(NSString *)message actions:(NSArray *)actions {
     if ([self shouldShowAlert] == NO) {
         return;
     }
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+    void (^showAlert)(void) = ^void() {
         self.alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
         
         for (UIAlertAction *action in actions) {
@@ -255,15 +261,40 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
             topController = topController.presentedViewController;
         }
         [topController presentViewController:self.alertController animated:YES completion:nil];
+        
+        self.currentlyShownAlertType = alertType;
+    };
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.currentlyShownAlertType == alertType) {
+            return;
+            
+        } else if (self.currentlyShownAlertType == ManUpAlertTypeNone) {
+            showAlert();
+            
+        } else {
+            [self dismissAlertWithCompletion:showAlert];
+        }
     });
 }
+
+- (void)dismissAlertWithCompletion:(void (^ __nullable)(void))completion {
+    [self.alertController dismissViewControllerAnimated:YES completion:completion];
+    self.alertController = nil;
+    self.currentlyShownAlertType = ManUpAlertTypeNone;
+}
+
+#pragma mark -
 
 - (void)runManUpChecks {
     NSString *updateURL = [self settingForKey:kManUpConfigAppUpdateURL];
     NSString *currentVersion = [self settingForKey:kManUpConfigAppVersionCurrent];
     NSString *minVersion = [self settingForKey:kManUpConfigAppVersionMin];
     NSString *installedVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSComparisonResult minVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:minVersion];
+    NSComparisonResult currentVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:currentVersion];
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+    BOOL enabled = [self settingForKey:kManUpConfigAppIsEnabled] ? [[self settingForKey:kManUpConfigAppIsEnabled] boolValue] : YES;
 
     if (![currentVersion isKindOfClass:[NSString class]]) {
         [self log:@"ManUp: Error, expecting string for current app store version"];
@@ -278,98 +309,87 @@ static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
     [self log:@"Current version  : %@", currentVersion];
     [self log:@"Min version      : %@", minVersion];
     [self log:@"Installed version: %@", installedVersion];
+    [self log:@"Enabled          : %@", enabled ? @"true" : @"false"];
     
-    NSComparisonResult minVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:minVersion];
-    NSComparisonResult currentVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:currentVersion];
-    
-    if (self.alertController && !self.maintenanceModeShown) {
-        [self log:@"ManUp: An alert is already displayed, aborting."];
+    if (!enabled) {
+        [self showAlertOfType:ManUpAlertTypeMaintenanceMode
+                    withTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ Unavailable", nil), appName]
+                      message:[NSString stringWithFormat:NSLocalizedString(@"%@ is currently unavailable. Please check back later.", nil), appName]
+                      actions:@[]];
         
-    } else {
-        BOOL enabled = [self settingForKey:kManUpConfigAppIsEnabled] ? [[self settingForKey:kManUpConfigAppIsEnabled] boolValue] : YES;
-        if (enabled && self.maintenanceModeShown) {
-            self.maintenanceModeShown = NO;
-            [self.alertController dismissViewControllerAnimated:YES completion:nil];
-            self.alertController = nil;
-            
-        } else if (!enabled && !self.maintenanceModeShown) {
-            [self showAlertWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ Unavailable", nil), appName]
-                             message:[NSString stringWithFormat:NSLocalizedString(@"%@ is currently unavailable. Please check back later.", nil), appName]
-                             actions:@[]];
-            
-            if ([self shouldShowAlert]) {
-                self.maintenanceModeShown = YES;
-            }
-            
-            if ([self.delegate respondsToSelector:@selector(manUpMaintenanceMode)]) {
-                [self.delegate manUpMaintenanceMode];
-            }
+        if ([self.delegate respondsToSelector:@selector(manUpMaintenanceMode)]) {
+            [self.delegate manUpMaintenanceMode];
+        }
+        return;
+    }
+    
+    NSString *deploymentTarget = [self settingForKey:kManUpConfigAppDeploymentTarget];
+    if (deploymentTarget) {
+        NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
+        
+        NSComparisonResult osVersionComparisonResult = [ManUp compareVersion:systemVersion toVersion:deploymentTarget];
+        if (osVersionComparisonResult == NSOrderedAscending) {
+            [self log:@"ManUp: Update available, but system version %@ is less than the update deployment target %@", systemVersion, deploymentTarget];
             return;
         }
+    }
+    
+    if (minVersion && minVersionComparisonResult == NSOrderedAscending) {
+        [self log:@"ManUp: Mandatory update required."];
         
-        NSString *deploymentTarget = [self settingForKey:kManUpConfigAppDeploymentTarget];
-        if (deploymentTarget) {
-            NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
+        if (updateURL.length > 0) {
+            [self log:@"ManUp: Blocking access and displaying update alert."];
             
-            NSComparisonResult osVersionComparisonResult = [ManUp compareVersion:systemVersion toVersion:deploymentTarget];
-            if (osVersionComparisonResult == NSOrderedAscending) {
-                [self log:@"ManUp: Update available, but system version %@ is less than the update deployment target %@", systemVersion, deploymentTarget];
-                return;
+            UIAlertAction *updateAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update", nil)
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction * _Nonnull action) {
+                                                                     [self openUpdateURL];
+                                                                     self.alertController = nil;
+                                                                 }];
+            
+            [self showAlertOfType:ManUpAlertTypeMandatoryUpdate
+                        withTitle:NSLocalizedString(@"Update Required", nil)
+                          message:NSLocalizedString(@"An update is required. To continue, please update the application.", nil)
+                          actions:@[updateAction]];
+            
+            if ([self.delegate respondsToSelector:@selector(manUpUpdateRequired)]) {
+                [self.delegate manUpUpdateRequired];
             }
         }
         
-        if (minVersion && minVersionComparisonResult == NSOrderedAscending) {
-            [self log:@"ManUp: Mandatory update required."];
+    } else if (currentVersion && currentVersionComparisonResult == NSOrderedAscending && !self.optionalUpdateShown) {
+        [self log:@"ManUp: User doesn't have latest version."];
+        
+        if (updateURL.length > 0) {
+            UIAlertAction *updateAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update", nil)
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction * _Nonnull action) {
+                                                                     [self openUpdateURL];
+                                                                     self.alertController = nil;
+                                                                 }];
             
-            if (updateURL.length > 0) {
-                [self log:@"ManUp: Blocking access and displaying update alert."];
-                
-                UIAlertAction *updateAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update", nil)
-                                                                       style:UIAlertActionStyleDefault
-                                                                     handler:^(UIAlertAction * _Nonnull action) {
-                                                                         [self openUpdateURL];
-                                                                         self.alertController = nil;
-                                                                     }];
-                
-                [self showAlertWithTitle:NSLocalizedString(@"Update Required", nil)
-                                 message:NSLocalizedString(@"An update is required. To continue, please update the application.", nil)
-                                 actions:@[updateAction]];
-                
-                if ([self.delegate respondsToSelector:@selector(manUpUpdateRequired)]) {
-                    [self.delegate manUpUpdateRequired];
-                }
-            }
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"No Thanks", nil)
+                                                                   style:UIAlertActionStyleCancel
+                                                                 handler:^(UIAlertAction * _Nonnull action) {
+                                                                     self.alertController = nil;
+                                                                 }];
             
-        } else if (currentVersion && currentVersionComparisonResult == NSOrderedAscending && !self.optionalUpdateShown) {
-            [self log:@"ManUp: User doesn't have latest version."];
-            
-            if (updateURL.length > 0) {
-                UIAlertAction *updateAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Update", nil)
-                                                                       style:UIAlertActionStyleDefault
-                                                                     handler:^(UIAlertAction * _Nonnull action) {
-                                                                         [self openUpdateURL];
-                                                                         self.alertController = nil;
-                                                                     }];
-                
-                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"No Thanks", nil)
-                                                                       style:UIAlertActionStyleCancel
-                                                                     handler:^(UIAlertAction * _Nonnull action) {
-                                                                         self.alertController = nil;
-                                                                     }];
-                
-                [self showAlertWithTitle:NSLocalizedString(@"Update Available", nil)
-                                 message:NSLocalizedString(@"An update is available. Would you like to update to the latest version?", nil)
-                                 actions:@[updateAction, cancelAction]];
+            [self showAlertOfType:ManUpAlertTypeOptionalUpdate
+                        withTitle:NSLocalizedString(@"Update Available", nil)
+                          message:NSLocalizedString(@"An update is available. Would you like to update to the latest version?", nil)
+                          actions:@[updateAction, cancelAction]];
 
-                if ([self shouldShowAlert]) {
-                    self.optionalUpdateShown = YES;
-                }
-                
-                if ([self.delegate respondsToSelector:@selector(manUpUpdateAvailable)]) {
-                    [self.delegate manUpUpdateAvailable];
-                }
+            if ([self shouldShowAlert]) {
+                self.optionalUpdateShown = YES;
+            }
+            
+            if ([self.delegate respondsToSelector:@selector(manUpUpdateAvailable)]) {
+                [self.delegate manUpUpdateAvailable];
             }
         }
+        
+    } else if (self.currentlyShownAlertType != ManUpAlertTypeNone) {
+        [self dismissAlertWithCompletion:nil];
     }
 }
 
