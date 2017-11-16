@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
  Used to save settings used by ManUp locally to the device
  */
 static NSString *const kManUpSettings                   = @"ManUpSettings";
-static NSString *const kManUpServerConfigURL            = @"ManUpServerConfigURL";
 static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 
 typedef NS_ENUM(NSUInteger, ManUpAlertType) {
@@ -40,7 +39,7 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
 
 - (instancetype)initWithConfigURL:(nullable NSURL *)url delegate:(nullable NSObject<ManUpDelegate> *)delegate {
     if (self = [self init]) {
-        self.serverConfigURL = url;
+        self.configURL = url;
         self.delegate = delegate;
     }
     return self;
@@ -133,7 +132,7 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
 #pragma mark -
 
 - (void)updateFromServer {
-    if (!self.serverConfigURL) {
+    if (!self.configURL) {
         [self log:@"ERROR: No server config URL specified."];
         if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
             NSError *error = [NSError errorWithDomain:@"com.nextfaze.ManUp" code:1 userInfo:nil];
@@ -152,7 +151,7 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
         [self.delegate manUpConfigUpdateStarting];
     }
     
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:self.serverConfigURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:self.configURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
 
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request

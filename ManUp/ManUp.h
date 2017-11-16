@@ -61,7 +61,7 @@ static NSString *const kManUpConfigAppIsEnabled         = @"enabled";
 /**
  The URL pointing to the remote config.json file.
  */
-@property (nonatomic, strong, nullable) NSURL *serverConfigURL;
+@property (nonatomic, strong, nullable) NSURL *configURL;
 
 /**
  The date that the configuration was last successfully updated from the server.

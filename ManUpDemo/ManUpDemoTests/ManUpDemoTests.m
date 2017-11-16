@@ -47,7 +47,7 @@
 }
 
 - (void)testConfigInvalidURL {
-    self.manUp.serverConfigURL = nil;
+    self.manUp.configURL = nil;
     [self.manUp validate];
     
     XCTAssert(self.failed == YES);
@@ -55,7 +55,7 @@
 }
     
 - (void)testConfigVersionsEqual {
-    self.manUp.serverConfigURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEqual.json", ServerConfigPath]];
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEqual.json", ServerConfigPath]];
     [self.manUp validate];
     
     self.expectation = [self expectationWithDescription:@"ManUp with versions equal"];
@@ -76,7 +76,7 @@
     NSInteger lowerMajorVersion = operatingSystemMajorVersion - 1;
     NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%ld", (long)lowerMajorVersion];
     
-    self.manUp.serverConfigURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]];
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]];
     [self.manUp validate];
     
     self.expectation = [self expectationWithDescription:@"ManUp update available as the update's deployment target is lower than the OS version"];
@@ -98,7 +98,7 @@
     NSInteger operatingSystemMajorVersion = [versionComponents[0] integerValue];
     NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%ld", (long)operatingSystemMajorVersion];
     
-    self.manUp.serverConfigURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]];
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]];
     [self.manUp validate];
     
     self.expectation = [self expectationWithDescription:@"ManUp update available as the update's deployment target is the same (major) as the OS version"];
@@ -121,7 +121,7 @@
     NSInteger higherMajorVersion = operatingSystemMajorVersion + 1;
     NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%ld", (long)higherMajorVersion];
     
-    self.manUp.serverConfigURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]];
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]];
     [self.manUp validate];
     
     self.expectation = [self expectationWithDescription:@"ManUp update exists but is not available as the update's deployment target is higher than the OS version"];
@@ -135,7 +135,7 @@
 }
 
 - (void)testMaintenanceMode {
-    self.manUp.serverConfigURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@TestMaintenanceMode.json", ServerConfigPath]];
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@TestMaintenanceMode.json", ServerConfigPath]];
     [self.manUp validate];
     
     self.expectation = [self expectationWithDescription:@"ManUp with maintenance mode is true"];

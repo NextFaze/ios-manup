@@ -96,7 +96,7 @@
         self.manUp.customConfigKeyMapping = nil;
     }
     
-    self.manUp.serverConfigURL = [NSURL URLWithString:serverPath];
+    self.manUp.configURL = [NSURL URLWithString:serverPath];
     [self.manUp validate];
 }
 
