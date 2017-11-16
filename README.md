@@ -13,7 +13,6 @@ The preferred method is via CocoaPods:
 
     pod 'ManUp'
 
-Alterantively, you can simply copy the folder `ManUp` into your project.
 
 ## Usage
 
@@ -23,7 +22,8 @@ ManUp will download a ManUp configuration file (json) that is hosted on a server
         "ios": {
             "url": "https://itunes.apple.com/app/id0000000?mt=8",
             "latest": "2.0",
-            "minimum": "1.1"
+            "minimum": "1.1",
+            "enabled": true
         }
     }
 
@@ -31,6 +31,8 @@ Running ManUp will download this file and compare it to the installed app's vers
 
 #### Swift
 
+	@import ManUp
+	
     // keep a strong reference
     let manUp = ManUp()
     
@@ -42,6 +44,8 @@ Running ManUp will download this file and compare it to the installed app's vers
 
 #### Objective-C
 
+    #import <ManUp/ManUp.h>
+    
     // keep a strong reference
     @property (nonatomic, strong) ManUp *manUp;
 
