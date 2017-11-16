@@ -29,7 +29,7 @@ ManUp will download a ManUp configuration file (json) that is hosted on a server
 
 Running ManUp will download this file and compare it to the installed app's version to determine if there is an update available (`latest`), or if there is a mandatory update required (`minimum`).
 
-	[[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"config_manup" ofType:@"json"]
+	[[ManUp shared] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"config_manup" ofType:@"json"]
                                      serverConfigURL:[NSURL URLWithString:@"https://yourserver.com/config.json"]
                                             delegate:self];
 	

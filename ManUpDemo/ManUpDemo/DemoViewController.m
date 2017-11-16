@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *testItems;
 
+@property (nonatomic, strong) ManUp *manUp;
 @property (nonatomic, strong) NSString *lastUsedFilename;
 
 @end
@@ -33,6 +34,10 @@
     }
     
     self.testItems = testItems;
+    
+    self.manUp = [[ManUp alloc] init];
+    self.manUp.delegate = self;
+    self.manUp.enableConsoleLogging = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
     
@@ -79,23 +84,20 @@
     
     NSString *serverPath = [@"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/" stringByAppendingString:fileName];
     
-    [ManUp sharedInstance].enableConsoleLogging = YES;
-    
     if ([fileName isEqualToString:@"TestCustomConfigKeys.json"]) {
         // Don't like the json keys used by ManUp? Specify your own with a custom mapping dictionary
-        [ManUp sharedInstance].customConfigKeyMapping = @{
-                                                          kManUpConfigAppVersionCurrent: @"app_store_version_current",
-                                                          kManUpConfigAppVersionMin: @"minimum_allowed_version",
-                                                          kManUpConfigAppUpdateURL: @"app_update_url"
-                                                          };
+        self.manUp.customConfigKeyMapping = @{
+                                              kManUpConfigAppVersionCurrent: @"app_store_version_current",
+                                              kManUpConfigAppVersionMin: @"minimum_allowed_version",
+                                              kManUpConfigAppUpdateURL: @"app_update_url"
+                                              };
         
     } else {
-        [ManUp sharedInstance].customConfigKeyMapping = nil;
+        self.manUp.customConfigKeyMapping = nil;
     }
     
-    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:[fileName stringByDeletingPathExtension] ofType:@"json"]
-                                     serverConfigURL:[NSURL URLWithString:serverPath]
-                                            delegate:self];
+    self.manUp.serverConfigURL = [NSURL URLWithString:serverPath];
+    [self.manUp validate];
 }
 
 #pragma mark - UITableViewDataSource
