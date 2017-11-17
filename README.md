@@ -13,23 +13,45 @@ The preferred method is via CocoaPods:
 
     pod 'ManUp'
 
-Alterantively, you can simply copy the folder `ManUp` into your project.
 
 ## Usage
 
 ManUp will download a ManUp configuration file (json) that is hosted on a server of your choice. This file will have the current app store version, the minimum version, and a URL to the app store or app website.
 
-    { 
-        "manUpAppUpdateLink": "https://itunes.apple.com/app/id0000000?mt=8",
-        "manUpAppVersionCurrent": "2.0",
-        "manUpAppVersionMin": "1.1"
+    {
+        "ios": {
+            "url": "https://itunes.apple.com/app/id0000000?mt=8",
+            "latest": "2.0",
+            "minimum": "1.1",
+            "enabled": true
+        }
     }
 
-Running ManUp will download this file and compare it to the installed app's version to determine if there is an update available (`manUpAppVersionCurrent`), or if there is a mandatory update required (`manUpAppVersionMin`).
+Running ManUp will download this file and compare it to the installed app's version to determine if there is an update available (`latest`), or if there is a mandatory update required (`minimum`).
 
-	[[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"config_manup" ofType:@"json"]
-                                     serverConfigURL:[NSURL URLWithString:@"https://yourserver.com/config.json"]
-                                            delegate:self];
+#### Swift
+
+	@import ManUp
+	
+    // keep a strong reference
+    let manUp = ManUp()
+    
+    // typically in applicationDidBecomeActive
+    self.manUp.configURL = URL(string: "https://clientfiles.nextfaze.com/eva/maintenanceMode.json")
+    self.manUp.delegate = nil
+    self.manUp.validate()
+
+
+#### Objective-C
+
+    #import <ManUp/ManUp.h>
+    
+    // keep a strong reference
+    @property (nonatomic, strong) ManUp *manUp;
+
+    self.manUp = [[ManUp alloc] initWithConfigURL:[NSURL URLWithString:@"https://yourserver.com/config.json"] delegate:self];
+    [self.manUp validate];
+
 	
 You can also add any keys and values to the json file, which will be accessible like so:
 

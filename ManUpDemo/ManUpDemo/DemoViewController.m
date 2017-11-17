@@ -14,6 +14,9 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *testItems;
 
+@property (nonatomic, strong) ManUp *manUp;
+@property (nonatomic, strong) NSString *lastUsedFilename;
+
 @end
 
 @implementation DemoViewController
@@ -31,6 +34,12 @@
     }
     
     self.testItems = testItems;
+    
+    self.manUp = [[ManUp alloc] init];
+    self.manUp.delegate = self;
+    self.manUp.enableConsoleLogging = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
     
     return self;
 }
@@ -60,6 +69,37 @@
     self.tableView.frame = self.view.bounds;
 }
 
+#pragma mark - Public
+
+- (void)applicationDidBecomeActive {
+    if (self.lastUsedFilename != nil) {
+        [self runManUpWithFileName:self.lastUsedFilename];
+    }
+}
+
+#pragma mark - Private
+
+- (void)runManUpWithFileName:(NSString *)fileName {
+    self.lastUsedFilename = fileName;
+    
+    NSString *serverPath = [@"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/" stringByAppendingString:fileName];
+    
+    if ([fileName isEqualToString:@"TestCustomConfigKeys.json"]) {
+        // Don't like the json keys used by ManUp? Specify your own with a custom mapping dictionary
+        self.manUp.customConfigKeyMapping = @{
+                                              kManUpConfigAppVersionCurrent: @"app_store_version_current",
+                                              kManUpConfigAppVersionMin: @"minimum_allowed_version",
+                                              kManUpConfigAppUpdateURL: @"app_update_url"
+                                              };
+        
+    } else {
+        self.manUp.customConfigKeyMapping = nil;
+    }
+    
+    self.manUp.configURL = [NSURL URLWithString:serverPath];
+    [self.manUp validate];
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -80,25 +120,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     NSString *fileName = self.testItems[indexPath.item];
-    NSString *serverPath = [@"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/" stringByAppendingString:fileName];
-
-    [ManUp sharedInstance].enableConsoleLogging = YES;
-    
-    if ([fileName isEqualToString:@"TestCustomConfigKeys.json"]) {
-        // Don't like the json keys used by ManUp? Specify your own with a custom mapping dictionary
-        [ManUp sharedInstance].customConfigKeyMapping = @{
-                                                          kManUpConfigAppVersionCurrent: @"app_store_version_current",
-                                                          kManUpConfigAppVersionMin: @"minimum_allowed_version",
-                                                          kManUpConfigAppUpdateURL: @"app_update_url"
-                                                          };
-        
-    } else {
-        [ManUp sharedInstance].customConfigKeyMapping = nil;
-    }
-    
-    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:[fileName stringByDeletingPathExtension] ofType:@"json"]
-                                     serverConfigURL:[NSURL URLWithString:serverPath]
-                                            delegate:self];
+    [self runManUpWithFileName:fileName];
 }
 
 #pragma mark - ManUpDelegate

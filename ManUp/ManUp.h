@@ -14,15 +14,17 @@ NS_ASSUME_NONNULL_BEGIN
  Default config.json keys
  Use these keys in your applications config json file to be served to ManUp
  
-    manUpAppVersionCurrent: the current App Store version, eg 2.0
-    manUpAppVersionMin: the minimum required version, which will force a mandatory update, eg 1.1
-    manUpAppUpdateURL: the URL to be opened to update the app, eg an App Store URL or a website
-    manUpAppDeploymentTarget: the minimum required OS for this update, optional, eg 8.1
+    latest: the current App Store version, eg 2.0
+    minimum: the minimum required version, which will force a mandatory update, eg 1.1
+    url: the URL to be opened to update the app, eg an App Store URL or a website
+    target: the minimum required OS for this update, optional, eg 8.1
  */
-static NSString *const kManUpConfigAppVersionCurrent    = @"manUpAppVersionCurrent";
-static NSString *const kManUpConfigAppVersionMin        = @"manUpAppVersionMin";
-static NSString *const kManUpConfigAppUpdateURL         = @"manUpAppUpdateURL";
-static NSString *const kManUpConfigAppDeploymentTarget  = @"manUpAppDeploymentTarget";
+static NSString *const kManUpConfigiOSContainer         = @"ios";
+static NSString *const kManUpConfigAppVersionCurrent    = @"latest";
+static NSString *const kManUpConfigAppVersionMin        = @"minimum";
+static NSString *const kManUpConfigAppUpdateURL         = @"url";
+static NSString *const kManUpConfigAppDeploymentTarget  = @"target";
+static NSString *const kManUpConfigAppIsEnabled         = @"enabled";
 
 @protocol ManUpDelegate <NSObject>
 
@@ -33,21 +35,22 @@ static NSString *const kManUpConfigAppDeploymentTarget  = @"manUpAppDeploymentTa
 - (BOOL)manUpShouldShowAlert;
 - (void)manUpUpdateRequired;
 - (void)manUpUpdateAvailable;
+- (void)manUpMaintenanceMode;
 
 @end
 
 @interface ManUp : NSObject
 
-+ (ManUp *)sharedInstance;
+- (instancetype)initWithConfigURL:(nullable NSURL *)url delegate:(nullable NSObject<ManUpDelegate> *)delegate;
 
-- (void)manUpWithDefaultDictionary:(nullable NSDictionary *)defaultSettingsDict
-                   serverConfigURL:(nullable NSURL *)serverConfigURL
-                          delegate:(nullable NSObject<ManUpDelegate> *)delegate;
+/**
+ Run the ManUp validation, if it's already running it will not start another check.
+ */
+- (void)validate;
 
-- (void)manUpWithDefaultJSONFile:(nullable NSString *)defaultSettingsPath
-                 serverConfigURL:(nullable NSURL *)serverConfigURL
-                        delegate:(nullable NSObject<ManUpDelegate> *)delegate;
-
+/**
+ A delegate to receive callbacks during the lifecycle of a validation.
+ */
 @property (nonatomic, weak, nullable) NSObject<ManUpDelegate> *delegate;
 
 /**
@@ -58,7 +61,7 @@ static NSString *const kManUpConfigAppDeploymentTarget  = @"manUpAppDeploymentTa
 /**
  The URL pointing to the remote config.json file.
  */
-@property (nonatomic, readonly, nullable) NSURL *serverConfigURL;
+@property (nonatomic, strong, nullable) NSURL *configURL;
 
 /**
  The date that the configuration was last successfully updated from the server.
@@ -75,7 +78,7 @@ static NSString *const kManUpConfigAppDeploymentTarget  = @"manUpAppDeploymentTa
  
  @param key the key used in the config json file
  */
-+ (id)settingForKey:(NSString *)key;
+- (id)settingForKey:(NSString *)key;
 
 /** 
  String version comparison

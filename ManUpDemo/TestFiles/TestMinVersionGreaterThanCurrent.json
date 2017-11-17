@@ -1,5 +1,7 @@
 {
-	"manUpAppUpdateURL": "https://itunes.apple.com/app/id0000000?mt=8",
-	"manUpAppVersionCurrent": "1.0",
-	"manUpAppVersionMin": "2.0"
+    "ios": {
+        "url": "https://itunes.apple.com/app/id0000000?mt=8",
+        "latest": "1.0",
+        "minimum": "2.0"
+    }
 }

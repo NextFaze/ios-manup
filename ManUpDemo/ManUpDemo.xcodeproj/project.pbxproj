@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7C03353C1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */; };
 		7C03353D1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */; };
+		7C1545BC1FB56277008AC0E0 /* TestMaintenanceMode.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C1545BB1FB56277008AC0E0 /* TestMaintenanceMode.json */; };
+		7C1545BD1FB56277008AC0E0 /* TestMaintenanceMode.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C1545BB1FB56277008AC0E0 /* TestMaintenanceMode.json */; };
 		7C239A661DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C239A631DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json */; };
 		7C239A671DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C239A631DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json */; };
 		7C239A681DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C239A641DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json */; };
@@ -64,6 +66,7 @@
 		647615055885DA5DD386E54D /* libPods-ManUpDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ManUpDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		666C04EE96A11222E26C2145 /* Pods-ManUpDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemoTests/Pods-ManUpDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestCustomConfigKeys.json; sourceTree = "<group>"; };
+		7C1545BB1FB56277008AC0E0 /* TestMaintenanceMode.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestMaintenanceMode.json; sourceTree = "<group>"; };
 		7C239A631DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableDeploymentTarget9.json; sourceTree = "<group>"; };
 		7C239A641DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableDeploymentTarget10.json; sourceTree = "<group>"; };
 		7C239A651DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableDeploymentTarget11.json; sourceTree = "<group>"; };
@@ -182,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */,
+				7C1545BB1FB56277008AC0E0 /* TestMaintenanceMode.json */,
 				7CB87B7C1CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json */,
 				7CB87B7D1CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json */,
 				7C239A6C1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json */,
@@ -316,6 +320,7 @@
 				7C239A681DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget10.json in Resources */,
 				7CB87B831CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json in Resources */,
 				7C239A6D1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json in Resources */,
+				7C1545BC1FB56277008AC0E0 /* TestMaintenanceMode.json in Resources */,
 				7CB87B871CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json in Resources */,
 				7C404B321FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget12.json in Resources */,
 				7C3106181C6D8DBB005E9578 /* Assets.xcassets in Resources */,
@@ -337,6 +342,7 @@
 				7C03353D1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */,
 				7C404B351FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget14.json in Resources */,
 				7C404B391FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget15.json in Resources */,
+				7C1545BD1FB56277008AC0E0 /* TestMaintenanceMode.json in Resources */,
 				7C239A6E1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json in Resources */,
 				7CB87B881CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json in Resources */,
 				7CB87B8A1CAE14EB0006CB79 /* TestVersionsEqual.json in Resources */,
