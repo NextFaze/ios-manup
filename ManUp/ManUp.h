@@ -41,16 +41,16 @@ static NSString *const kManUpConfigAppIsEnabled         = @"enabled";
 
 @interface ManUp : NSObject
 
-+ (ManUp *)sharedInstance;
+- (instancetype)initWithConfigURL:(nullable NSURL *)url delegate:(nullable NSObject<ManUpDelegate> *)delegate;
 
-- (void)manUpWithDefaultDictionary:(nullable NSDictionary *)defaultSettingsDict
-                   serverConfigURL:(nullable NSURL *)serverConfigURL
-                          delegate:(nullable NSObject<ManUpDelegate> *)delegate;
+/**
+ Run the ManUp validation, if it's already running it will not start another check.
+ */
+- (void)validate;
 
-- (void)manUpWithDefaultJSONFile:(nullable NSString *)defaultSettingsPath
-                 serverConfigURL:(nullable NSURL *)serverConfigURL
-                        delegate:(nullable NSObject<ManUpDelegate> *)delegate;
-
+/**
+ A delegate to receive callbacks during the lifecycle of a validation.
+ */
 @property (nonatomic, weak, nullable) NSObject<ManUpDelegate> *delegate;
 
 /**
@@ -61,7 +61,7 @@ static NSString *const kManUpConfigAppIsEnabled         = @"enabled";
 /**
  The URL pointing to the remote config.json file.
  */
-@property (nonatomic, readonly, nullable) NSURL *serverConfigURL;
+@property (nonatomic, strong, nullable) NSURL *configURL;
 
 /**
  The date that the configuration was last successfully updated from the server.
@@ -78,7 +78,7 @@ static NSString *const kManUpConfigAppIsEnabled         = @"enabled";
  
  @param key the key used in the config json file
  */
-+ (id)settingForKey:(NSString *)key;
+- (id)settingForKey:(NSString *)key;
 
 /** 
  String version comparison

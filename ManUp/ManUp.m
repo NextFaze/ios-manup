@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
  Used to save settings used by ManUp locally to the device
  */
 static NSString *const kManUpSettings                   = @"ManUpSettings";
-static NSString *const kManUpServerConfigURL            = @"ManUpServerConfigURL";
 static NSString *const kManUpLastUpdated                = @"ManUpLastUpdated";
 
 typedef NS_ENUM(NSUInteger, ManUpAlertType) {
@@ -31,63 +30,34 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
 @property (nonatomic, assign) ManUpAlertType currentlyShownAlertType;
 @property (nonatomic, assign) BOOL optionalUpdateShown;
 @property (nonatomic, assign) BOOL updateInProgress;
-@property (nonatomic, strong, nullable) NSURL *serverConfigURL;
 
 @end
 
 @implementation ManUp
 
-- (void)manUpWithDefaultDictionary:(nullable NSDictionary *)defaultSettingsDict serverConfigURL:(nullable NSURL *)serverConfigURL delegate:(nullable NSObject<ManUpDelegate> *)delegate {
-    self.delegate = delegate;
-    self.serverConfigURL = serverConfigURL;
-    
-    // Only apply defaults if they do not exist already.
-    if(![self hasPersistedSettings]) {
-        NSDictionary* nonNullDefaultSettings = [self replaceNullsWithEmptyStringInDictionary:defaultSettingsDict];
-        [self setManUpSettings:nonNullDefaultSettings];
-    }
-    
-    [self updateFromServer];
-}
-
-- (void)manUpWithDefaultJSONFile:(nullable NSString *)defaultSettingsPath serverConfigURL:(nullable NSURL *)serverConfigURL delegate:(nullable NSObject<ManUpDelegate> *)delegate {
-    self.delegate = delegate;
-    self.serverConfigURL = serverConfigURL;
-    
-    // Only apply defaults if they do not exist already.
-    if (![self hasPersistedSettings]) {
-        NSData *jsonData = [NSData dataWithContentsOfFile:defaultSettingsPath];
-        if (jsonData) {
-            NSError *error = nil;
-            NSDictionary *defaultSettings = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
-            NSDictionary *nonNullDefaultSettings = [self replaceNullsWithEmptyStringInDictionary:defaultSettings];
-            [self setManUpSettings:nonNullDefaultSettings];
-        }
-    }
-    
-    [self updateFromServer];
-}
-
 #pragma mark - Creation
 
-+ (ManUp *)sharedInstance {
-    static id sharedInstance = nil;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[[self class] alloc] init];
-    });
-
-    return sharedInstance;
+- (instancetype)initWithConfigURL:(nullable NSURL *)url delegate:(nullable NSObject<ManUpDelegate> *)delegate {
+    if (self = [self init]) {
+        self.configURL = url;
+        self.delegate = delegate;
+    }
+    return self;
 }
 
-- (id)init {
+- (instancetype)init {
 	if (self = [super init]) {
 		self.updateInProgress = NO;
         self.optionalUpdateShown = NO;
         self.currentlyShownAlertType = ManUpAlertTypeNone;
 	}
 	return self;
+}
+
+#pragma mark - Public
+
+- (void)validate {
+    [self updateFromServer];
 }
 
 #pragma mark - 
@@ -150,10 +120,6 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
     return object;
 }
 
-+ (id)settingForKey:(NSString *)key {
-    return [[ManUp sharedInstance] settingForKey:key];
-}
-
 - (void)log:(NSString *)string, ... NS_FORMAT_FUNCTION(1,2) {
     if (self.enableConsoleLogging) {
         va_list args;
@@ -166,7 +132,7 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
 #pragma mark -
 
 - (void)updateFromServer {
-    if (!self.serverConfigURL) {
+    if (!self.configURL) {
         [self log:@"ERROR: No server config URL specified."];
         if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
             NSError *error = [NSError errorWithDomain:@"com.nextfaze.ManUp" code:1 userInfo:nil];
@@ -185,7 +151,7 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
         [self.delegate manUpConfigUpdateStarting];
     }
     
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:self.serverConfigURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:self.configURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
 
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request

@@ -14,6 +14,7 @@
 @interface ManUpDemoTests : XCTestCase <ManUpDelegate>
 
 @property (nonatomic, strong) XCTestExpectation *expectation;
+@property (nonatomic, strong) ManUp *manUp;
 @property (nonatomic, assign) BOOL updated;
 @property (nonatomic, assign) BOOL failed;
 @property (nonatomic, assign) BOOL updateAvailable;
@@ -27,7 +28,8 @@
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    [ManUp sharedInstance].enableConsoleLogging = YES;
+    self.manUp = [[ManUp alloc] initWithConfigURL:nil delegate:self];
+    self.manUp.enableConsoleLogging = YES;
 }
 
 - (void)tearDown {
@@ -37,53 +39,24 @@
     self.failed = NO;
     self.updateAvailable = NO;
     self.updateRequired = NO;
-    [ManUp sharedInstance].optionalUpdateShown = NO;
 }
 
 - (void)testManUpSettingForKey {
-    id setting = [ManUp settingForKey:@"made-up-key"];
+    id setting = [self.manUp settingForKey:@"made-up-key"];
     XCTAssertNil(setting, @"There should be no setting for this made up key.");
 }
 
 - (void)testConfigInvalidURL {
-    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"TestVersionsEqual" ofType:@"json"]
-                                     serverConfigURL:nil
-                                            delegate:self];
+    self.manUp.configURL = nil;
+    [self.manUp validate];
     
     XCTAssert(self.failed == YES);
     XCTAssert(self.updated == NO);
 }
-
-- (void)testConfigWithIncorrectJSONFile {
-    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"ThisFileDoesntExist" ofType:@"json"]
-                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEqual.json", ServerConfigPath]]
-                                            delegate:self];
-
-    self.expectation = [self expectationWithDescription:@"ManUp with versions equal"];
-    
-    [self waitForExpectationsWithTimeout:60.0 handler:nil];
-    
-    XCTAssert(self.failed == NO);
-    XCTAssert(self.updated == YES);
-}
-
-- (void)testConfigWithNilJSONFile {
-    [[ManUp sharedInstance] manUpWithDefaultJSONFile:nil
-                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEqual.json", ServerConfigPath]]
-                                            delegate:self];
-    
-    self.expectation = [self expectationWithDescription:@"ManUp with versions equal"];
-    
-    [self waitForExpectationsWithTimeout:60.0 handler:nil];
-    
-    XCTAssert(self.failed == NO);
-    XCTAssert(self.updated == YES);
-}
     
 - (void)testConfigVersionsEqual {
-    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"TestVersionsEqual" ofType:@"json"]
-                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEqual.json", ServerConfigPath]]
-                                            delegate:self];
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEqual.json", ServerConfigPath]];
+    [self.manUp validate];
     
     self.expectation = [self expectationWithDescription:@"ManUp with versions equal"];
     
@@ -103,9 +76,8 @@
     NSInteger lowerMajorVersion = operatingSystemMajorVersion - 1;
     NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%ld", (long)lowerMajorVersion];
     
-    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:testFilename ofType:@"json"]
-                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]]
-                                            delegate:self];
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]];
+    [self.manUp validate];
     
     self.expectation = [self expectationWithDescription:@"ManUp update available as the update's deployment target is lower than the OS version"];
     
@@ -126,9 +98,8 @@
     NSInteger operatingSystemMajorVersion = [versionComponents[0] integerValue];
     NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%ld", (long)operatingSystemMajorVersion];
     
-    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:testFilename ofType:@"json"]
-                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]]
-                                            delegate:self];
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]];
+    [self.manUp validate];
     
     self.expectation = [self expectationWithDescription:@"ManUp update available as the update's deployment target is the same (major) as the OS version"];
     
@@ -150,9 +121,8 @@
     NSInteger higherMajorVersion = operatingSystemMajorVersion + 1;
     NSString *testFilename = [NSString stringWithFormat:@"TestUpgradeAvailableDeploymentTarget%ld", (long)higherMajorVersion];
     
-    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:testFilename ofType:@"json"]
-                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]]
-                                            delegate:self];
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@.json", ServerConfigPath, testFilename]];
+    [self.manUp validate];
     
     self.expectation = [self expectationWithDescription:@"ManUp update exists but is not available as the update's deployment target is higher than the OS version"];
     
@@ -165,9 +135,8 @@
 }
 
 - (void)testMaintenanceMode {
-    [[ManUp sharedInstance] manUpWithDefaultJSONFile:[[NSBundle mainBundle] pathForResource:@"TestMaintenanceMode" ofType:@"json"]
-                                     serverConfigURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@TestMaintenanceMode.json", ServerConfigPath]]
-                                            delegate:self];
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@TestMaintenanceMode.json", ServerConfigPath]];
+    [self.manUp validate];
     
     self.expectation = [self expectationWithDescription:@"ManUp with maintenance mode is true"];
     
