@@ -133,7 +133,7 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
 
 - (void)updateFromServer {
     if (!self.configURL) {
-        [self log:@"ERROR: No server config URL specified."];
+        [self log:@"ManUp: ERROR No server config URL specified."];
         if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
             NSError *error = [NSError errorWithDomain:@"com.nextfaze.ManUp" code:1 userInfo:nil];
             [self.delegate manUpConfigUpdateFailed:error];
@@ -171,6 +171,7 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
                                                 }
                                                 
                                                 if (error) {
+                                                    [self log:@"ManUp: ERROR %@", error.localizedDescription];
                                                     if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
                                                         [self.delegate manUpConfigUpdateFailed:error];
                                                     }
@@ -184,7 +185,7 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
                                                                                                   error:&parsingError];
                                                 
                                                 if (parsingError) {
-                                                    [self log:@"ERROR: %@", parsingError];
+                                                    [self log:@"ManUp: ERROR Parsing - %@", parsingError.localizedDescription];
                                                     [self log:@"\%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
                                                     if ([self.delegate respondsToSelector:@selector(manUpConfigUpdateFailed:)]) {
                                                         [self.delegate manUpConfigUpdateFailed:error];
