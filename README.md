@@ -55,6 +55,6 @@ Running ManUp will download this file and compare it to the installed app's vers
 	
 You can also add any keys and values to the json file, which will be accessible like so:
 
-    id value = [ManUp settingForKey:"key"];
+    id value = [self.manUp settingForKey:"key"];
 
 This can be used however you see fit, for example to enable/disable app features.
