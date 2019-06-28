@@ -149,6 +149,36 @@
     XCTAssert(self.updateRequired == NO);
 }
 
+- (void)testMaintenanceModeForVersionsGreaterThan {
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEnabledGreaterThan.json", ServerConfigPath]];
+    [self.manUp validate];
+    
+    self.expectation = [self expectationWithDescription:@"ManUp with maintenance mode is false"];
+    
+    [self waitForExpectationsWithTimeout:60.0 handler:nil];
+    
+    XCTAssert(self.maintenanceMode == NO);
+    XCTAssert(self.failed == NO);
+    XCTAssert(self.updated == YES);
+    XCTAssert(self.updateAvailable == NO);
+    XCTAssert(self.updateRequired == NO);
+}
+
+- (void)testMaintenanceModeForVersionsGreaterThanFailure {
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEnabledGreaterThanFailure.json", ServerConfigPath]];
+    [self.manUp validate];
+    
+    self.expectation = [self expectationWithDescription:@"ManUp with maintenance mode is true"];
+    
+    [self waitForExpectationsWithTimeout:60.0 handler:nil];
+    
+    XCTAssert(self.maintenanceMode == YES);
+    XCTAssert(self.failed == NO);
+    XCTAssert(self.updated == YES);
+    XCTAssert(self.updateAvailable == NO);
+    XCTAssert(self.updateRequired == NO);
+}
+
 #pragma mark - ManUpDelegate
 
 - (void)manUpConfigUpdateStarting {

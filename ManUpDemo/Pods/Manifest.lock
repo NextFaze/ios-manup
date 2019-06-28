@@ -1,5 +1,5 @@
 PODS:
-  - ManUp (0.1.1)
+  - ManUp (1.0)
 
 DEPENDENCIES:
   - ManUp (from `../`)
@@ -9,6 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ManUp: cbe204d95c288aca9e88362b57f6b7450e0099ae
+  ManUp: b1ccfafcefd17f568e7ce33084ab26f6fc47b050
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 9a9b565f35ef8c93e15c20dade7c439581b5f1be
+
+COCOAPODS: 1.5.3

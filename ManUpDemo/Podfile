@@ -1,14 +1,10 @@
-platform :ios, '7.0'
+platform :ios, '8.0'
 
 target 'ManUpDemo' do
 	pod 'ManUp', :path => "../"
 end
 
 target 'ManUpDemoTests' do
-	pod 'ManUp', :path => "../"	
-end
-
-target 'ManUpDemoUITests' do
 	pod 'ManUp', :path => "../"	
 end
 
