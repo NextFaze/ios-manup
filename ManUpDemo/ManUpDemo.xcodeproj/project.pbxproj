@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C2804AE5C2D918FCABD13F1 /* libPods-ManUpDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D876FD99BC0F486537A52BE /* libPods-ManUpDemo.a */; };
 		7C03353C1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */; };
 		7C03353D1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */; };
 		7C1545BC1FB56277008AC0E0 /* TestMaintenanceMode.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C1545BB1FB56277008AC0E0 /* TestMaintenanceMode.json */; };
@@ -45,8 +46,7 @@
 		7CB87B891CAE14EB0006CB79 /* TestVersionsEqual.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B801CAE14EB0006CB79 /* TestVersionsEqual.json */; };
 		7CB87B8A1CAE14EB0006CB79 /* TestVersionsEqual.json in Resources */ = {isa = PBXBuildFile; fileRef = 7CB87B801CAE14EB0006CB79 /* TestVersionsEqual.json */; };
 		7CB87B8C1CAE261C0006CB79 /* ManUpVersionCompareTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB87B8B1CAE261C0006CB79 /* ManUpVersionCompareTests.m */; };
-		CB0D2DFD78C53EA00EE473F1 /* libPods-ManUpDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 647615055885DA5DD386E54D /* libPods-ManUpDemo.a */; };
-		D5A80371865271C5E76BE4BF /* libPods-ManUpDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DC71BB5DC7139C08F947538 /* libPods-ManUpDemoTests.a */; };
+		BB3F4EF168F44DC9DA8E74A1 /* libPods-ManUpDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 507E4F91F4588D683744AD6D /* libPods-ManUpDemoTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,11 +60,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		16F4F4D638F7DF3EB7743ED3 /* Pods-ManUpDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemo/Pods-ManUpDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		47AC8C2428E3561568B4D67F /* Pods-ManUpDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemoUITests/Pods-ManUpDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		60B11AD688270B43A1896E49 /* Pods-ManUpDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemoUITests/Pods-ManUpDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
-		647615055885DA5DD386E54D /* libPods-ManUpDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ManUpDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		666C04EE96A11222E26C2145 /* Pods-ManUpDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemoTests/Pods-ManUpDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1D17B78AE1763D315B7E775A /* Pods-ManUpDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemoTests/Pods-ManUpDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		2CB0198B0ABCC8CE08E7030F /* Pods-ManUpDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemo/Pods-ManUpDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		441036DC22C5D19F004A2747 /* TestVersionsEnabledGreaterThan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestVersionsEnabledGreaterThan.json; sourceTree = "<group>"; };
+		507E4F91F4588D683744AD6D /* libPods-ManUpDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ManUpDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D876FD99BC0F486537A52BE /* libPods-ManUpDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ManUpDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestCustomConfigKeys.json; sourceTree = "<group>"; };
 		7C1545BB1FB56277008AC0E0 /* TestMaintenanceMode.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestMaintenanceMode.json; sourceTree = "<group>"; };
 		7C239A631DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestUpgradeAvailableDeploymentTarget9.json; sourceTree = "<group>"; };
@@ -97,10 +97,8 @@
 		7CB87B8B1CAE261C0006CB79 /* ManUpVersionCompareTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManUpVersionCompareTests.m; sourceTree = "<group>"; };
 		7CE189181C928EBF00118822 /* ManUp.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = ManUp.podspec; path = ../ManUp.podspec; sourceTree = "<group>"; };
 		7CE189191C9290F700118822 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		7DC71BB5DC7139C08F947538 /* libPods-ManUpDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ManUpDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B2433050CB41A67846A31BF2 /* libPods-ManUpDemoUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ManUpDemoUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3C378C136524F5D7513F8B6 /* Pods-ManUpDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemoTests/Pods-ManUpDemoTests.release.xcconfig"; sourceTree = "<group>"; };
-		E8882545F2EFE491616397CB /* Pods-ManUpDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemo/Pods-ManUpDemo.release.xcconfig"; sourceTree = "<group>"; };
+		F271FB9DF96FE715AB4F70D5 /* Pods-ManUpDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemo/Pods-ManUpDemo.release.xcconfig"; sourceTree = "<group>"; };
+		F550E1C4EA6007CF7C312EF9 /* Pods-ManUpDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemoTests/Pods-ManUpDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,7 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB0D2DFD78C53EA00EE473F1 /* libPods-ManUpDemo.a in Frameworks */,
+				4C2804AE5C2D918FCABD13F1 /* libPods-ManUpDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,13 +114,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D5A80371865271C5E76BE4BF /* libPods-ManUpDemoTests.a in Frameworks */,
+				BB3F4EF168F44DC9DA8E74A1 /* libPods-ManUpDemoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		404BFE497C1485C641AFDA32 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5D876FD99BC0F486537A52BE /* libPods-ManUpDemo.a */,
+				507E4F91F4588D683744AD6D /* libPods-ManUpDemoTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		426E348EC05AC2BCCB73A9C9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2CB0198B0ABCC8CE08E7030F /* Pods-ManUpDemo.debug.xcconfig */,
+				F271FB9DF96FE715AB4F70D5 /* Pods-ManUpDemo.release.xcconfig */,
+				1D17B78AE1763D315B7E775A /* Pods-ManUpDemoTests.debug.xcconfig */,
+				F550E1C4EA6007CF7C312EF9 /* Pods-ManUpDemoTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		7C3105FF1C6D8DBB005E9578 = {
 			isa = PBXGroup;
 			children = (
@@ -132,8 +150,8 @@
 				7C3106241C6D8DBB005E9578 /* ManUpDemoTests */,
 				7CB87B7B1CAE14EB0006CB79 /* TestFiles */,
 				7C3106091C6D8DBB005E9578 /* Products */,
-				CC1239EE651CCBA0630612B1 /* Pods */,
-				B34B6819DF306CFC8040D160 /* Frameworks */,
+				426E348EC05AC2BCCB73A9C9 /* Pods */,
+				404BFE497C1485C641AFDA32 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -203,29 +221,6 @@
 			path = TestFiles;
 			sourceTree = "<group>";
 		};
-		B34B6819DF306CFC8040D160 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				647615055885DA5DD386E54D /* libPods-ManUpDemo.a */,
-				7DC71BB5DC7139C08F947538 /* libPods-ManUpDemoTests.a */,
-				B2433050CB41A67846A31BF2 /* libPods-ManUpDemoUITests.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		CC1239EE651CCBA0630612B1 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				16F4F4D638F7DF3EB7743ED3 /* Pods-ManUpDemo.debug.xcconfig */,
-				E8882545F2EFE491616397CB /* Pods-ManUpDemo.release.xcconfig */,
-				666C04EE96A11222E26C2145 /* Pods-ManUpDemoTests.debug.xcconfig */,
-				B3C378C136524F5D7513F8B6 /* Pods-ManUpDemoTests.release.xcconfig */,
-				47AC8C2428E3561568B4D67F /* Pods-ManUpDemoUITests.debug.xcconfig */,
-				60B11AD688270B43A1896E49 /* Pods-ManUpDemoUITests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -233,12 +228,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7C3106351C6D8DBB005E9578 /* Build configuration list for PBXNativeTarget "ManUpDemo" */;
 			buildPhases = (
-				4BC0DD0803EA325F2AFD0BC6 /* Check Pods Manifest.lock */,
+				E048807AE4FA9B64F2EEFF1E /* [CP] Check Pods Manifest.lock */,
 				7C3106041C6D8DBB005E9578 /* Sources */,
 				7C3106051C6D8DBB005E9578 /* Frameworks */,
 				7C3106061C6D8DBB005E9578 /* Resources */,
-				5B94159A5F152793D6A60E99 /* Embed Pods Frameworks */,
-				4F60176FAF37551AB4586856 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -253,12 +246,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7C3106381C6D8DBB005E9578 /* Build configuration list for PBXNativeTarget "ManUpDemoTests" */;
 			buildPhases = (
-				A4351765ABCA956521177B78 /* Check Pods Manifest.lock */,
+				6C8160EF7855733416383A50 /* [CP] Check Pods Manifest.lock */,
 				7C31061D1C6D8DBB005E9578 /* Sources */,
 				7C31061E1C6D8DBB005E9578 /* Frameworks */,
 				7C31061F1C6D8DBB005E9578 /* Resources */,
-				88A3C2CB6CCF905545574C53 /* Embed Pods Frameworks */,
-				3B7CD34D17D943CC4F9C610D /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -360,94 +351,48 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3B7CD34D17D943CC4F9C610D /* Copy Pods Resources */ = {
+		6C8160EF7855733416383A50 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ManUpDemoTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ManUpDemoTests/Pods-ManUpDemoTests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4BC0DD0803EA325F2AFD0BC6 /* Check Pods Manifest.lock */ = {
+		E048807AE4FA9B64F2EEFF1E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ManUpDemo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		4F60176FAF37551AB4586856 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ManUpDemo/Pods-ManUpDemo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5B94159A5F152793D6A60E99 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ManUpDemo/Pods-ManUpDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		88A3C2CB6CCF905545574C53 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ManUpDemoTests/Pods-ManUpDemoTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A4351765ABCA956521177B78 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -579,7 +524,7 @@
 		};
 		7C3106361C6D8DBB005E9578 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 16F4F4D638F7DF3EB7743ED3 /* Pods-ManUpDemo.debug.xcconfig */;
+			baseConfigurationReference = 2CB0198B0ABCC8CE08E7030F /* Pods-ManUpDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -597,7 +542,7 @@
 		};
 		7C3106371C6D8DBB005E9578 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8882545F2EFE491616397CB /* Pods-ManUpDemo.release.xcconfig */;
+			baseConfigurationReference = F271FB9DF96FE715AB4F70D5 /* Pods-ManUpDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -613,7 +558,7 @@
 		};
 		7C3106391C6D8DBB005E9578 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 666C04EE96A11222E26C2145 /* Pods-ManUpDemoTests.debug.xcconfig */;
+			baseConfigurationReference = 1D17B78AE1763D315B7E775A /* Pods-ManUpDemoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = B89H5L73N6;
@@ -627,7 +572,7 @@
 		};
 		7C31063A1C6D8DBB005E9578 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B3C378C136524F5D7513F8B6 /* Pods-ManUpDemoTests.release.xcconfig */;
+			baseConfigurationReference = F550E1C4EA6007CF7C312EF9 /* Pods-ManUpDemoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = B89H5L73N6;
