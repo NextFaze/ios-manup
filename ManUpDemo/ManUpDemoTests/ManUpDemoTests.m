@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "ManUp+Testing.h"
 
-#define ServerConfigPath @"https://github.com/NextFaze/ManUp/raw/feature/maintenance-with-version-check/ManUpDemo/TestFiles/"
+#define ServerConfigPath @"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/"
 
 @interface ManUpDemoTests : XCTestCase <ManUpDelegate>
 
