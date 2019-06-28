@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		441036DD22C5D19F004A2747 /* TestVersionsEnabledGreaterThan.json in Resources */ = {isa = PBXBuildFile; fileRef = 441036DC22C5D19F004A2747 /* TestVersionsEnabledGreaterThan.json */; };
+		441036DE22C5D19F004A2747 /* TestVersionsEnabledGreaterThan.json in Resources */ = {isa = PBXBuildFile; fileRef = 441036DC22C5D19F004A2747 /* TestVersionsEnabledGreaterThan.json */; };
+		441036E022C5D50C004A2747 /* TestVersionsEnabledGreaterThanFailure.json in Resources */ = {isa = PBXBuildFile; fileRef = 441036DF22C5D50B004A2747 /* TestVersionsEnabledGreaterThanFailure.json */; };
+		441036E122C5D50C004A2747 /* TestVersionsEnabledGreaterThanFailure.json in Resources */ = {isa = PBXBuildFile; fileRef = 441036DF22C5D50B004A2747 /* TestVersionsEnabledGreaterThanFailure.json */; };
 		4C2804AE5C2D918FCABD13F1 /* libPods-ManUpDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D876FD99BC0F486537A52BE /* libPods-ManUpDemo.a */; };
 		7C03353C1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */; };
 		7C03353D1CB216C90076CA8B /* TestCustomConfigKeys.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */; };
@@ -63,6 +67,7 @@
 		1D17B78AE1763D315B7E775A /* Pods-ManUpDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemoTests/Pods-ManUpDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2CB0198B0ABCC8CE08E7030F /* Pods-ManUpDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ManUpDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ManUpDemo/Pods-ManUpDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		441036DC22C5D19F004A2747 /* TestVersionsEnabledGreaterThan.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestVersionsEnabledGreaterThan.json; sourceTree = "<group>"; };
+		441036DF22C5D50B004A2747 /* TestVersionsEnabledGreaterThanFailure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestVersionsEnabledGreaterThanFailure.json; sourceTree = "<group>"; };
 		507E4F91F4588D683744AD6D /* libPods-ManUpDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ManUpDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D876FD99BC0F486537A52BE /* libPods-ManUpDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ManUpDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C03353B1CB216C90076CA8B /* TestCustomConfigKeys.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestCustomConfigKeys.json; sourceTree = "<group>"; };
@@ -217,6 +222,8 @@
 				7CB87B7E1CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json */,
 				7CB87B7F1CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json */,
 				7CB87B801CAE14EB0006CB79 /* TestVersionsEqual.json */,
+				441036DC22C5D19F004A2747 /* TestVersionsEnabledGreaterThan.json */,
+				441036DF22C5D50B004A2747 /* TestVersionsEnabledGreaterThanFailure.json */,
 			);
 			path = TestFiles;
 			sourceTree = "<group>";
@@ -287,6 +294,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -312,10 +320,12 @@
 				7CB87B831CAE14EB0006CB79 /* TestMinVersionLessThanCurrent.json in Resources */,
 				7C239A6D1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json in Resources */,
 				7C1545BC1FB56277008AC0E0 /* TestMaintenanceMode.json in Resources */,
+				441036DD22C5D19F004A2747 /* TestVersionsEnabledGreaterThan.json in Resources */,
 				7CB87B871CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json in Resources */,
 				7C404B321FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget12.json in Resources */,
 				7C3106181C6D8DBB005E9578 /* Assets.xcassets in Resources */,
 				7CB87B851CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json in Resources */,
+				441036E022C5D50C004A2747 /* TestVersionsEnabledGreaterThanFailure.json in Resources */,
 				7CB87B811CAE14EB0006CB79 /* TestMinVersionGreaterThanCurrent.json in Resources */,
 				7C404B381FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget15.json in Resources */,
 				7C404B361FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget13.json in Resources */,
@@ -334,6 +344,7 @@
 				7C404B351FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget14.json in Resources */,
 				7C404B391FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget15.json in Resources */,
 				7C1545BD1FB56277008AC0E0 /* TestMaintenanceMode.json in Resources */,
+				441036DE22C5D19F004A2747 /* TestVersionsEnabledGreaterThan.json in Resources */,
 				7C239A6E1DF0F7500099D534 /* TestUpgradeAvailableDeploymentTarget8.json in Resources */,
 				7CB87B881CAE14EB0006CB79 /* TestUpgradeAvailableWithURL.json in Resources */,
 				7CB87B8A1CAE14EB0006CB79 /* TestVersionsEqual.json in Resources */,
@@ -343,6 +354,7 @@
 				7CB87B861CAE14EB0006CB79 /* TestUpgradeAvailableWithoutURL.json in Resources */,
 				7C239A6B1DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget11.json in Resources */,
 				7C239A671DEFDFC00099D534 /* TestUpgradeAvailableDeploymentTarget9.json in Resources */,
+				441036E122C5D50C004A2747 /* TestVersionsEnabledGreaterThanFailure.json in Resources */,
 				7C404B371FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget13.json in Resources */,
 				7C404B331FAC3470001E649E /* TestUpgradeAvailableDeploymentTarget12.json in Resources */,
 			);
