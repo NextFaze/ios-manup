@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "ManUp+Testing.h"
 
-#define ServerConfigPath @"https://github.com/NextFaze/ManUp/raw/develop/ManUpDemo/TestFiles/"
+#define ServerConfigPath @"https://github.com/NextFaze/ManUp/raw/feature/maintenance-with-version-check/ManUpDemo/TestFiles/"
 
 @interface ManUpDemoTests : XCTestCase <ManUpDelegate>
 
@@ -136,6 +136,36 @@
 
 - (void)testMaintenanceMode {
     self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@TestMaintenanceMode.json", ServerConfigPath]];
+    [self.manUp validate];
+    
+    self.expectation = [self expectationWithDescription:@"ManUp with maintenance mode is true"];
+    
+    [self waitForExpectationsWithTimeout:60.0 handler:nil];
+    
+    XCTAssert(self.maintenanceMode == YES);
+    XCTAssert(self.failed == NO);
+    XCTAssert(self.updated == YES);
+    XCTAssert(self.updateAvailable == NO);
+    XCTAssert(self.updateRequired == NO);
+}
+
+- (void)testMaintenanceModeForVersionsGreaterThan {
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEnabledGreaterThan.json", ServerConfigPath]];
+    [self.manUp validate];
+    
+    self.expectation = [self expectationWithDescription:@"ManUp with maintenance mode is false"];
+    
+    [self waitForExpectationsWithTimeout:60.0 handler:nil];
+    
+    XCTAssert(self.maintenanceMode == NO);
+    XCTAssert(self.failed == NO);
+    XCTAssert(self.updated == YES);
+    XCTAssert(self.updateAvailable == NO);
+    XCTAssert(self.updateRequired == NO);
+}
+
+- (void)testMaintenanceModeForVersionsGreaterThanFailure {
+    self.manUp.configURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@TestVersionsEnabledGreaterThanFailure.json", ServerConfigPath]];
     [self.manUp validate];
     
     self.expectation = [self expectationWithDescription:@"ManUp with maintenance mode is true"];

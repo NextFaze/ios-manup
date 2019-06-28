@@ -257,11 +257,18 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
     NSString *updateURL = [self settingForKey:kManUpConfigAppUpdateURL];
     NSString *currentVersion = [self settingForKey:kManUpConfigAppVersionCurrent];
     NSString *minVersion = [self settingForKey:kManUpConfigAppVersionMin];
+    NSString *enabledForVersions = [self settingForKey:kManUpConfigAppIsEnabledForVersions];
     NSString *installedVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSComparisonResult minVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:minVersion];
     NSComparisonResult currentVersionComparisonResult = [ManUp compareVersion:installedVersion toVersion:currentVersion];
+    NSComparisonResult enabledForVersionsComparisonResult = [ManUp compareVersion:enabledForVersions toVersion:currentVersion];
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     BOOL enabled = [self settingForKey:kManUpConfigAppIsEnabled] ? [[self settingForKey:kManUpConfigAppIsEnabled] boolValue] : YES;
+    
+    if (minVersion && minVersionComparisonResult == NSOrderedAscending) {
+        enabled = NO;
+        [self log:@"ManUp: Error, expecting string for current app store version"];
+    }
 
     if (![currentVersion isKindOfClass:[NSString class]]) {
         [self log:@"ManUp: Error, expecting string for current app store version"];
@@ -271,6 +278,16 @@ typedef NS_ENUM(NSUInteger, ManUpAlertType) {
     if (![minVersion isKindOfClass:[NSString class]]) {
         [self log:@"ManUp: Error, expecting string for minimum app store version"];
         return;
+    }
+    
+    if (![enabledForVersions isKindOfClass:[NSString class]]) {
+        [self log:@"ManUp: Error, expecting string for enabled for app store versions >"];
+        return;
+    }
+    
+    if (enabledForVersions && enabledForVersionsComparisonResult == NSOrderedDescending) {
+        enabled = NO;
+        [self log:@"ManUp: Disabling as current version is not > enabled versions"];
     }
     
     [self log:@"Current version  : %@", currentVersion];

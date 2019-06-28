@@ -19,12 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
     url: the URL to be opened to update the app, eg an App Store URL or a website
     target: the minimum required OS for this update, optional, eg 8.1
  */
-static NSString *const kManUpConfigiOSContainer         = @"ios";
-static NSString *const kManUpConfigAppVersionCurrent    = @"latest";
-static NSString *const kManUpConfigAppVersionMin        = @"minimum";
-static NSString *const kManUpConfigAppUpdateURL         = @"url";
-static NSString *const kManUpConfigAppDeploymentTarget  = @"target";
-static NSString *const kManUpConfigAppIsEnabled         = @"enabled";
+static NSString *const kManUpConfigiOSContainer             = @"ios";
+static NSString *const kManUpConfigAppVersionCurrent        = @"latest";
+static NSString *const kManUpConfigAppVersionMin            = @"minimum";
+static NSString *const kManUpConfigAppUpdateURL             = @"url";
+static NSString *const kManUpConfigAppDeploymentTarget      = @"target";
+static NSString *const kManUpConfigAppIsEnabled             = @"enabled";
+static NSString *const kManUpConfigAppIsEnabledForVersions  = @"enabledForVersions";
 
 @protocol ManUpDelegate <NSObject>
 
