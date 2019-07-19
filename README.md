@@ -20,14 +20,25 @@ ManUp will download a ManUp configuration file (json) that is hosted on a server
 
     {
         "ios": {
-            "url": "https://itunes.apple.com/app/id0000000?mt=8",
+            "enabled": true,
             "latest": "2.0",
             "minimum": "1.1",
-            "enabled": true
+            "minimumEnabled" : "2.1",
+            "url": "https://itunes.apple.com/app/id0000000?mt=8",
         }
     }
 
 Running ManUp will download this file and compare it to the installed app's version to determine if there is an update available (`latest`), or if there is a mandatory update required (`minimum`).
+
+### Fields
+
+* `enabled` (default `true`) : if the app in available (`true`) or unavailable (`false`).
+* `latest`  (default `0.0.0`) : if current version of app is less then this, inform user of a later version, with option to goto upgrade url.
+* `minimum` (default `0.0.0`): if current version of app is less then this, inform user the app must be upgarded to contine, link to upgrade url.
+* `minimumEnabled` (default `0.0.0`) : if current version of app is less then this, inform user the app is unavailable (this allows review of later versions without interruption).
+* `url` (default `null`): If set, location to go to upgrade.
+
+NB. App version is determined by `CFBundleShortVersionString`; this must be in semantic versioning form (eg `x.y.z`)
 
 #### Swift
 
@@ -37,7 +48,7 @@ Running ManUp will download this file and compare it to the installed app's vers
     let manUp = ManUp()
     
     // typically in applicationDidBecomeActive
-    self.manUp.configURL = URL(string: "https://clientfiles.nextfaze.com/eva/maintenanceMode.json")
+    self.manUp.configURL = URL(string: "https://yourserver.com/config.json")
     self.manUp.delegate = nil
     self.manUp.validate()
 
