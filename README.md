@@ -37,7 +37,7 @@ Running ManUp will download this file and compare it to the installed app's vers
 
 #### Swift
 
-    @import ManUp
+    import ManUp
 
     // keep a strong reference
     let manUp = ManUp()
