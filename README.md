@@ -7,12 +7,18 @@
 
 Adds a server side check for a mandatory app update and server-side configuration options to your iOS/tvOS application.
 
+Useful things you can do with ManUp:
+
+- Prevent users from using the app during server-side maintenance 🚧
+- Remotely disable your app (killswitch) 🛑
+- Disable specific features in the app from the server 🙅‍♂️
+- Recommend (or require) that users update to a specific version or higher ⏬
+
 ## Installation
 
 The preferred method is via CocoaPods:
 
     pod 'ManUp'
-
 
 ## Usage
 
@@ -31,30 +37,26 @@ Running ManUp will download this file and compare it to the installed app's vers
 
 #### Swift
 
-	@import ManUp
-	
+    import ManUp
+
     // keep a strong reference
     let manUp = ManUp()
-    
+
     // typically in applicationDidBecomeActive
     self.manUp.configURL = URL(string: "https://clientfiles.nextfaze.com/eva/maintenanceMode.json")
     self.manUp.delegate = nil
     self.manUp.validate()
 
-
 #### Objective-C
 
     #import <ManUp/ManUp.h>
-    
+
     // keep a strong reference
     @property (nonatomic, strong) ManUp *manUp;
 
     self.manUp = [[ManUp alloc] initWithConfigURL:[NSURL URLWithString:@"https://yourserver.com/config.json"] delegate:self];
     [self.manUp validate];
 
-	
 You can also add any keys and values to the json file, which will be accessible like so:
 
     id value = [self.manUp settingForKey:"key"];
-
-This can be used however you see fit, for example to enable/disable app features.
